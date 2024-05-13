@@ -1,0 +1,1 @@
+protoc --proto_path=./ --cpp_out=gen_proto ./BaseMsg.proto
