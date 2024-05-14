@@ -1,2 +1,0 @@
-/usr/bin/ar qc libBaseServer.a CMakeFiles/BaseServer.dir/Msg.def.o CMakeFiles/BaseServer.dir/ServerBase.o CMakeFiles/BaseServer.dir/Thread.o CMakeFiles/BaseServer.dir/TimerListener.o CMakeFiles/BaseServer.dir/AsyncUvw.o CMakeFiles/BaseServer.dir/gen_proto/BaseMsg.pb.o
-/usr/bin/ranlib libBaseServer.a
