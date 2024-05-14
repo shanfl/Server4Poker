@@ -4,6 +4,7 @@
 #include <google/protobuf/descriptor_database.h>
 
 
+#if 0
 static std::unordered_map<uint32_t, const google::protobuf::Descriptor*> g_registry;
 
 void initProtoRegistryV2()
@@ -43,6 +44,7 @@ void initProtoRegistryV2()
         }
     }
 }
+#endif
 
 
 namespace Base {

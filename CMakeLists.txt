@@ -1,3 +1,4 @@
+cmake_minimum_required(VERSION 3.29)
 project(BaseServer)
 
 
@@ -37,6 +38,7 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(libfmt)
 
 include_directories(./uvw-3.3.0_libuv_v1.47/src)
+include_directories(./3rd/protobuf3/include)
 include_directories(${libuv_SOURCE_DIR}/include/)
 
 

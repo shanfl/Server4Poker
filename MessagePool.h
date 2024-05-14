@@ -1,5 +1,6 @@
 #pragma once
 #include <mutex>
+#include <vector>
 #include "Msg.def.h"
 namespace Base
 {

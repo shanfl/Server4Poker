@@ -1,0 +1,38 @@
+syntax = "proto3";
+option optimize_for = LITE_RUNTIME;
+package PokerGame;
+
+enum OS_PLATFORM
+{
+    OS_UNKNOWN     = 0;
+    OS_DESKTOP     = 1;
+    OS_ANDROID     = 2;
+    OS_IOS         = 3;
+};
+
+enum LoginAppSdk
+{
+    UNKNOWN_LAS = 0;
+    IDANDPASSWORD = 1;
+    WECHAT=2;
+};
+
+message PlayerLoginReq
+{
+    OS_PLATFORM  osplatform     = 1;
+    LoginAppSdk  las            = 2;
+    string id                   = 3;
+    string pass                 = 4;
+    string app_spec             = 5;
+};
+
+
+message PlayerLoginRes
+{
+    string key          = 1;
+    uint64 playerid     = 2;
+    string name         = 3;
+    int sex             = 4;    
+}
+
+

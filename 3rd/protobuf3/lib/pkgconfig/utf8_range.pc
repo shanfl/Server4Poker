@@ -1,0 +1,11 @@
+prefix=/home/shfl/Desktop/Server4Poker/3rd/protobuf3
+exec_prefix=/home/shfl/Desktop/Server4Poker/3rd/protobuf3
+libdir=/home/shfl/Desktop/Server4Poker/3rd/protobuf3/lib
+includedir=/home/shfl/Desktop/Server4Poker/3rd/protobuf3/include
+
+Name: UTF8 Range
+Description: Google's UTF8 Library
+Version: 1.0
+Requires: absl_strings
+Libs: -L${libdir} -lutf8_validity -lutf8_range 
+Cflags: -I${includedir}
