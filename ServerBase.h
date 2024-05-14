@@ -5,7 +5,7 @@
 namespace Base {
 
 #define ROOT_MSG_FUNCTION_BEGIN()          \
-virtual void on_msg_handle(Message &x){      \
+virtual void on_msg(Message &x){      \
     switch(x.MsgId()){                 
 
 
@@ -38,21 +38,20 @@ Message* createMessageBy(MessageID msgid)
 
 
 #define MSG_FUNCTION_BEGIN(SUPERCLASS) \
-    virtual void on_msg_handle(Message &x){      \
-    switch(x.Id()){   
+    virtual void on_msg(Message &x) override {      \
+    switch(x.MsgId()){   
 
 #define MSG_FUNCTION_END(SUPERCLASS) \ 
         default:    \
-            SUPERCLASS::on_msg_handle(x)    \
+            SUPERCLASS::on_msg(x)    \
     }
 
 class Thread;
 
 class ServerBase
 {
-
 private:
-    std::vector<std::shared_ptr<Thread>> mThreads;    
+    std::vector<std::shared_ptr<Thread>> mThreads;  
 public:
     ServerBase(int argc,char*argv[]);
 public:
@@ -62,9 +61,9 @@ public:
     bool add_fs(std::string path);
     bool rem_fs(std::string path);
 
-    bool run();
-
     virtual bool init();
+    bool run();
+    
     bool listen(std::string ip,int port);
 
     std::shared_ptr<ProtoMsgLite> create_msg_by_id(uint32_t msgid);
@@ -74,9 +73,10 @@ public:
         msg.SetProtoPtr(create_msg_by_id(msg.MsgId()));                
     }
 
-    void dispatch_work(Message &msg){
+    // 分配到哪个线程
+    virtual int dispatch_thd(Message &msg);
+    void dispatch_work(Message &msg);
 
-    }
 
     ROOT_MSG_FUNCTION_BEGIN()
     ROOT_MSG_FUNCTION_END()
