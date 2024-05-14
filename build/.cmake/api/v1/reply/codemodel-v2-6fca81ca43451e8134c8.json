@@ -1,0 +1,398 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						2
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-f5ebdc15457944623624.json",
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0
+					]
+				},
+				{
+					"build" : "_deps/libuv-build",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-_deps.libuv-build-1fa0f339cbff50328e83.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.9"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 1,
+					"source" : "build/_deps/libuv-src",
+					"targetIndexes" : 
+					[
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17,
+						18,
+						19,
+						20,
+						21,
+						22,
+						23,
+						24,
+						25,
+						26,
+						27,
+						28,
+						30,
+						31
+					]
+				},
+				{
+					"build" : "_deps/libfmt-build",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-_deps.libfmt-build-42ed615dd43459dc5cfc.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.8"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 2,
+					"source" : "build/_deps/libfmt-src",
+					"targetIndexes" : 
+					[
+						29
+					]
+				}
+			],
+			"name" : "",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1,
+						2
+					],
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "BaseServer",
+					"targetIndexes" : 
+					[
+						0
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						1
+					],
+					"name" : "libuv",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17,
+						18,
+						19,
+						20,
+						21,
+						22,
+						23,
+						24,
+						25,
+						26,
+						27,
+						28,
+						30,
+						31
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						2
+					],
+					"name" : "FMT",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						29
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "BaseServer::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-BaseServer-10189a5f2a5a020eeeb5.json",
+					"name" : "BaseServer",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "Continuous::@a9a329eb43f22887eddf",
+					"jsonFile" : "target-Continuous-19d0dd6240b2a707e12e.json",
+					"name" : "Continuous",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "ContinuousBuild::@a9a329eb43f22887eddf",
+					"jsonFile" : "target-ContinuousBuild-03249ccf60cd695a9449.json",
+					"name" : "ContinuousBuild",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "ContinuousConfigure::@a9a329eb43f22887eddf",
+					"jsonFile" : "target-ContinuousConfigure-300a791cd5f01e9c3f7a.json",
+					"name" : "ContinuousConfigure",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "ContinuousCoverage::@a9a329eb43f22887eddf",
+					"jsonFile" : "target-ContinuousCoverage-e4b929e64c4274c8ec71.json",
+					"name" : "ContinuousCoverage",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "ContinuousMemCheck::@a9a329eb43f22887eddf",
+					"jsonFile" : "target-ContinuousMemCheck-1e63442dc9349b02e694.json",
+					"name" : "ContinuousMemCheck",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "ContinuousStart::@a9a329eb43f22887eddf",
+					"jsonFile" : "target-ContinuousStart-1e43499ca6a7c24633a5.json",
+					"name" : "ContinuousStart",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "ContinuousSubmit::@a9a329eb43f22887eddf",
+					"jsonFile" : "target-ContinuousSubmit-22bab1482191c2788e7e.json",
+					"name" : "ContinuousSubmit",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "ContinuousTest::@a9a329eb43f22887eddf",
+					"jsonFile" : "target-ContinuousTest-d6d9aba083a74f6b463b.json",
+					"name" : "ContinuousTest",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "ContinuousUpdate::@a9a329eb43f22887eddf",
+					"jsonFile" : "target-ContinuousUpdate-b2cb8b2a386c5324a21b.json",
+					"name" : "ContinuousUpdate",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "Experimental::@a9a329eb43f22887eddf",
+					"jsonFile" : "target-Experimental-ebba7c64979ae54f4a48.json",
+					"name" : "Experimental",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "ExperimentalBuild::@a9a329eb43f22887eddf",
+					"jsonFile" : "target-ExperimentalBuild-5027ad7a1accea901d7b.json",
+					"name" : "ExperimentalBuild",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "ExperimentalConfigure::@a9a329eb43f22887eddf",
+					"jsonFile" : "target-ExperimentalConfigure-8bfcab567f1671de617d.json",
+					"name" : "ExperimentalConfigure",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "ExperimentalCoverage::@a9a329eb43f22887eddf",
+					"jsonFile" : "target-ExperimentalCoverage-a897f424f0a89939ebee.json",
+					"name" : "ExperimentalCoverage",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "ExperimentalMemCheck::@a9a329eb43f22887eddf",
+					"jsonFile" : "target-ExperimentalMemCheck-27ec76b1e944b20143ec.json",
+					"name" : "ExperimentalMemCheck",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "ExperimentalStart::@a9a329eb43f22887eddf",
+					"jsonFile" : "target-ExperimentalStart-6266e0e0035971c4867e.json",
+					"name" : "ExperimentalStart",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "ExperimentalSubmit::@a9a329eb43f22887eddf",
+					"jsonFile" : "target-ExperimentalSubmit-4e33cfd321a66d95a972.json",
+					"name" : "ExperimentalSubmit",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "ExperimentalTest::@a9a329eb43f22887eddf",
+					"jsonFile" : "target-ExperimentalTest-31df872facbd3c60bbd5.json",
+					"name" : "ExperimentalTest",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "ExperimentalUpdate::@a9a329eb43f22887eddf",
+					"jsonFile" : "target-ExperimentalUpdate-f7b0502e2061d420342e.json",
+					"name" : "ExperimentalUpdate",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "Nightly::@a9a329eb43f22887eddf",
+					"jsonFile" : "target-Nightly-2a3a76cee5e535b42fdd.json",
+					"name" : "Nightly",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "NightlyBuild::@a9a329eb43f22887eddf",
+					"jsonFile" : "target-NightlyBuild-fde4a0eff5dc74fa23dd.json",
+					"name" : "NightlyBuild",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "NightlyConfigure::@a9a329eb43f22887eddf",
+					"jsonFile" : "target-NightlyConfigure-cd9a6f304efc589e1e61.json",
+					"name" : "NightlyConfigure",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "NightlyCoverage::@a9a329eb43f22887eddf",
+					"jsonFile" : "target-NightlyCoverage-c94d21b8c1c5cba52ebf.json",
+					"name" : "NightlyCoverage",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "NightlyMemCheck::@a9a329eb43f22887eddf",
+					"jsonFile" : "target-NightlyMemCheck-df0866d87fd87de211e9.json",
+					"name" : "NightlyMemCheck",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "NightlyMemoryCheck::@a9a329eb43f22887eddf",
+					"jsonFile" : "target-NightlyMemoryCheck-31231aa46c4857d21d7a.json",
+					"name" : "NightlyMemoryCheck",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "NightlyStart::@a9a329eb43f22887eddf",
+					"jsonFile" : "target-NightlyStart-30c2064862c8fc0107ee.json",
+					"name" : "NightlyStart",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "NightlySubmit::@a9a329eb43f22887eddf",
+					"jsonFile" : "target-NightlySubmit-c4ec32d778524369f0dd.json",
+					"name" : "NightlySubmit",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "NightlyTest::@a9a329eb43f22887eddf",
+					"jsonFile" : "target-NightlyTest-503813fa7923dde0b79c.json",
+					"name" : "NightlyTest",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "NightlyUpdate::@a9a329eb43f22887eddf",
+					"jsonFile" : "target-NightlyUpdate-e2e3396200930880b4fe.json",
+					"name" : "NightlyUpdate",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "fmt::@bb546932de97b3ee4021",
+					"jsonFile" : "target-fmt-5aa447beb1166437838a.json",
+					"name" : "fmt",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "uv::@a9a329eb43f22887eddf",
+					"jsonFile" : "target-uv-cbe9cc6e0656df24af78.json",
+					"name" : "uv",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "uv_a::@a9a329eb43f22887eddf",
+					"jsonFile" : "target-uv_a-a8486042609aae061ba0.json",
+					"name" : "uv_a",
+					"projectIndex" : 1
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/media/shanfl/KINGSTON/Server4Poker/build",
+		"source" : "/media/shanfl/KINGSTON/Server4Poker"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 3
+	}
+}

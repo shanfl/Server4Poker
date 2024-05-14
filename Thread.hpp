@@ -12,7 +12,7 @@ namespace Base
     class Thread
     {   
     public:    
-        Thread(ServerBase*baseserver);
+        Thread(ServerBase*baseserver,int index);
         void push(Message&msg);
         std::vector<Message> get(int maxnum);
         bool get(Message&msg);

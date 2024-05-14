@@ -1,0 +1,3 @@
+/media/shanfl/KINGSTON/Server4Poker/build/_deps/libuv-subbuild/CMakeFiles/libuv-populate.dir
+/media/shanfl/KINGSTON/Server4Poker/build/_deps/libuv-subbuild/CMakeFiles/edit_cache.dir
+/media/shanfl/KINGSTON/Server4Poker/build/_deps/libuv-subbuild/CMakeFiles/rebuild_cache.dir

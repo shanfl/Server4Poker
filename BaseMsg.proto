@@ -1,12 +1,12 @@
 syntax = "proto3";
 option optimize_for = LITE_RUNTIME;
-package base;
+package Base;
 
 enum ServerType{
-    NONE = 0;
-    CLIENT = 1;
-    GATE = 2;
-    GAME = 3;
+    ST_NONE = 0;
+    ST_CLIENT = 1;
+    ST_GATE = 2;
+    ST_GAME = 3;
 
 }
 
@@ -17,3 +17,21 @@ message BaseMsg
     int64 id = 2;
     string msg = 3;
 }
+
+
+enum TimerOpcode{
+    TM_NONE = 0;
+    TM_ADD = 1;
+    TM_DEL = 2;
+    TM_DEL_ALL = 3;
+    TM_TICK = 4;
+};
+
+message TimerEvent
+{
+    TimerOpcode code = 1;
+    int32 id = 2;
+    int32 delay = 3;
+    int32 repeat = 4;
+};
+

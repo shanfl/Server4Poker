@@ -45,33 +45,37 @@ struct TableStruct_BaseMsg_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxiliaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[1]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[2]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
   static const ::PROTOBUF_NAMESPACE_ID::uint32 offsets[];
 };
-namespace base {
+namespace Base {
 class BaseMsg;
 class BaseMsgDefaultTypeInternal;
 extern BaseMsgDefaultTypeInternal _BaseMsg_default_instance_;
-}  // namespace base
+class TimerEvent;
+class TimerEventDefaultTypeInternal;
+extern TimerEventDefaultTypeInternal _TimerEvent_default_instance_;
+}  // namespace Base
 PROTOBUF_NAMESPACE_OPEN
-template<> ::base::BaseMsg* Arena::CreateMaybeMessage<::base::BaseMsg>(Arena*);
+template<> ::Base::BaseMsg* Arena::CreateMaybeMessage<::Base::BaseMsg>(Arena*);
+template<> ::Base::TimerEvent* Arena::CreateMaybeMessage<::Base::TimerEvent>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
-namespace base {
+namespace Base {
 
 enum ServerType : int {
-  NONE = 0,
-  CLIENT = 1,
-  GATE = 2,
-  GAME = 3,
+  ST_NONE = 0,
+  ST_CLIENT = 1,
+  ST_GATE = 2,
+  ST_GAME = 3,
   ServerType_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
   ServerType_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
 };
 bool ServerType_IsValid(int value);
-constexpr ServerType ServerType_MIN = NONE;
-constexpr ServerType ServerType_MAX = GAME;
+constexpr ServerType ServerType_MIN = ST_NONE;
+constexpr ServerType ServerType_MAX = ST_GAME;
 constexpr int ServerType_ARRAYSIZE = ServerType_MAX + 1;
 
 const std::string& ServerType_Name(ServerType value);
@@ -84,10 +88,34 @@ inline const std::string& ServerType_Name(T enum_t_value) {
 }
 bool ServerType_Parse(
     ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, ServerType* value);
+enum TimerOpcode : int {
+  TM_NONE = 0,
+  TM_ADD = 1,
+  TM_DEL = 2,
+  TM_DEL_ALL = 3,
+  TM_TICK = 4,
+  TimerOpcode_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
+  TimerOpcode_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
+};
+bool TimerOpcode_IsValid(int value);
+constexpr TimerOpcode TimerOpcode_MIN = TM_NONE;
+constexpr TimerOpcode TimerOpcode_MAX = TM_TICK;
+constexpr int TimerOpcode_ARRAYSIZE = TimerOpcode_MAX + 1;
+
+const std::string& TimerOpcode_Name(TimerOpcode value);
+template<typename T>
+inline const std::string& TimerOpcode_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, TimerOpcode>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function TimerOpcode_Name.");
+  return TimerOpcode_Name(static_cast<TimerOpcode>(enum_t_value));
+}
+bool TimerOpcode_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, TimerOpcode* value);
 // ===================================================================
 
 class BaseMsg PROTOBUF_FINAL :
-    public ::PROTOBUF_NAMESPACE_ID::MessageLite /* @@protoc_insertion_point(class_definition:base.BaseMsg) */ {
+    public ::PROTOBUF_NAMESPACE_ID::MessageLite /* @@protoc_insertion_point(class_definition:Base.BaseMsg) */ {
  public:
   inline BaseMsg() : BaseMsg(nullptr) {}
   virtual ~BaseMsg();
@@ -167,7 +195,7 @@ class BaseMsg PROTOBUF_FINAL :
   void InternalSwap(BaseMsg* other);
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "base.BaseMsg";
+    return "Base.BaseMsg";
   }
   protected:
   explicit BaseMsg(::PROTOBUF_NAMESPACE_ID::Arena* arena);
@@ -221,7 +249,7 @@ class BaseMsg PROTOBUF_FINAL :
   void _internal_set_verison(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // @@protoc_insertion_point(class_scope:base.BaseMsg)
+  // @@protoc_insertion_point(class_scope:Base.BaseMsg)
  private:
   class _Internal;
 
@@ -231,6 +259,160 @@ class BaseMsg PROTOBUF_FINAL :
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr msg_;
   ::PROTOBUF_NAMESPACE_ID::int64 id_;
   ::PROTOBUF_NAMESPACE_ID::int32 verison_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_BaseMsg_2eproto;
+};
+// -------------------------------------------------------------------
+
+class TimerEvent PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::MessageLite /* @@protoc_insertion_point(class_definition:Base.TimerEvent) */ {
+ public:
+  inline TimerEvent() : TimerEvent(nullptr) {}
+  virtual ~TimerEvent();
+
+  TimerEvent(const TimerEvent& from);
+  TimerEvent(TimerEvent&& from) noexcept
+    : TimerEvent() {
+    *this = ::std::move(from);
+  }
+
+  inline TimerEvent& operator=(const TimerEvent& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline TimerEvent& operator=(TimerEvent&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const TimerEvent& default_instance();
+
+  static inline const TimerEvent* internal_default_instance() {
+    return reinterpret_cast<const TimerEvent*>(
+               &_TimerEvent_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    1;
+
+  friend void swap(TimerEvent& a, TimerEvent& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(TimerEvent* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(TimerEvent* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline TimerEvent* New() const final {
+    return CreateMaybeMessage<TimerEvent>(nullptr);
+  }
+
+  TimerEvent* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<TimerEvent>(arena);
+  }
+  void CheckTypeAndMergeFrom(const ::PROTOBUF_NAMESPACE_ID::MessageLite& from)
+    final;
+  void CopyFrom(const TimerEvent& from);
+  void MergeFrom(const TimerEvent& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  void DiscardUnknownFields();
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(TimerEvent* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Base.TimerEvent";
+  }
+  protected:
+  explicit TimerEvent(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  std::string GetTypeName() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kCodeFieldNumber = 1,
+    kIdFieldNumber = 2,
+    kDelayFieldNumber = 3,
+    kRepeatFieldNumber = 4,
+  };
+  // .Base.TimerOpcode code = 1;
+  void clear_code();
+  ::Base::TimerOpcode code() const;
+  void set_code(::Base::TimerOpcode value);
+  private:
+  ::Base::TimerOpcode _internal_code() const;
+  void _internal_set_code(::Base::TimerOpcode value);
+  public:
+
+  // int32 id = 2;
+  void clear_id();
+  ::PROTOBUF_NAMESPACE_ID::int32 id() const;
+  void set_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_id() const;
+  void _internal_set_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 delay = 3;
+  void clear_delay();
+  ::PROTOBUF_NAMESPACE_ID::int32 delay() const;
+  void set_delay(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_delay() const;
+  void _internal_set_delay(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 repeat = 4;
+  void clear_repeat();
+  ::PROTOBUF_NAMESPACE_ID::int32 repeat() const;
+  void set_repeat(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_repeat() const;
+  void _internal_set_repeat(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Base.TimerEvent)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  int code_;
+  ::PROTOBUF_NAMESPACE_ID::int32 id_;
+  ::PROTOBUF_NAMESPACE_ID::int32 delay_;
+  ::PROTOBUF_NAMESPACE_ID::int32 repeat_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_BaseMsg_2eproto;
 };
@@ -253,7 +435,7 @@ inline ::PROTOBUF_NAMESPACE_ID::int32 BaseMsg::_internal_verison() const {
   return verison_;
 }
 inline ::PROTOBUF_NAMESPACE_ID::int32 BaseMsg::verison() const {
-  // @@protoc_insertion_point(field_get:base.BaseMsg.verison)
+  // @@protoc_insertion_point(field_get:Base.BaseMsg.verison)
   return _internal_verison();
 }
 inline void BaseMsg::_internal_set_verison(::PROTOBUF_NAMESPACE_ID::int32 value) {
@@ -262,7 +444,7 @@ inline void BaseMsg::_internal_set_verison(::PROTOBUF_NAMESPACE_ID::int32 value)
 }
 inline void BaseMsg::set_verison(::PROTOBUF_NAMESPACE_ID::int32 value) {
   _internal_set_verison(value);
-  // @@protoc_insertion_point(field_set:base.BaseMsg.verison)
+  // @@protoc_insertion_point(field_set:Base.BaseMsg.verison)
 }
 
 // int64 id = 2;
@@ -273,7 +455,7 @@ inline ::PROTOBUF_NAMESPACE_ID::int64 BaseMsg::_internal_id() const {
   return id_;
 }
 inline ::PROTOBUF_NAMESPACE_ID::int64 BaseMsg::id() const {
-  // @@protoc_insertion_point(field_get:base.BaseMsg.id)
+  // @@protoc_insertion_point(field_get:Base.BaseMsg.id)
   return _internal_id();
 }
 inline void BaseMsg::_internal_set_id(::PROTOBUF_NAMESPACE_ID::int64 value) {
@@ -282,7 +464,7 @@ inline void BaseMsg::_internal_set_id(::PROTOBUF_NAMESPACE_ID::int64 value) {
 }
 inline void BaseMsg::set_id(::PROTOBUF_NAMESPACE_ID::int64 value) {
   _internal_set_id(value);
-  // @@protoc_insertion_point(field_set:base.BaseMsg.id)
+  // @@protoc_insertion_point(field_set:Base.BaseMsg.id)
 }
 
 // string msg = 3;
@@ -290,15 +472,15 @@ inline void BaseMsg::clear_msg() {
   msg_.ClearToEmpty();
 }
 inline const std::string& BaseMsg::msg() const {
-  // @@protoc_insertion_point(field_get:base.BaseMsg.msg)
+  // @@protoc_insertion_point(field_get:Base.BaseMsg.msg)
   return _internal_msg();
 }
 inline void BaseMsg::set_msg(const std::string& value) {
   _internal_set_msg(value);
-  // @@protoc_insertion_point(field_set:base.BaseMsg.msg)
+  // @@protoc_insertion_point(field_set:Base.BaseMsg.msg)
 }
 inline std::string* BaseMsg::mutable_msg() {
-  // @@protoc_insertion_point(field_mutable:base.BaseMsg.msg)
+  // @@protoc_insertion_point(field_mutable:Base.BaseMsg.msg)
   return _internal_mutable_msg();
 }
 inline const std::string& BaseMsg::_internal_msg() const {
@@ -312,27 +494,27 @@ inline void BaseMsg::set_msg(std::string&& value) {
   
   msg_.Set(
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::move(value), GetArena());
-  // @@protoc_insertion_point(field_set_rvalue:base.BaseMsg.msg)
+  // @@protoc_insertion_point(field_set_rvalue:Base.BaseMsg.msg)
 }
 inline void BaseMsg::set_msg(const char* value) {
   GOOGLE_DCHECK(value != nullptr);
   
   msg_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(value), GetArena());
-  // @@protoc_insertion_point(field_set_char:base.BaseMsg.msg)
+  // @@protoc_insertion_point(field_set_char:Base.BaseMsg.msg)
 }
 inline void BaseMsg::set_msg(const char* value,
     size_t size) {
   
   msg_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, ::std::string(
       reinterpret_cast<const char*>(value), size), GetArena());
-  // @@protoc_insertion_point(field_set_pointer:base.BaseMsg.msg)
+  // @@protoc_insertion_point(field_set_pointer:Base.BaseMsg.msg)
 }
 inline std::string* BaseMsg::_internal_mutable_msg() {
   
   return msg_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArena());
 }
 inline std::string* BaseMsg::release_msg() {
-  // @@protoc_insertion_point(field_release:base.BaseMsg.msg)
+  // @@protoc_insertion_point(field_release:Base.BaseMsg.msg)
   return msg_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
 inline void BaseMsg::set_allocated_msg(std::string* msg) {
@@ -343,20 +525,107 @@ inline void BaseMsg::set_allocated_msg(std::string* msg) {
   }
   msg_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), msg,
       GetArena());
-  // @@protoc_insertion_point(field_set_allocated:base.BaseMsg.msg)
+  // @@protoc_insertion_point(field_set_allocated:Base.BaseMsg.msg)
+}
+
+// -------------------------------------------------------------------
+
+// TimerEvent
+
+// .Base.TimerOpcode code = 1;
+inline void TimerEvent::clear_code() {
+  code_ = 0;
+}
+inline ::Base::TimerOpcode TimerEvent::_internal_code() const {
+  return static_cast< ::Base::TimerOpcode >(code_);
+}
+inline ::Base::TimerOpcode TimerEvent::code() const {
+  // @@protoc_insertion_point(field_get:Base.TimerEvent.code)
+  return _internal_code();
+}
+inline void TimerEvent::_internal_set_code(::Base::TimerOpcode value) {
+  
+  code_ = value;
+}
+inline void TimerEvent::set_code(::Base::TimerOpcode value) {
+  _internal_set_code(value);
+  // @@protoc_insertion_point(field_set:Base.TimerEvent.code)
+}
+
+// int32 id = 2;
+inline void TimerEvent::clear_id() {
+  id_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 TimerEvent::_internal_id() const {
+  return id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 TimerEvent::id() const {
+  // @@protoc_insertion_point(field_get:Base.TimerEvent.id)
+  return _internal_id();
+}
+inline void TimerEvent::_internal_set_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  id_ = value;
+}
+inline void TimerEvent::set_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_id(value);
+  // @@protoc_insertion_point(field_set:Base.TimerEvent.id)
+}
+
+// int32 delay = 3;
+inline void TimerEvent::clear_delay() {
+  delay_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 TimerEvent::_internal_delay() const {
+  return delay_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 TimerEvent::delay() const {
+  // @@protoc_insertion_point(field_get:Base.TimerEvent.delay)
+  return _internal_delay();
+}
+inline void TimerEvent::_internal_set_delay(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  delay_ = value;
+}
+inline void TimerEvent::set_delay(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_delay(value);
+  // @@protoc_insertion_point(field_set:Base.TimerEvent.delay)
+}
+
+// int32 repeat = 4;
+inline void TimerEvent::clear_repeat() {
+  repeat_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 TimerEvent::_internal_repeat() const {
+  return repeat_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 TimerEvent::repeat() const {
+  // @@protoc_insertion_point(field_get:Base.TimerEvent.repeat)
+  return _internal_repeat();
+}
+inline void TimerEvent::_internal_set_repeat(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  repeat_ = value;
+}
+inline void TimerEvent::set_repeat(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_repeat(value);
+  // @@protoc_insertion_point(field_set:Base.TimerEvent.repeat)
 }
 
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 
 // @@protoc_insertion_point(namespace_scope)
 
-}  // namespace base
+}  // namespace Base
 
 PROTOBUF_NAMESPACE_OPEN
 
-template <> struct is_proto_enum< ::base::ServerType> : ::std::true_type {};
+template <> struct is_proto_enum< ::Base::ServerType> : ::std::true_type {};
+template <> struct is_proto_enum< ::Base::TimerOpcode> : ::std::true_type {};
 
 PROTOBUF_NAMESPACE_CLOSE
 

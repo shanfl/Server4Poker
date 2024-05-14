@@ -1,0 +1,14 @@
+# Target labels
+ libuv-populate
+# Source files and their labels
+/media/shanfl/KINGSTON/Server4Poker/build/_deps/libuv-subbuild/CMakeFiles/libuv-populate
+/media/shanfl/KINGSTON/Server4Poker/build/_deps/libuv-subbuild/CMakeFiles/libuv-populate.rule
+/media/shanfl/KINGSTON/Server4Poker/build/_deps/libuv-subbuild/CMakeFiles/libuv-populate-complete.rule
+/media/shanfl/KINGSTON/Server4Poker/build/_deps/libuv-subbuild/libuv-populate-prefix/src/libuv-populate-stamp/libuv-populate-build.rule
+/media/shanfl/KINGSTON/Server4Poker/build/_deps/libuv-subbuild/libuv-populate-prefix/src/libuv-populate-stamp/libuv-populate-configure.rule
+/media/shanfl/KINGSTON/Server4Poker/build/_deps/libuv-subbuild/libuv-populate-prefix/src/libuv-populate-stamp/libuv-populate-download.rule
+/media/shanfl/KINGSTON/Server4Poker/build/_deps/libuv-subbuild/libuv-populate-prefix/src/libuv-populate-stamp/libuv-populate-install.rule
+/media/shanfl/KINGSTON/Server4Poker/build/_deps/libuv-subbuild/libuv-populate-prefix/src/libuv-populate-stamp/libuv-populate-mkdir.rule
+/media/shanfl/KINGSTON/Server4Poker/build/_deps/libuv-subbuild/libuv-populate-prefix/src/libuv-populate-stamp/libuv-populate-patch.rule
+/media/shanfl/KINGSTON/Server4Poker/build/_deps/libuv-subbuild/libuv-populate-prefix/src/libuv-populate-stamp/libuv-populate-test.rule
+/media/shanfl/KINGSTON/Server4Poker/build/_deps/libuv-subbuild/libuv-populate-prefix/src/libuv-populate-stamp/libuv-populate-update.rule

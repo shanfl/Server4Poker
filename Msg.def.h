@@ -1,12 +1,21 @@
 #pragma once
 #include <inttypes.h>
 #include <string>
-#include <google/protobuf/message_lite.h>
+#include <memory>
+//#include <google/protobuf/message_lite.h>
 enum CompressMethod
 {
     CM_NONE,
     CM_ZIP,
 };
+
+namespace google {
+namespace protobuf {
+    class MessageLite;
+}
+}
+
+using ProtoMsg = google::protobuf::MessageLite;
 
 namespace Base{
 
@@ -23,10 +32,6 @@ namespace Base{
 #pragma pack()
 
 
-
-using ProtoMsgLite = google::protobuf::MessageLite;
-
-
 class Message
 {   
 
@@ -38,19 +43,13 @@ public:
 
     //std::dynamic_pointer_cast
     template<typename T>
-    std::shared_ptr<T> GetProtoMsg(){ 
-        return std::dynamic_pointer_cast<T>(proto_msg);
-    };
+    std::shared_ptr<T> GetProtoMsg();
 
-    void SetProtoPtr(std::shared_ptr<ProtoMsgLite> ptr){
-        proto_msg = ptr;
-    }
+    void SetProtoPtr(std::shared_ptr<ProtoMsg> ptr);
     
-    uint32_t MsgId(){
-        return mHeader.msg_id;
-    }
+    uint32_t MsgId();
 protected:
-    std::shared_ptr<ProtoMsgLite> proto_msg;
+    std::shared_ptr<ProtoMsg> proto_msg;
 private:
     MsgHeader mHeader;
     std::string mCookie;
