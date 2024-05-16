@@ -4,6 +4,13 @@
 #include "Msg.def.h"
 #include "uvw.hpp"
 #include "TimerListener.hpp"
+
+namespace uvw {
+    class Session;
+}
+
+
+
 namespace Base {
 
 #define ROOT_MSG_FUNCTION_BEGIN()          \

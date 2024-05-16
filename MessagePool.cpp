@@ -4,16 +4,17 @@
 #include "MessagePool.h"
 namespace Base
 {
-
-    void MessagePool::push(Message&msg)
+    template <class T>
+    void MessagePool<T>::push(T&msg)
     {
         std::lock_guard<std::mutex> lk(mMutex);
         mVecs.emplace_back(msg);
     }
 
-    std::vector<Message> MessagePool::get(int cnt)
+    template <class T>
+    std::vector<T> MessagePool<T>::get(int cnt)
     {
-        std::vector<Message> ret;
+        std::vector<T> ret;
         if(cnt <= 0) return ret;
 
         std::lock_guard<std::mutex> lk(mMutex);
@@ -32,7 +33,8 @@ namespace Base
         }
     }
 
-    bool MessagePool::get(Message&msg)
+    template <class T>
+    bool MessagePool<T>::get(T&msg)
     {
         std::lock_guard<std::mutex> lk(mMutex);
         if(mVecs.size() == 0) return false;

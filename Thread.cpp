@@ -7,12 +7,12 @@ namespace Base{
         mThd = std::thread(Thread::on_work,this);    
     }
     
-    void Thread::push(Message&msg)
+    void Thread::push(WrappedMessageBuilder&msg)
     {
         mMsgPool.push(msg);
     }
 
-    std::vector<Message> Thread::get(int maxnum)
+    std::vector<WrappedMessageBuilder> Thread::get(int maxnum)
     {
         return mMsgPool.get(maxnum);
     }
@@ -22,21 +22,21 @@ namespace Base{
         ptr->msg_loop();
     }
 
-    void Thread::on_msg(Message& msg)
+    void Thread::on_msg(WrappedMessageBuilder& msg)
     {
 
     }
 
     void Thread::msg_loop(){
         while(mRun){
-            Message msg;
+            WrappedMessageBuilder msg;
             bool b = get(msg);
             if(!b)
             {
                 std::this_thread::sleep_for(std::chrono::microseconds(10));
                 return;
             }
-            mServerPtr->on_msg(msg);
+            //mServerPtr->on_msg(msg);
         }
     }
 }

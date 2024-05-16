@@ -15,7 +15,7 @@ namespace Base {
     };
 
     class ServerBase;
-    class TimerAlloc
+    class TimerAlloc : public virtual std::enable_shared_from_this<TimerAlloc>
     {
     public:
         enum TimeOpe

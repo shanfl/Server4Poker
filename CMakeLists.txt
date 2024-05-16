@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.29)
+cmake_minimum_required(VERSION 3.22)
 project(BaseServer)
 
 
@@ -44,7 +44,10 @@ include_directories(${libuv_SOURCE_DIR}/include/)
 
 FILE(GLOB PROTO_SRC gen_proto/*.cc gen_proto/*.h)
 
+FILE(GLOB SESSION_SRC Session/*.h Session/*.hpp Session/*.cpp)
+
 set(BS_SRC 
+    WrappedMessageBuilder.hpp
     MessagePool.h
     Msg.def.h
     Msg.def.cpp
@@ -57,6 +60,7 @@ set(BS_SRC
     AsyncUvw.hpp
     AsyncUvw.cpp
     ${PROTO_SRC}
+    ${SESSION_SRC}
 )
 
 add_library(BaseServer STATIC ${BS_SRC})
