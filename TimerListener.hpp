@@ -94,7 +94,7 @@ namespace Base {
         TimerAlloc::TimeItem mTimeItem;
         std::shared_ptr<uvw::timer_handle> mTimeHandle;
         TimerAlloc* mTimerAlloc = nullptr;
-        virtual int start(){    mTimeHandle->start(uvw::timer_handle::time{delay()},uvw::timer_handle::time{interval()});}
+        virtual int start(){    mTimeHandle->start(uvw::timer_handle::time{delay()},uvw::timer_handle::time{interval()}); return mTimeItem.id;}
         virtual int delay(){return mTimeItem.delay;}
         virtual int interval(){return mTimeItem.interval;}
         virtual int timer_id() {return mTimeItem.id;}

@@ -287,6 +287,10 @@ namespace uvw {
 		std::clog << __FUNCTION__ << std::endl;
 	}
 
+    int64_t SessionImpl::id()
+    {
+        return mId;
+    }
 
 	void SessionImpl::connect(std::string host)
 	{

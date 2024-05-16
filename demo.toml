@@ -1,0 +1,39 @@
+name="gate"
+type=1
+
+[server]
+ip="0.0.0.0"
+port=4567
+
+[thread]
+cnt = -1
+
+
+[[nats]]
+host=""
+pubs = []
+
+[[nats]]
+
+
+[[dbs]]
+ip=""
+user=""
+pw=""
+port=""
+
+[[dbs]]
+
+
+
+[[modules]]
+name="123"
+path=""
+instance_cnt = 10
+
+
+
+
+
+
+

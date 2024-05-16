@@ -47,12 +47,15 @@ struct TableStruct_BaseMsg_2eproto {
   static const ::uint32_t offsets[];
 };
 namespace Base {
-class BaseMsg;
-struct BaseMsgDefaultTypeInternal;
-extern BaseMsgDefaultTypeInternal _BaseMsg_default_instance_;
-class TimerEvent;
-struct TimerEventDefaultTypeInternal;
-extern TimerEventDefaultTypeInternal _TimerEvent_default_instance_;
+class Hello;
+struct HelloDefaultTypeInternal;
+extern HelloDefaultTypeInternal _Hello_default_instance_;
+class Ping;
+struct PingDefaultTypeInternal;
+extern PingDefaultTypeInternal _Ping_default_instance_;
+class Pong;
+struct PongDefaultTypeInternal;
+extern PongDefaultTypeInternal _Pong_default_instance_;
 }  // namespace Base
 namespace google {
 namespace protobuf {
@@ -85,55 +88,54 @@ const std::string& ServerType_Name(T value) {
   return ServerType_Name(static_cast<ServerType>(value));
 }
 bool ServerType_Parse(absl::string_view name, ServerType* value);
-enum TimerOpcode : int {
-  TM_NONE = 0,
-  TM_ADD = 1,
-  TM_DEL = 2,
-  TM_DEL_ALL = 3,
-  TM_TICK = 4,
-  TimerOpcode_INT_MIN_SENTINEL_DO_NOT_USE_ =
+enum MSG_ID : int {
+  ID_0 = 0,
+  ID_HELLO = 1,
+  ID_PING = 2,
+  ID_PONG = 3,
+  MSG_ID_INT_MIN_SENTINEL_DO_NOT_USE_ =
       std::numeric_limits<::int32_t>::min(),
-  TimerOpcode_INT_MAX_SENTINEL_DO_NOT_USE_ =
+  MSG_ID_INT_MAX_SENTINEL_DO_NOT_USE_ =
       std::numeric_limits<::int32_t>::max(),
 };
 
-bool TimerOpcode_IsValid(int value);
-extern const uint32_t TimerOpcode_internal_data_[];
-constexpr TimerOpcode TimerOpcode_MIN = static_cast<TimerOpcode>(0);
-constexpr TimerOpcode TimerOpcode_MAX = static_cast<TimerOpcode>(4);
-constexpr int TimerOpcode_ARRAYSIZE = 4 + 1;
-const std::string& TimerOpcode_Name(TimerOpcode value);
+bool MSG_ID_IsValid(int value);
+extern const uint32_t MSG_ID_internal_data_[];
+constexpr MSG_ID MSG_ID_MIN = static_cast<MSG_ID>(0);
+constexpr MSG_ID MSG_ID_MAX = static_cast<MSG_ID>(3);
+constexpr int MSG_ID_ARRAYSIZE = 3 + 1;
+const std::string& MSG_ID_Name(MSG_ID value);
 template <typename T>
-const std::string& TimerOpcode_Name(T value) {
-  static_assert(std::is_same<T, TimerOpcode>::value ||
+const std::string& MSG_ID_Name(T value) {
+  static_assert(std::is_same<T, MSG_ID>::value ||
                     std::is_integral<T>::value,
-                "Incorrect type passed to TimerOpcode_Name().");
-  return TimerOpcode_Name(static_cast<TimerOpcode>(value));
+                "Incorrect type passed to MSG_ID_Name().");
+  return MSG_ID_Name(static_cast<MSG_ID>(value));
 }
-bool TimerOpcode_Parse(absl::string_view name, TimerOpcode* value);
+bool MSG_ID_Parse(absl::string_view name, MSG_ID* value);
 
 // ===================================================================
 
 
 // -------------------------------------------------------------------
 
-class TimerEvent final : public ::google::protobuf::MessageLite
-/* @@protoc_insertion_point(class_definition:Base.TimerEvent) */ {
+class Pong final : public ::google::protobuf::MessageLite
+/* @@protoc_insertion_point(class_definition:Base.Pong) */ {
  public:
-  inline TimerEvent() : TimerEvent(nullptr) {}
-  ~TimerEvent() override;
+  inline Pong() : Pong(nullptr) {}
+  ~Pong() override;
   template <typename = void>
-  explicit PROTOBUF_CONSTEXPR TimerEvent(
+  explicit PROTOBUF_CONSTEXPR Pong(
       ::google::protobuf::internal::ConstantInitialized);
 
-  inline TimerEvent(const TimerEvent& from) : TimerEvent(nullptr, from) {}
-  inline TimerEvent(TimerEvent&& from) noexcept
-      : TimerEvent(nullptr, std::move(from)) {}
-  inline TimerEvent& operator=(const TimerEvent& from) {
+  inline Pong(const Pong& from) : Pong(nullptr, from) {}
+  inline Pong(Pong&& from) noexcept
+      : Pong(nullptr, std::move(from)) {}
+  inline Pong& operator=(const Pong& from) {
     CopyFrom(from);
     return *this;
   }
-  inline TimerEvent& operator=(TimerEvent&& from) noexcept {
+  inline Pong& operator=(Pong&& from) noexcept {
     if (this == &from) return *this;
     if (GetArena() == from.GetArena()
 #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
@@ -156,16 +158,16 @@ class TimerEvent final : public ::google::protobuf::MessageLite
     return _internal_metadata_.mutable_unknown_fields<std::string>();
   }
 
-  static const TimerEvent& default_instance() {
+  static const Pong& default_instance() {
     return *internal_default_instance();
   }
-  static inline const TimerEvent* internal_default_instance() {
-    return reinterpret_cast<const TimerEvent*>(
-        &_TimerEvent_default_instance_);
+  static inline const Pong* internal_default_instance() {
+    return reinterpret_cast<const Pong*>(
+        &_Pong_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 1;
-  friend void swap(TimerEvent& a, TimerEvent& b) { a.Swap(&b); }
-  inline void Swap(TimerEvent* other) {
+  static constexpr int kIndexInFileMessages = 2;
+  friend void swap(Pong& a, Pong& b) { a.Swap(&b); }
+  inline void Swap(Pong* other) {
     if (other == this) return;
 #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
     if (GetArena() != nullptr && GetArena() == other->GetArena()) {
@@ -177,7 +179,7 @@ class TimerEvent final : public ::google::protobuf::MessageLite
       ::google::protobuf::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(TimerEvent* other) {
+  void UnsafeArenaSwap(Pong* other) {
     if (other == this) return;
     ABSL_DCHECK(GetArena() == other->GetArena());
     InternalSwap(other);
@@ -185,13 +187,13 @@ class TimerEvent final : public ::google::protobuf::MessageLite
 
   // implements Message ----------------------------------------------
 
-  TimerEvent* New(::google::protobuf::Arena* arena = nullptr) const final {
-    return ::google::protobuf::MessageLite::DefaultConstruct<TimerEvent>(arena);
+  Pong* New(::google::protobuf::Arena* arena = nullptr) const final {
+    return ::google::protobuf::MessageLite::DefaultConstruct<Pong>(arena);
   }
   void CheckTypeAndMergeFrom(
       const ::google::protobuf::MessageLite& from) final;
-  void CopyFrom(const TimerEvent& from);
-  void MergeFrom(const TimerEvent& from);
+  void CopyFrom(const Pong& from);
+  void MergeFrom(const Pong& from);
   ABSL_ATTRIBUTE_REINITIALIZES void Clear() final;
   bool IsInitialized() const final;
 
@@ -205,16 +207,16 @@ class TimerEvent final : public ::google::protobuf::MessageLite
   private:
   void SharedCtor(::google::protobuf::Arena* arena);
   void SharedDtor();
-  void InternalSwap(TimerEvent* other);
+  void InternalSwap(Pong* other);
  private:
   friend class ::google::protobuf::internal::AnyMetadata;
-  static ::absl::string_view FullMessageName() { return "Base.TimerEvent"; }
+  static ::absl::string_view FullMessageName() { return "Base.Pong"; }
 
  protected:
-  explicit TimerEvent(::google::protobuf::Arena* arena);
-  TimerEvent(::google::protobuf::Arena* arena, const TimerEvent& from);
-  TimerEvent(::google::protobuf::Arena* arena, TimerEvent&& from) noexcept
-      : TimerEvent(arena) {
+  explicit Pong(::google::protobuf::Arena* arena);
+  Pong(::google::protobuf::Arena* arena, const Pong& from);
+  Pong(::google::protobuf::Arena* arena, Pong&& from) noexcept
+      : Pong(arena) {
     *this = ::std::move(from);
   }
   const ::google::protobuf::MessageLite::ClassData* GetClassData()
@@ -225,57 +227,35 @@ class TimerEvent final : public ::google::protobuf::MessageLite
 
   // accessors -------------------------------------------------------
   enum : int {
-    kCodeFieldNumber = 1,
-    kIdFieldNumber = 2,
-    kDelayFieldNumber = 3,
-    kRepeatFieldNumber = 4,
+    kT1FieldNumber = 1,
+    kT2FieldNumber = 2,
   };
-  // .Base.TimerOpcode code = 1;
-  void clear_code() ;
-  ::Base::TimerOpcode code() const;
-  void set_code(::Base::TimerOpcode value);
+  // int64 t1 = 1;
+  void clear_t1() ;
+  ::int64_t t1() const;
+  void set_t1(::int64_t value);
 
   private:
-  ::Base::TimerOpcode _internal_code() const;
-  void _internal_set_code(::Base::TimerOpcode value);
+  ::int64_t _internal_t1() const;
+  void _internal_set_t1(::int64_t value);
 
   public:
-  // int32 id = 2;
-  void clear_id() ;
-  ::int32_t id() const;
-  void set_id(::int32_t value);
+  // int64 t2 = 2;
+  void clear_t2() ;
+  ::int64_t t2() const;
+  void set_t2(::int64_t value);
 
   private:
-  ::int32_t _internal_id() const;
-  void _internal_set_id(::int32_t value);
+  ::int64_t _internal_t2() const;
+  void _internal_set_t2(::int64_t value);
 
   public:
-  // int32 delay = 3;
-  void clear_delay() ;
-  ::int32_t delay() const;
-  void set_delay(::int32_t value);
-
-  private:
-  ::int32_t _internal_delay() const;
-  void _internal_set_delay(::int32_t value);
-
-  public:
-  // int32 repeat = 4;
-  void clear_repeat() ;
-  ::int32_t repeat() const;
-  void set_repeat(::int32_t value);
-
-  private:
-  ::int32_t _internal_repeat() const;
-  void _internal_set_repeat(::int32_t value);
-
-  public:
-  // @@protoc_insertion_point(class_scope:Base.TimerEvent)
+  // @@protoc_insertion_point(class_scope:Base.Pong)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      2, 4, 0,
+      1, 2, 0,
       0, 2>
       _table_;
   friend class ::google::protobuf::MessageLite;
@@ -291,10 +271,8 @@ class TimerEvent final : public ::google::protobuf::MessageLite
                           ::google::protobuf::Arena* arena);
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from);
-    int code_;
-    ::int32_t id_;
-    ::int32_t delay_;
-    ::int32_t repeat_;
+    ::int64_t t1_;
+    ::int64_t t2_;
     mutable ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -303,23 +281,23 @@ class TimerEvent final : public ::google::protobuf::MessageLite
 };
 // -------------------------------------------------------------------
 
-class BaseMsg final : public ::google::protobuf::MessageLite
-/* @@protoc_insertion_point(class_definition:Base.BaseMsg) */ {
+class Ping final : public ::google::protobuf::MessageLite
+/* @@protoc_insertion_point(class_definition:Base.Ping) */ {
  public:
-  inline BaseMsg() : BaseMsg(nullptr) {}
-  ~BaseMsg() override;
+  inline Ping() : Ping(nullptr) {}
+  ~Ping() override;
   template <typename = void>
-  explicit PROTOBUF_CONSTEXPR BaseMsg(
+  explicit PROTOBUF_CONSTEXPR Ping(
       ::google::protobuf::internal::ConstantInitialized);
 
-  inline BaseMsg(const BaseMsg& from) : BaseMsg(nullptr, from) {}
-  inline BaseMsg(BaseMsg&& from) noexcept
-      : BaseMsg(nullptr, std::move(from)) {}
-  inline BaseMsg& operator=(const BaseMsg& from) {
+  inline Ping(const Ping& from) : Ping(nullptr, from) {}
+  inline Ping(Ping&& from) noexcept
+      : Ping(nullptr, std::move(from)) {}
+  inline Ping& operator=(const Ping& from) {
     CopyFrom(from);
     return *this;
   }
-  inline BaseMsg& operator=(BaseMsg&& from) noexcept {
+  inline Ping& operator=(Ping&& from) noexcept {
     if (this == &from) return *this;
     if (GetArena() == from.GetArena()
 #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
@@ -342,16 +320,16 @@ class BaseMsg final : public ::google::protobuf::MessageLite
     return _internal_metadata_.mutable_unknown_fields<std::string>();
   }
 
-  static const BaseMsg& default_instance() {
+  static const Ping& default_instance() {
     return *internal_default_instance();
   }
-  static inline const BaseMsg* internal_default_instance() {
-    return reinterpret_cast<const BaseMsg*>(
-        &_BaseMsg_default_instance_);
+  static inline const Ping* internal_default_instance() {
+    return reinterpret_cast<const Ping*>(
+        &_Ping_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 0;
-  friend void swap(BaseMsg& a, BaseMsg& b) { a.Swap(&b); }
-  inline void Swap(BaseMsg* other) {
+  static constexpr int kIndexInFileMessages = 1;
+  friend void swap(Ping& a, Ping& b) { a.Swap(&b); }
+  inline void Swap(Ping* other) {
     if (other == this) return;
 #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
     if (GetArena() != nullptr && GetArena() == other->GetArena()) {
@@ -363,7 +341,7 @@ class BaseMsg final : public ::google::protobuf::MessageLite
       ::google::protobuf::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(BaseMsg* other) {
+  void UnsafeArenaSwap(Ping* other) {
     if (other == this) return;
     ABSL_DCHECK(GetArena() == other->GetArena());
     InternalSwap(other);
@@ -371,13 +349,13 @@ class BaseMsg final : public ::google::protobuf::MessageLite
 
   // implements Message ----------------------------------------------
 
-  BaseMsg* New(::google::protobuf::Arena* arena = nullptr) const final {
-    return ::google::protobuf::MessageLite::DefaultConstruct<BaseMsg>(arena);
+  Ping* New(::google::protobuf::Arena* arena = nullptr) const final {
+    return ::google::protobuf::MessageLite::DefaultConstruct<Ping>(arena);
   }
   void CheckTypeAndMergeFrom(
       const ::google::protobuf::MessageLite& from) final;
-  void CopyFrom(const BaseMsg& from);
-  void MergeFrom(const BaseMsg& from);
+  void CopyFrom(const Ping& from);
+  void MergeFrom(const Ping& from);
   ABSL_ATTRIBUTE_REINITIALIZES void Clear() final;
   bool IsInitialized() const final;
 
@@ -391,16 +369,16 @@ class BaseMsg final : public ::google::protobuf::MessageLite
   private:
   void SharedCtor(::google::protobuf::Arena* arena);
   void SharedDtor();
-  void InternalSwap(BaseMsg* other);
+  void InternalSwap(Ping* other);
  private:
   friend class ::google::protobuf::internal::AnyMetadata;
-  static ::absl::string_view FullMessageName() { return "Base.BaseMsg"; }
+  static ::absl::string_view FullMessageName() { return "Base.Ping"; }
 
  protected:
-  explicit BaseMsg(::google::protobuf::Arena* arena);
-  BaseMsg(::google::protobuf::Arena* arena, const BaseMsg& from);
-  BaseMsg(::google::protobuf::Arena* arena, BaseMsg&& from) noexcept
-      : BaseMsg(arena) {
+  explicit Ping(::google::protobuf::Arena* arena);
+  Ping(::google::protobuf::Arena* arena, const Ping& from);
+  Ping(::google::protobuf::Arena* arena, Ping&& from) noexcept
+      : Ping(arena) {
     *this = ::std::move(from);
   }
   const ::google::protobuf::MessageLite::ClassData* GetClassData()
@@ -411,53 +389,25 @@ class BaseMsg final : public ::google::protobuf::MessageLite
 
   // accessors -------------------------------------------------------
   enum : int {
-    kMsgFieldNumber = 3,
-    kIdFieldNumber = 2,
-    kVerisonFieldNumber = 1,
+    kT1FieldNumber = 1,
   };
-  // string msg = 3;
-  void clear_msg() ;
-  const std::string& msg() const;
-  template <typename Arg_ = const std::string&, typename... Args_>
-  void set_msg(Arg_&& arg, Args_... args);
-  std::string* mutable_msg();
-  PROTOBUF_NODISCARD std::string* release_msg();
-  void set_allocated_msg(std::string* value);
+  // int64 t1 = 1;
+  void clear_t1() ;
+  ::int64_t t1() const;
+  void set_t1(::int64_t value);
 
   private:
-  const std::string& _internal_msg() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_msg(
-      const std::string& value);
-  std::string* _internal_mutable_msg();
+  ::int64_t _internal_t1() const;
+  void _internal_set_t1(::int64_t value);
 
   public:
-  // int64 id = 2;
-  void clear_id() ;
-  ::int64_t id() const;
-  void set_id(::int64_t value);
-
-  private:
-  ::int64_t _internal_id() const;
-  void _internal_set_id(::int64_t value);
-
-  public:
-  // int32 verison = 1;
-  void clear_verison() ;
-  ::int32_t verison() const;
-  void set_verison(::int32_t value);
-
-  private:
-  ::int32_t _internal_verison() const;
-  void _internal_set_verison(::int32_t value);
-
-  public:
-  // @@protoc_insertion_point(class_scope:Base.BaseMsg)
+  // @@protoc_insertion_point(class_scope:Base.Ping)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      2, 3, 0,
-      24, 2>
+      0, 1, 0,
+      0, 2>
       _table_;
   friend class ::google::protobuf::MessageLite;
   friend class ::google::protobuf::Arena;
@@ -472,9 +422,175 @@ class BaseMsg final : public ::google::protobuf::MessageLite
                           ::google::protobuf::Arena* arena);
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from);
-    ::google::protobuf::internal::ArenaStringPtr msg_;
-    ::int64_t id_;
-    ::int32_t verison_;
+    ::int64_t t1_;
+    mutable ::google::protobuf::internal::CachedSize _cached_size_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_BaseMsg_2eproto;
+};
+// -------------------------------------------------------------------
+
+class Hello final : public ::google::protobuf::MessageLite
+/* @@protoc_insertion_point(class_definition:Base.Hello) */ {
+ public:
+  inline Hello() : Hello(nullptr) {}
+  ~Hello() override;
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR Hello(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline Hello(const Hello& from) : Hello(nullptr, from) {}
+  inline Hello(Hello&& from) noexcept
+      : Hello(nullptr, std::move(from)) {}
+  inline Hello& operator=(const Hello& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline Hello& operator=(Hello&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetArena() == from.GetArena()
+#ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetArena() != nullptr
+#endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const std::string& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<std::string>(::google::protobuf::internal::GetEmptyString);
+  }
+  inline std::string* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<std::string>();
+  }
+
+  static const Hello& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const Hello* internal_default_instance() {
+    return reinterpret_cast<const Hello*>(
+        &_Hello_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 0;
+  friend void swap(Hello& a, Hello& b) { a.Swap(&b); }
+  inline void Swap(Hello* other) {
+    if (other == this) return;
+#ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetArena() != nullptr && GetArena() == other->GetArena()) {
+#else   // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetArena() == other->GetArena()) {
+#endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(Hello* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  Hello* New(::google::protobuf::Arena* arena = nullptr) const final {
+    return ::google::protobuf::MessageLite::DefaultConstruct<Hello>(arena);
+  }
+  void CheckTypeAndMergeFrom(
+      const ::google::protobuf::MessageLite& from) final;
+  void CopyFrom(const Hello& from);
+  void MergeFrom(const Hello& from);
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  ::size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::google::protobuf::internal::ParseContext* ctx) final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  void SharedDtor();
+  void InternalSwap(Hello* other);
+ private:
+  friend class ::google::protobuf::internal::AnyMetadata;
+  static ::absl::string_view FullMessageName() { return "Base.Hello"; }
+
+ protected:
+  explicit Hello(::google::protobuf::Arena* arena);
+  Hello(::google::protobuf::Arena* arena, const Hello& from);
+  Hello(::google::protobuf::Arena* arena, Hello&& from) noexcept
+      : Hello(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::MessageLite::ClassData* GetClassData()
+      const final;
+
+ public:
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kNameFieldNumber = 2,
+    kServertypeFieldNumber = 1,
+  };
+  // string name = 2;
+  void clear_name() ;
+  const std::string& name() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_name(Arg_&& arg, Args_... args);
+  std::string* mutable_name();
+  PROTOBUF_NODISCARD std::string* release_name();
+  void set_allocated_name(std::string* value);
+
+  private:
+  const std::string& _internal_name() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_name(
+      const std::string& value);
+  std::string* _internal_mutable_name();
+
+  public:
+  // .Base.ServerType servertype = 1;
+  void clear_servertype() ;
+  ::Base::ServerType servertype() const;
+  void set_servertype(::Base::ServerType value);
+
+  private:
+  ::Base::ServerType _internal_servertype() const;
+  void _internal_set_servertype(::Base::ServerType value);
+
+  public:
+  // @@protoc_insertion_point(class_scope:Base.Hello)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      1, 2, 0,
+      23, 2>
+      _table_;
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from);
+    ::google::protobuf::internal::ArenaStringPtr name_;
+    int servertype_;
     mutable ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -496,192 +612,152 @@ class BaseMsg final : public ::google::protobuf::MessageLite
 #endif  // __GNUC__
 // -------------------------------------------------------------------
 
-// BaseMsg
+// Hello
 
-// int32 verison = 1;
-inline void BaseMsg::clear_verison() {
+// .Base.ServerType servertype = 1;
+inline void Hello::clear_servertype() {
   PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
-  _impl_.verison_ = 0;
+  _impl_.servertype_ = 0;
 }
-inline ::int32_t BaseMsg::verison() const {
-  // @@protoc_insertion_point(field_get:Base.BaseMsg.verison)
-  return _internal_verison();
+inline ::Base::ServerType Hello::servertype() const {
+  // @@protoc_insertion_point(field_get:Base.Hello.servertype)
+  return _internal_servertype();
 }
-inline void BaseMsg::set_verison(::int32_t value) {
-  _internal_set_verison(value);
-  // @@protoc_insertion_point(field_set:Base.BaseMsg.verison)
+inline void Hello::set_servertype(::Base::ServerType value) {
+  _internal_set_servertype(value);
+  // @@protoc_insertion_point(field_set:Base.Hello.servertype)
 }
-inline ::int32_t BaseMsg::_internal_verison() const {
+inline ::Base::ServerType Hello::_internal_servertype() const {
   PROTOBUF_TSAN_READ(&_impl_._tsan_detect_race);
-  return _impl_.verison_;
+  return static_cast<::Base::ServerType>(_impl_.servertype_);
 }
-inline void BaseMsg::_internal_set_verison(::int32_t value) {
+inline void Hello::_internal_set_servertype(::Base::ServerType value) {
   PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
-  _impl_.verison_ = value;
+  _impl_.servertype_ = value;
 }
 
-// int64 id = 2;
-inline void BaseMsg::clear_id() {
+// string name = 2;
+inline void Hello::clear_name() {
   PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
-  _impl_.id_ = ::int64_t{0};
+  _impl_.name_.ClearToEmpty();
 }
-inline ::int64_t BaseMsg::id() const {
-  // @@protoc_insertion_point(field_get:Base.BaseMsg.id)
-  return _internal_id();
-}
-inline void BaseMsg::set_id(::int64_t value) {
-  _internal_set_id(value);
-  // @@protoc_insertion_point(field_set:Base.BaseMsg.id)
-}
-inline ::int64_t BaseMsg::_internal_id() const {
-  PROTOBUF_TSAN_READ(&_impl_._tsan_detect_race);
-  return _impl_.id_;
-}
-inline void BaseMsg::_internal_set_id(::int64_t value) {
-  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
-  _impl_.id_ = value;
-}
-
-// string msg = 3;
-inline void BaseMsg::clear_msg() {
-  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
-  _impl_.msg_.ClearToEmpty();
-}
-inline const std::string& BaseMsg::msg() const
+inline const std::string& Hello::name() const
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:Base.BaseMsg.msg)
-  return _internal_msg();
+  // @@protoc_insertion_point(field_get:Base.Hello.name)
+  return _internal_name();
 }
 template <typename Arg_, typename... Args_>
-inline PROTOBUF_ALWAYS_INLINE void BaseMsg::set_msg(Arg_&& arg,
+inline PROTOBUF_ALWAYS_INLINE void Hello::set_name(Arg_&& arg,
                                                      Args_... args) {
   PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
-  _impl_.msg_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
-  // @@protoc_insertion_point(field_set:Base.BaseMsg.msg)
+  _impl_.name_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:Base.Hello.name)
 }
-inline std::string* BaseMsg::mutable_msg() ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  std::string* _s = _internal_mutable_msg();
-  // @@protoc_insertion_point(field_mutable:Base.BaseMsg.msg)
+inline std::string* Hello::mutable_name() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_name();
+  // @@protoc_insertion_point(field_mutable:Base.Hello.name)
   return _s;
 }
-inline const std::string& BaseMsg::_internal_msg() const {
+inline const std::string& Hello::_internal_name() const {
   PROTOBUF_TSAN_READ(&_impl_._tsan_detect_race);
-  return _impl_.msg_.Get();
+  return _impl_.name_.Get();
 }
-inline void BaseMsg::_internal_set_msg(const std::string& value) {
+inline void Hello::_internal_set_name(const std::string& value) {
   PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
-  _impl_.msg_.Set(value, GetArena());
+  _impl_.name_.Set(value, GetArena());
 }
-inline std::string* BaseMsg::_internal_mutable_msg() {
+inline std::string* Hello::_internal_mutable_name() {
   PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
-  return _impl_.msg_.Mutable( GetArena());
+  return _impl_.name_.Mutable( GetArena());
 }
-inline std::string* BaseMsg::release_msg() {
+inline std::string* Hello::release_name() {
   PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
-  // @@protoc_insertion_point(field_release:Base.BaseMsg.msg)
-  return _impl_.msg_.Release();
+  // @@protoc_insertion_point(field_release:Base.Hello.name)
+  return _impl_.name_.Release();
 }
-inline void BaseMsg::set_allocated_msg(std::string* value) {
+inline void Hello::set_allocated_name(std::string* value) {
   PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
-  _impl_.msg_.SetAllocated(value, GetArena());
+  _impl_.name_.SetAllocated(value, GetArena());
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        if (_impl_.msg_.IsDefault()) {
-          _impl_.msg_.Set("", GetArena());
+        if (_impl_.name_.IsDefault()) {
+          _impl_.name_.Set("", GetArena());
         }
   #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:Base.BaseMsg.msg)
+  // @@protoc_insertion_point(field_set_allocated:Base.Hello.name)
 }
 
 // -------------------------------------------------------------------
 
-// TimerEvent
+// Ping
 
-// .Base.TimerOpcode code = 1;
-inline void TimerEvent::clear_code() {
+// int64 t1 = 1;
+inline void Ping::clear_t1() {
   PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
-  _impl_.code_ = 0;
+  _impl_.t1_ = ::int64_t{0};
 }
-inline ::Base::TimerOpcode TimerEvent::code() const {
-  // @@protoc_insertion_point(field_get:Base.TimerEvent.code)
-  return _internal_code();
+inline ::int64_t Ping::t1() const {
+  // @@protoc_insertion_point(field_get:Base.Ping.t1)
+  return _internal_t1();
 }
-inline void TimerEvent::set_code(::Base::TimerOpcode value) {
-  _internal_set_code(value);
-  // @@protoc_insertion_point(field_set:Base.TimerEvent.code)
+inline void Ping::set_t1(::int64_t value) {
+  _internal_set_t1(value);
+  // @@protoc_insertion_point(field_set:Base.Ping.t1)
 }
-inline ::Base::TimerOpcode TimerEvent::_internal_code() const {
+inline ::int64_t Ping::_internal_t1() const {
   PROTOBUF_TSAN_READ(&_impl_._tsan_detect_race);
-  return static_cast<::Base::TimerOpcode>(_impl_.code_);
+  return _impl_.t1_;
 }
-inline void TimerEvent::_internal_set_code(::Base::TimerOpcode value) {
+inline void Ping::_internal_set_t1(::int64_t value) {
   PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
-  _impl_.code_ = value;
-}
-
-// int32 id = 2;
-inline void TimerEvent::clear_id() {
-  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
-  _impl_.id_ = 0;
-}
-inline ::int32_t TimerEvent::id() const {
-  // @@protoc_insertion_point(field_get:Base.TimerEvent.id)
-  return _internal_id();
-}
-inline void TimerEvent::set_id(::int32_t value) {
-  _internal_set_id(value);
-  // @@protoc_insertion_point(field_set:Base.TimerEvent.id)
-}
-inline ::int32_t TimerEvent::_internal_id() const {
-  PROTOBUF_TSAN_READ(&_impl_._tsan_detect_race);
-  return _impl_.id_;
-}
-inline void TimerEvent::_internal_set_id(::int32_t value) {
-  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
-  _impl_.id_ = value;
+  _impl_.t1_ = value;
 }
 
-// int32 delay = 3;
-inline void TimerEvent::clear_delay() {
+// -------------------------------------------------------------------
+
+// Pong
+
+// int64 t1 = 1;
+inline void Pong::clear_t1() {
   PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
-  _impl_.delay_ = 0;
+  _impl_.t1_ = ::int64_t{0};
 }
-inline ::int32_t TimerEvent::delay() const {
-  // @@protoc_insertion_point(field_get:Base.TimerEvent.delay)
-  return _internal_delay();
+inline ::int64_t Pong::t1() const {
+  // @@protoc_insertion_point(field_get:Base.Pong.t1)
+  return _internal_t1();
 }
-inline void TimerEvent::set_delay(::int32_t value) {
-  _internal_set_delay(value);
-  // @@protoc_insertion_point(field_set:Base.TimerEvent.delay)
+inline void Pong::set_t1(::int64_t value) {
+  _internal_set_t1(value);
+  // @@protoc_insertion_point(field_set:Base.Pong.t1)
 }
-inline ::int32_t TimerEvent::_internal_delay() const {
+inline ::int64_t Pong::_internal_t1() const {
   PROTOBUF_TSAN_READ(&_impl_._tsan_detect_race);
-  return _impl_.delay_;
+  return _impl_.t1_;
 }
-inline void TimerEvent::_internal_set_delay(::int32_t value) {
+inline void Pong::_internal_set_t1(::int64_t value) {
   PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
-  _impl_.delay_ = value;
+  _impl_.t1_ = value;
 }
 
-// int32 repeat = 4;
-inline void TimerEvent::clear_repeat() {
+// int64 t2 = 2;
+inline void Pong::clear_t2() {
   PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
-  _impl_.repeat_ = 0;
+  _impl_.t2_ = ::int64_t{0};
 }
-inline ::int32_t TimerEvent::repeat() const {
-  // @@protoc_insertion_point(field_get:Base.TimerEvent.repeat)
-  return _internal_repeat();
+inline ::int64_t Pong::t2() const {
+  // @@protoc_insertion_point(field_get:Base.Pong.t2)
+  return _internal_t2();
 }
-inline void TimerEvent::set_repeat(::int32_t value) {
-  _internal_set_repeat(value);
-  // @@protoc_insertion_point(field_set:Base.TimerEvent.repeat)
+inline void Pong::set_t2(::int64_t value) {
+  _internal_set_t2(value);
+  // @@protoc_insertion_point(field_set:Base.Pong.t2)
 }
-inline ::int32_t TimerEvent::_internal_repeat() const {
+inline ::int64_t Pong::_internal_t2() const {
   PROTOBUF_TSAN_READ(&_impl_._tsan_detect_race);
-  return _impl_.repeat_;
+  return _impl_.t2_;
 }
-inline void TimerEvent::_internal_set_repeat(::int32_t value) {
+inline void Pong::_internal_set_t2(::int64_t value) {
   PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
-  _impl_.repeat_ = value;
+  _impl_.t2_ = value;
 }
 
 #ifdef __GNUC__
@@ -698,7 +774,7 @@ namespace protobuf {
 template <>
 struct is_proto_enum<::Base::ServerType> : std::true_type {};
 template <>
-struct is_proto_enum<::Base::TimerOpcode> : std::true_type {};
+struct is_proto_enum<::Base::MSG_ID> : std::true_type {};
 
 }  // namespace protobuf
 }  // namespace google

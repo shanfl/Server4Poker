@@ -17,6 +17,14 @@ namespace Base{
         return mMsgPool.get(maxnum);
     }
 
+    bool Thread::get(WrappedMessage&msg)
+    {
+        std::vector<WrappedMessage> v = get(1);
+        if(v.size() == 0) return false;
+        msg = v[0];
+        return true;
+    }
+
     void Thread::on_work(Thread*ptr)
     {
         ptr->msg_loop();

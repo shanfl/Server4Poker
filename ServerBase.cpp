@@ -1,8 +1,10 @@
 #include "ServerBase.h"
+#include <filesystem>
 #include "Thread.hpp"
+#include "OptionParser.h"
 #include "google/protobuf/descriptor.h"
 #include <google/protobuf/descriptor_database.h>
-
+#include "toml/TomlHelper.h"
 
 #if 0
 static std::unordered_map<uint32_t, const google::protobuf::Descriptor*> g_registry;
@@ -31,6 +33,7 @@ void initProtoRegistryV2()
             if (descriptor != nullptr)
             {
                 const std::string& name = descriptor->full_name();
+#if 0
                 if (startsWith(name, "protocol")) { // 指定命名空间
                     // 约定消息名称中：Req结尾代表请求， Ack结尾代表响应，Ntf结尾代表通知
                     // 则含有指定后缀的消息才会自动加入关联
@@ -40,6 +43,7 @@ void initProtoRegistryV2()
                         registry[v] = descriptor;
                     }
                 }
+#endif
             }
         }
     }
@@ -49,7 +53,7 @@ void initProtoRegistryV2()
 
 namespace Base {
 
-    ServerBase::ServerBase(int argc,char*argv[]):TimerAlloc(this)
+    ServerBase::ServerBase():TimerAlloc(this)
     {
         mLoop = uvw::loop::get_default();
         mTcpHander = mLoop->resource<uvw::tcp_handle>();
@@ -59,38 +63,93 @@ namespace Base {
         std::clog << __FUNCTION__ << " id:" << id <<",delay:" << delay << ",interval:" << interval << std::endl;
     }
 
-    // 主线程timer
-    int  ServerBase::thd_idx_timer(){
-        return -1;
-    }
-
-    bool ServerBase::post_init()
+    bool ServerBase::post_init(const toml::Value& root)
     {
         return true;
     }
 
-    bool ServerBase::init()
+    bool ServerBase::init(int argc,char*argv[])
     {
-        bool r1 = init_thd();
-        bool r2 = init_db();        
-        bool r3 = init_module();
-        if(r1&&r2&&r3){
-            return post_init();
+        //get app path
+        std::string path = std::string(argv[0]);
+        std::filesystem::path p(path);
+        mAppPath = p.parent_path().string();
+
+        //-l abc.log -c int.cfg
+        using optparse::OptionParser;
+        OptionParser parser = OptionParser().description("==core==");
+        parser.add_option("-l", "--log").dest("log")
+            .help("write  log").metavar("LOG");
+
+        parser.add_option("-tc", "--toml").dest("toml")
+            .help("toml file").metavar("toml");
+
+        optparse::Values options = parser.parse_args(argc, argv);
+        if (options.is_set("log")) {
+            mLogFile = options["log"];
+        }
+
+        if (options.is_set("toml")) {
+            mTomlCfg = options["toml"];
+        }
+        else {
+            std::clog << "cfg file can't find ,return " << std::endl;
+            return false;
+        }
+        std::clog << "cfg:" << mTomlCfg << ",log:" << mLogFile << "\n";
+
+        std::string fullpath = app_path() + "/" + mTomlCfg;
+        std::ifstream ifs(fullpath);
+        toml::ParseResult pr = toml::parse(ifs);
+        if(!pr.valid()) {
+            std::clog << "parser toml:" << mTomlCfg << "failed \n";
+            return false;
+        }
+
+        bool r1 = init_thd(pr.value);
+        bool r2 = init_db(pr.value);
+        bool r3 = init_module(pr.value);
+        bool r4 = init_serve(pr.value);
+        if(r1&&r2&&r3 && r4){
+            return post_init(pr.value);
         }
         return false;
     }
 
-    bool ServerBase::init_db()
+     bool ServerBase::init_serve(const toml::Value& root)
+     {
+        std::string ip = TomlHelper::TGet<std::string>(root,"server","ip","0.0.0.0");
+        int port = TomlHelper::TGet<int>(root,"server","port",8989);
+
+        return listen(ip,port);
+     }
+
+    bool ServerBase::init_db(const toml::Value& root)
     {
         return true;
     }
 
-    bool ServerBase::init_thd()
+    bool ServerBase::init_thd(const toml::Value& root)
+    {
+        int ntd = std::thread::hardware_concurrency();
+        int cnt_thread = TomlHelper::TGet<int>(root,"thread","cnt",ntd);
+        if(cnt_thread == -1 || cnt_thread > ntd)
+            cnt_thread = ntd;
+        if(cnt_thread == 0)
+            cnt_thread= 1;
+
+        for(int i = 0;i < cnt_thread;i++)
+            mThreads.emplace_back(std::make_shared<Thread>(this,i));
+
+        return true;
+    }
+
+    bool ServerBase::init_module(const toml::Value& root)
     {
         return true;
     }
 
-    bool ServerBase::init_module()
+    bool ServerBase::init_nats(const toml::Value& root)
     {
         return true;
     }
@@ -114,6 +173,7 @@ namespace Base {
     
     bool ServerBase::listen(std::string ip,int port)
     {
+        std::clog << "======> listenat:" << ip << ":" << port << std::endl;
         mTcpHander->bind(ip, 4242);
         return mTcpHander->listen() == 0;
     }

@@ -37,6 +37,15 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(libfmt)
 
+
+FetchContent_Declare(
+    protobuf
+    GIT_REPOSITORY https://github.com/protocolbuffers/protobuf.git
+    GIT_TAG "v3.26.0"
+    GIT_SHALLOW 1
+)
+FetchContent_MakeAvailable(protobuf)
+
 include_directories(./uvw-3.3.0_libuv_v1.47/src)
 include_directories(./3rd/protobuf3/include)
 include_directories(${libuv_SOURCE_DIR}/include/)
@@ -49,6 +58,7 @@ FILE(GLOB SESSION_SRC Session/*.h Session/*.hpp Session/*.cpp)
 set(BS_SRC 
     WrappedMessage.hpp
     MessagePool.h
+    #MessagePool.cpp
     Msg.def.h
     Msg.def.cpp
     ServerBase.h
@@ -59,9 +69,16 @@ set(BS_SRC
     TimerListener.cpp
     AsyncUvw.hpp
     AsyncUvw.cpp
-
+    demo.toml
+    OptionParser.h
+    OptionParser.cpp
+    toml/toml.h
+    toml/TomlHelper.h
     ${PROTO_SRC}
     ${SESSION_SRC}
 )
 
 add_library(BaseServer STATIC ${BS_SRC})
+
+
+add_subdirectory(demos)

@@ -16,3 +16,5 @@ namespace Base
         std::mutex mMutex;
     };
 }
+
+#include "MessagePool.cpp"

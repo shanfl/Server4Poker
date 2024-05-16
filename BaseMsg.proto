@@ -10,6 +10,14 @@ enum ServerType{
 
 }
 
+enum MSG_ID 
+{
+    ID_0 = 0;
+    ID_HELLO    = 1;
+    ID_PING     = 2;
+    ID_PONG     = 3;
+}
+
 
 message Hello
 {
@@ -28,11 +36,4 @@ message Pong
     int64 t2 = 2;
 }
 
-
-message TimerEvent
-{
-    int32 id = 2;
-    int32 delay = 3;
-    int32 repeat = 4;
-};
 

@@ -187,7 +187,7 @@ namespace uvw {
 
         ~SessionImpl();
 
-        void id();
+        int64_t id();
 
 		void read();
 		void send(std::string data);

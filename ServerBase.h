@@ -7,6 +7,8 @@
 #include <unordered_map>
 #include "Session/Session.hpp"
 #include "WrappedMessage.hpp"
+#include "toml/toml.h"
+#include "gen_proto/BaseMsg.pb.h"
 
 namespace Base {
 
@@ -42,20 +44,27 @@ Message* createMessageBy(MessageID msgid)
 }
 */
 
+#define ROOT_GEN_MESSAGE_MAP(XX) \
+    XX(Base, ID_HELLO,Hello,On,1)      \
+    XX(Base, ID_PING,Ping,On,0)         \
+    XX(Base, ID_PONG,Pong,On,1)
+
+
 
 #define MSG_FUNCTION_BEGIN(SUPERCLASS) \
-    virtual void on_msg(Message &x) override {      \
+    virtual void on_msg(std::shared_ptr<uvw::Session> session, Message &x) override {      \
     switch(x.MsgId()){   
 
-#define MSG_FUNCTION_END(SUPERCLASS) \ 
+#define MSG_FUNCTION_END(SUPERCLASS) \
         default:    \
-            SUPERCLASS::on_msg(x)    \
+            SUPERCLASS::on_msg(session,x)    \
     }
 
 
 class Thread;
 
-constexpr size_t MAX_SERVE_TYPE_CNT = 100;
+// kinds of server
+constexpr size_t MAX_SERVE_TYPE_CNT = 40;
 
 /*
  *
@@ -70,6 +79,12 @@ class ServerBase : public TimerAlloc
     friend class Thread;
     friend class TimerAlloc;
 private:
+    std::string mAppPath;
+    std::string mTomlCfg;
+    std::string mLogFile;
+    std::string mNameServer;
+    int         mTypeServer = 0;
+private:
     // session
     std::unordered_map<int64_t,std::shared_ptr<uvw::Session>> mSessionUndefined;
     std::unordered_map<int64_t,std::shared_ptr<uvw::Session>> mSessions[MAX_SERVE_TYPE_CNT];
@@ -81,16 +96,22 @@ private:
     std::shared_ptr<uvw::loop> mLoop;
     std::shared_ptr<uvw::tcp_handle> mTcpHander;
 private:
-    std::vector<std::shared_ptr<Thread>> mThreads;  
+    std::vector<std::shared_ptr<Thread>> mThreads;
+    int mIdxLastSet = -1;
 public:
-    ServerBase(int argc,char*argv[]);
+    ServerBase();
 public:
-    //bool add_timer(int timerid,int delay,int interval);
-    //bool rem_timer(int timerid);
+    std::string app_path() {return this->mAppPath;}
+
+    virtual bool init(int argc,char*argv[]);
+
     // ======================== timer ========================
     virtual void on_timer_tick(int id,int delay,int interval) override;
-    virtual int  thd_idx_timer() override;
 
+    int  thd_idx_timer() override {
+        return -1;  // mainloop
+    }
+    //TODO:
     bool add_fs(std::string path);
     bool rem_fs(std::string path);
 
@@ -101,18 +122,15 @@ public:
     void stop();
 
     std::shared_ptr<uvw::loop> loop() {return mLoop;}
-    //void on_timer(int timerid,)
-
 protected:
 
-    virtual bool init();
-    virtual bool init_db();
-    virtual bool init_thd();
-    virtual bool init_module();
-    // init_nats
-    //virtual bool init_nats();
-
-    virtual bool post_init();
+    //TODO:
+    virtual bool init_db(const toml::Value& root);
+    virtual bool init_thd(const toml::Value& root);
+    virtual bool init_module(const toml::Value& root);
+    virtual bool init_nats(const toml::Value& root);
+    virtual bool init_serve(const toml::Value& root);
+    virtual bool post_init(const toml::Value& root);
 
     std::shared_ptr<ProtoMsg> create_msg_by_id(uint32_t msgid);
 
@@ -122,10 +140,22 @@ protected:
     virtual int calc_thd_idx(WrappedMessage &msg);
 
     void dispatch_work(WrappedMessage &msg);
+
     void dispatch_th_work(int idx,WrappedMessage &msg);
 
     ROOT_MSG_FUNCTION_BEGIN()
+#define XX(ns,id,cls,prefix,ifCt)   case ns::id: this->prefix##_##cls(session,x);break;
+    ROOT_GEN_MESSAGE_MAP(XX)
+#undef XX
     ROOT_MSG_FUNCTION_END()
+public:
+#define XX(ns,id,cls,prefix,ifCt)  \
+    void prefix##_##cls(std::shared_ptr<uvw::Session> session, Message&msg);
+
+    ROOT_GEN_MESSAGE_MAP(XX)
+#undef XX
+
+
 };
 
 } //namespace Base
