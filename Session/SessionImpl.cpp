@@ -8,6 +8,8 @@
 #include <cstring>
 #include "endian.h"
 
+static IdMaker idgen(1,1);
+
 namespace uvw {
 
 	class WebsocketHelper {
@@ -267,6 +269,8 @@ namespace uvw {
 	{
 		mSessionPtr = session;
 		mLoop = loop;
+
+        mId = idgen.nextId();
 	}
 
 	SessionImpl::SessionImpl(Session* session, std::shared_ptr<uvw::loop> loop, std::shared_ptr<uvw::tcp_handle>& tcphandle)
@@ -274,6 +278,8 @@ namespace uvw {
 		mSessionPtr = session;
 		mLoop = loop;
 		mTcpHandler = tcphandle;
+
+        mId = idgen.nextId();
 	}
 
 	SessionImpl::~SessionImpl()

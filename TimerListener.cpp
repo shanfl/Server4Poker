@@ -30,6 +30,11 @@ namespace Base {
         {
             //构建protobuf timermsg；
             //mServerPtr->dispatch_work();
+            Message msg;
+            WrappedMessage w_msg;
+            w_msg.set(this->weak_from_this(),id,delay,interval);
+            //
+            mServerPtr->dispatch_th_work(index,w_msg);
         }
     }
 

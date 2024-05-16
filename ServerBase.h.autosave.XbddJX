@@ -5,17 +5,21 @@
 #include "uvw.hpp"
 #include "TimerListener.hpp"
 #include <unordered_map>
-#include "Session/Session.hpp"
-#include "WrappedMessage.hpp"
+
+namespace uvw {
+    class Session;
+}
+
+
 
 namespace Base {
 
 #define ROOT_MSG_FUNCTION_BEGIN()          \
-virtual void on_msg(std::shared_ptr<uvw::Session> session, Message &x){      \
+virtual void on_msg(Message &x){      \
     switch(x.MsgId()){                 
 
 
-#define ROOT_MSG_FUNCTION_END() \
+#define ROOT_MSG_FUNCTION_END() \ 
         default:    \
             std::cout << "not handled" << std::endl; break;   \
     }   \
@@ -57,24 +61,15 @@ class Thread;
 
 constexpr size_t MAX_SERVE_TYPE_CNT = 100;
 
-/*
- *
- *
- * less is more
- *
- *
- */
-
 class ServerBase : public TimerAlloc
 {
     friend class Thread;
-    friend class TimerAlloc;
 private:
     // session
     std::unordered_map<int64_t,std::shared_ptr<uvw::Session>> mSessionUndefined;
     std::unordered_map<int64_t,std::shared_ptr<uvw::Session>> mSessions[MAX_SERVE_TYPE_CNT];
     std::mutex mSessionsMutex;
-
+    
     // undef -> sessions
     void def_session_type(std::shared_ptr<uvw::Session> session,int stype);
 private:
@@ -116,13 +111,12 @@ protected:
 
     std::shared_ptr<ProtoMsg> create_msg_by_id(uint32_t msgid);
 
-    virtual void on_raw_msg(std::shared_ptr<uvw::Session> session,std::string &data);
-
+    virtual void on_raw_msg(std::string &data);
     // 分配到哪个线程
-    virtual int calc_thd_idx(WrappedMessage &msg);
+    virtual int dispatch_thd(Message &msg);
 
-    void dispatch_work(WrappedMessage &msg);
-    void dispatch_th_work(int idx,WrappedMessage &msg);
+    void dispatch_work(Message &msg);
+
 
     ROOT_MSG_FUNCTION_BEGIN()
     ROOT_MSG_FUNCTION_END()

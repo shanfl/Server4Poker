@@ -118,27 +118,35 @@ namespace Base {
         return mTcpHander->listen() == 0;
     }
 
-   void ServerBase::on_raw_msg(std::string &data){
+   void ServerBase::on_raw_msg(std::shared_ptr<uvw::Session>session, std::string &data){
         Message msg = Message::Decode(data);
-        msg.SetProtoPtr(create_msg_by_id(msg.MsgId())); 
-        this->dispatch_work(msg);               
+        msg.SetProtoPtr(create_msg_by_id(msg.MsgId()));
+        //TODO: parser
+
+        WrappedMessage wmsg;
+        wmsg.set(session,msg);
+        this->dispatch_work(wmsg);
     }
 
-    int ServerBase::dispatch_thd(Message &msg)
+    int ServerBase::calc_thd_idx(WrappedMessage &msg)
     {
         return -1;
     }
 
-    void ServerBase::dispatch_work(Message &msg)
+    void ServerBase::dispatch_work(WrappedMessage &msg)
     {
-        int thd_index = dispatch_thd(msg);
-        if(thd_index < 0){
-            mThreads[random()%mThreads.size()]->push(msg);
-        }else{
-            mThreads[thd_index%mThreads.size()]->push(msg);
-        }
+        int thd_index = calc_thd_idx(msg);
+        this->dispatch_th_work(thd_index,msg);
     }
 
+     void ServerBase::dispatch_th_work(int idx,WrappedMessage &msg)
+     {
+         if(idx < 0){
+             mThreads[random()%mThreads.size()]->push(msg);
+         }else{
+             mThreads[idx%mThreads.size()]->push(msg);
+         }
+     }
 
     std::shared_ptr<ProtoMsg> ServerBase::create_msg_by_id(uint32_t msgid)
     {

@@ -7,12 +7,12 @@ namespace Base{
         mThd = std::thread(Thread::on_work,this);    
     }
     
-    void Thread::push(WrappedMessageBuilder&msg)
+    void Thread::push(WrappedMessage&msg)
     {
         mMsgPool.push(msg);
     }
 
-    std::vector<WrappedMessageBuilder> Thread::get(int maxnum)
+    std::vector<WrappedMessage> Thread::get(int maxnum)
     {
         return mMsgPool.get(maxnum);
     }
@@ -22,21 +22,31 @@ namespace Base{
         ptr->msg_loop();
     }
 
-    void Thread::on_msg(WrappedMessageBuilder& msg)
-    {
-
-    }
-
     void Thread::msg_loop(){
         while(mRun){
-            WrappedMessageBuilder msg;
+            WrappedMessage msg;
             bool b = get(msg);
             if(!b)
             {
                 std::this_thread::sleep_for(std::chrono::microseconds(10));
-                return;
+                continue;
             }
-            //mServerPtr->on_msg(msg);
+
+            switch (msg.mType) {
+                case WrappedMessage::WrappedMessageType::TIMER_TICK:
+                {
+                    std::shared_ptr<TimerAlloc> ptr =  msg.mTimerTick->first.lock();
+                    if(ptr)
+                        ptr->on_timer_tick(msg.mTimerTick->second.id,msg.mTimerTick->second.delay,msg.mTimerTick->second.interval);
+                }
+                break;
+                case WrappedMessage::WrappedMessageType::SESSION_MSG:
+                {
+                    // TODO:
+                    //mServerPtr->on_
+                    mServerPtr->on_msg(msg.mSessionMsg->first,msg.mSessionMsg->second);
+                }
+            }
         }
     }
 }

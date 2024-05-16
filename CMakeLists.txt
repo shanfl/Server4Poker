@@ -47,7 +47,7 @@ FILE(GLOB PROTO_SRC gen_proto/*.cc gen_proto/*.h)
 FILE(GLOB SESSION_SRC Session/*.h Session/*.hpp Session/*.cpp)
 
 set(BS_SRC 
-    WrappedMessageBuilder.hpp
+    WrappedMessage.hpp
     MessagePool.h
     Msg.def.h
     Msg.def.cpp
@@ -59,6 +59,7 @@ set(BS_SRC
     TimerListener.cpp
     AsyncUvw.hpp
     AsyncUvw.cpp
+
     ${PROTO_SRC}
     ${SESSION_SRC}
 )

@@ -11,6 +11,13 @@ enum ServerType{
 }
 
 
+message Hello
+{
+    ServerType servertype = 1;  // 
+    string name = 2;
+}
+
+
 message Ping{
     int64 t1 = 1;
 }

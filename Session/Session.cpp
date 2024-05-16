@@ -24,6 +24,11 @@ namespace uvw {
         close();
 	}
 
+    int64_t Session::id()
+    {
+        return d->id();
+    }
+
 	bool Session::connect(std::string uri)
 	{
 		d->connect(uri);

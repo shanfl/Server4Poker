@@ -57,6 +57,8 @@ namespace uvw
 		~Session();
 
 	public:
+        int64_t id();
+
         // uri: tcp://127.0.0.1:2222  or  ws://127.0.0.1:2222
 		bool connect(std::string uri);
 		void close();

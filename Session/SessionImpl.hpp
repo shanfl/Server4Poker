@@ -6,7 +6,7 @@
 #include <string.h>
 #include "SessionDef.h"
 #include "url.hpp"
-
+#include "IdMaker.h"
 
 class Session;
 namespace uvw {
@@ -185,7 +185,9 @@ namespace uvw {
 		SessionImpl(Session* session, std::shared_ptr<uvw::loop> loop);
 		SessionImpl(Session* session, std::shared_ptr<uvw::loop> loop, std::shared_ptr<uvw::tcp_handle>& tcphandle);
 
-		~SessionImpl();
+        ~SessionImpl();
+
+        void id();
 
 		void read();
 		void send(std::string data);
@@ -233,6 +235,8 @@ namespace uvw {
 		Url mUri;
 
         std::function<std::string(std::string& data,bool &err)> mTcpDataUnpack;
+
+        int64_t mId = 0;
 	};
 
 }  // namespace
