@@ -1,6 +1,7 @@
 syntax = "proto3";
 option optimize_for = LITE_RUNTIME;
-package Base;
+package Pb.Base;
+
 
 enum ServerType{
     ST_NONE = 0;
@@ -13,9 +14,9 @@ enum ServerType{
 enum MSG_ID 
 {
     ID_0 = 0;
-    ID_HELLO    = 1;
-    ID_PING     = 2;
-    ID_PONG     = 3;
+    ID_HELLO        = 1;
+    ID_PING         = 2;
+    ID_PONG         = 3;
 }
 
 

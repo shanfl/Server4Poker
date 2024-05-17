@@ -1,6 +1,14 @@
 syntax = "proto3";
 option optimize_for = LITE_RUNTIME;
-package PokerGame;
+package Pb.Client;
+
+enum MsgId
+{
+    id0 = 0;
+    ID_PlayerLoginReq       = 1000;
+    ID_PlayerLoginRes       = 1001;
+}
+
 
 enum OS_PLATFORM
 {
@@ -32,7 +40,7 @@ message PlayerLoginRes
     string key          = 1;
     uint64 playerid     = 2;
     string name         = 3;
-    int sex             = 4;    
+    int32 sex             = 4;    
 }
 
 

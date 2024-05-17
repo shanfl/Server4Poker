@@ -8,7 +8,7 @@
 #include "Session/Session.hpp"
 #include "WrappedMessage.hpp"
 #include "toml/toml.h"
-#include "gen_proto/BaseMsg.pb.h"
+#include "gen_proto/Base.pb.h"
 
 namespace Base {
 
@@ -45,9 +45,9 @@ Message* createMessageBy(MessageID msgid)
 */
 
 #define ROOT_GEN_MESSAGE_MAP(XX) \
-    XX(Base, ID_HELLO,Hello,On,1)      \
-    XX(Base, ID_PING,Ping,On,0)         \
-    XX(Base, ID_PONG,Pong,On,1)
+    XX(Pb::Base, ID_HELLO,Hello,On,1)      \
+    XX(Pb::Base, ID_PING,Ping,On,0)         \
+    XX(Pb::Base, ID_PONG,Pong,On,1)
 
 
 
@@ -61,10 +61,7 @@ Message* createMessageBy(MessageID msgid)
     }
 
 
-class Thread;
 
-// kinds of server
-constexpr size_t MAX_SERVE_TYPE_CNT = 40;
 
 /*
  *
@@ -76,25 +73,32 @@ constexpr size_t MAX_SERVE_TYPE_CNT = 40;
 
 #if 0
 #define BEGIN_TABLE(CLS) \
-    typedef int (CLS::* cls_fn)(std::shared_ptr<uvw::Session>,Message&); \
+    typedef void (CLS::* cls_fn)(std::shared_ptr<uvw::Session>,Message&); \
+    using msg_fn = (CLS::*)(std::shared_ptr<uvw::Session>,Message&) \
+    using mk_proto_fn = std::function<std::shared_ptr<ProtoMsg>(int id)>; \
     struct msg_call_t \
     {                   \
         int id;         \
-        cls_fn fn;      \
-    };
-
-std::vector<
-
+        msg_fn fn;      \
+        mk_proto_fn mkfn;   \
+    } ;
 
 #define MSG_DEF(ID,CLS,FN)
 #endif
 
 
+
+// kinds of server
+
+
+class Thread;
 class ServerBase : public TimerAlloc
 {
     friend class Thread;
     friend class TimerAlloc;
 private:
+    constexpr static size_t MAX_SERVE_TYPE_CNT = 40;
+
     std::string mAppPath;
     std::string mTomlCfg;
     std::string mLogFile;
@@ -114,6 +118,7 @@ private:
 private:
     std::vector<std::shared_ptr<Thread>> mThreads;
     int mIdxLastSet = -1;
+    int next_thd_idx();
 public:
     ServerBase();
 public:
@@ -148,14 +153,12 @@ protected:
     virtual bool init_serve(const toml::Value& root);
     virtual bool post_init(const toml::Value& root);
 
-    std::shared_ptr<ProtoMsg> create_msg_by_id(uint32_t msgid);
+    virtual void on_session_close(std::shared_ptr<uvw::Session> session){}
 
     virtual void on_raw_msg(std::shared_ptr<uvw::Session> session,std::string data);
 
     // 分配到哪个线程
-    virtual int calc_thd_idx(WrappedMessage &msg);
-
-    void dispatch_work(WrappedMessage &msg);
+    virtual int calc_thd_idx(std::shared_ptr<uvw::Session> session,Message&msg);
 
     void dispatch_th_work(int idx,WrappedMessage &msg);
 
@@ -164,14 +167,29 @@ protected:
     ROOT_GEN_MESSAGE_MAP(XX)
 #undef XX
     ROOT_MSG_FUNCTION_END()
+
 public:
-#define XX(ns,id,cls,prefix,ifCt)  \
-    void prefix##_##cls(std::shared_ptr<uvw::Session> session, Message&msg);
+    // declare memfn as on_hello on_ping ...
+#define XX(ns,id,cls,prefix,ifCt) void prefix##_##cls(std::shared_ptr<uvw::Session> session, Message&msg);
 
     ROOT_GEN_MESSAGE_MAP(XX)
 #undef XX
 
 
+    // create_msg_by_id
+    std::shared_ptr<ProtoMsg> create_msg_by_id(uint32_t msgid){
+        std::shared_ptr<ProtoMsg> ret;
+        switch(msgid){
+#define XX(ns,id,cls,prefix,ifCt)  case ns::id: ret = std::make_shared<ns::cls>(ns::cls::default_instance());break;
+        ROOT_GEN_MESSAGE_MAP(XX)
+#undef XX
+        default:
+            break;
+        }
+        return ret;
+    }
+
+#undef ROOT_GEN_MESSAGE_MAP
 };
 
 } //namespace Base
