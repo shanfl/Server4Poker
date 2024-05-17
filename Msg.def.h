@@ -19,11 +19,12 @@ using ProtoMsg = google::protobuf::MessageLite;
 
 namespace Base{
 
+static const std::string flags = "%$%^@aa@";
 
 #pragma pack(1)
-    struct MsgHeader
+    struct MsgRawHeader
     {
-        char flags[8]               = {'%','$','%','^'};
+        char flags[8]               = {'%','$','%','^','@','a','a','@'};
         int8_t cm                   = 0;
         uint32_t msg_id             = 0;
         uint32_t msg_len            = 0;
@@ -31,16 +32,25 @@ namespace Base{
     };
 #pragma pack()
 
+constexpr static int HEADER_LEN = sizeof(MsgRawHeader);
+
+struct MsgHeader:public MsgRawHeader
+{
+    std::string cookie;
+};
 
 class Message
 {   
 
 public:
-    static Message Decode(std::string data);
+    static std::string fast_split(std::string& data,bool &err);
+    static bool Decode(std::string&data,MsgHeader&hdr,std::string&body);
+    static Message Decode(std::shared_ptr<ProtoMsg> ptr,std::string msgwith_hdeader,bool &err);
+
+
     static std::string Encode(uint32_t msg_id,std::string str,int cm = 0,std::string cookie = "");
-
     std::string Encode(std::string data);
-
+    bool Parser(std::string &data);
     //std::dynamic_pointer_cast
     template<typename T>
     std::shared_ptr<T> GetProtoMsg();

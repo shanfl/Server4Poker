@@ -74,6 +74,22 @@ constexpr size_t MAX_SERVE_TYPE_CNT = 40;
  *
  */
 
+#if 0
+#define BEGIN_TABLE(CLS) \
+    typedef int (CLS::* cls_fn)(std::shared_ptr<uvw::Session>,Message&); \
+    struct msg_call_t \
+    {                   \
+        int id;         \
+        cls_fn fn;      \
+    };
+
+std::vector<
+
+
+#define MSG_DEF(ID,CLS,FN)
+#endif
+
+
 class ServerBase : public TimerAlloc
 {
     friend class Thread;
@@ -134,7 +150,7 @@ protected:
 
     std::shared_ptr<ProtoMsg> create_msg_by_id(uint32_t msgid);
 
-    virtual void on_raw_msg(std::shared_ptr<uvw::Session> session,std::string &data);
+    virtual void on_raw_msg(std::shared_ptr<uvw::Session> session,std::string data);
 
     // 分配到哪个线程
     virtual int calc_thd_idx(WrappedMessage &msg);

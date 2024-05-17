@@ -74,6 +74,8 @@ set(BS_SRC
     OptionParser.cpp
     toml/toml.h
     toml/TomlHelper.h
+    miniz/miniz.c
+    miniz/miniz.h
     ${PROTO_SRC}
     ${SESSION_SRC}
 )

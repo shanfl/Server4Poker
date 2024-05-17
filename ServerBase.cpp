@@ -174,14 +174,33 @@ namespace Base {
     bool ServerBase::listen(std::string ip,int port)
     {
         std::clog << "======> listenat:" << ip << ":" << port << std::endl;
+
+        mTcpHander->on<uvw::listen_event>([this](const uvw::listen_event&, uvw::tcp_handle& srv) {
+            std::shared_ptr<uvw::tcp_handle> client = srv.parent().resource<uvw::tcp_handle>();
+
+            std::shared_ptr<uvw::Session> clientSession = srv.parent().resource<uvw::Session>(client);
+            clientSession->set_tcpmsg_spliter(Message::fast_split);
+            this->mSessionUndefined[clientSession->id()] = clientSession;
+            clientSession->on<uvw::on_msg_event>([clientSession,this](const uvw::on_msg_event& ev, const auto& hdl) {
+                //std::clog << "msg:" << ev.data << ",opcode:" << ev.opcode << "\n";
+                //clientSession->send(ev.data);
+                this->on_raw_msg(clientSession,ev.data);
+                });
+        });
+
+
         mTcpHander->bind(ip, 4242);
         return mTcpHander->listen() == 0;
     }
 
-   void ServerBase::on_raw_msg(std::shared_ptr<uvw::Session>session, std::string &data){
+   void ServerBase::on_raw_msg(std::shared_ptr<uvw::Session>session, std::string data){
         Message msg = Message::Decode(data);
         msg.SetProtoPtr(create_msg_by_id(msg.MsgId()));
-        //TODO: parser
+        bool ret = msg.Parser(data);
+        if(!ret){
+            session->close();
+            return;
+        }
 
         WrappedMessage wmsg;
         wmsg.set(session,msg);

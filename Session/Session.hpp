@@ -79,6 +79,7 @@ namespace uvw
         // split raw tcpstream
         // need to be implemented by user
         void set_tcpmsg_spliter(std::function<std::string(std::string& data,bool &err)> f);
+
 	private:
 		std::shared_ptr<SessionImpl> d;
 	};
