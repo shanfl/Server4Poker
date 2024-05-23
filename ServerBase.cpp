@@ -236,10 +236,29 @@ namespace Base {
 
      void ServerBase::dispatch_th_work(int idx,WrappedMessage &msg)
      {
-         if(idx < 0){
-             mThreads[next_thd_idx()]->push(msg);
-         }else{
-             mThreads[idx%mThreads.size()]->push(msg);
+         if(mThreads.size()){
+             if(idx < 0){
+                 mThreads[next_thd_idx()]->push(msg);
+             }else{
+                 mThreads[idx%mThreads.size()]->push(msg);
+             }
+
+             return;
+         }
+
+         // 主循环做了 copy from Thread
+         switch (msg.mType) {
+             case WrappedMessage::WrappedMessageType::TIMER_TICK:
+             {
+                 std::shared_ptr<TimerAlloc> ptr =  msg.mTimerTick->first.lock();
+                 if(ptr)
+                     ptr->on_timer_tick(msg.mTimerTick->second.id,msg.mTimerTick->second.delay,msg.mTimerTick->second.interval);
+             }
+             break;
+             case WrappedMessage::WrappedMessageType::SESSION_MSG:
+             {
+                 this->on_msg(msg.mSessionMsg->first,msg.mSessionMsg->second);
+             }
          }
      }
 

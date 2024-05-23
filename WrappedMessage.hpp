@@ -11,6 +11,7 @@ namespace Base {
     class WrappedMessage
     {
         friend class Thread;
+        friend class ServerBase;
     public:
         enum class WrappedMessageType
         {

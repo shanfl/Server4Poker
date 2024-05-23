@@ -10,10 +10,14 @@ cnt = -1
 
 
 [[nats]]
-host=""
-pubs = []
+host="127.0.0.1"
+port=4222
+pubs = [""]
 
 [[nats]]
+host="127.0.0.1"
+port=4222
+pubs = [""]
 
 
 [[dbs]]
