@@ -73,14 +73,3 @@ public:
     std::string mCookie;
 };
 } // namespace Base
-
-
-
-
-
-
-
-
-
-
-
