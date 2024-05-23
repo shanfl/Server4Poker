@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.22)
 project(BaseServer)
 
+set(BUILD_SHARED_LIBS 0)
 
 set(LIBUV_VERSION 1.47.0)
 function(fetch_libuv)
@@ -46,14 +47,26 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(protobuf)
 
+
+#FetchContent_Declare(
+#    cjson
+#    GIT_REPOSITORY https://github.com/DaveGamble/cJSON.git
+#    GIT_TAG "v1.7.18"
+#    GIT_SHALLOW 1
+#)
+#FetchContent_MakeAvailable(cjson)
+
 include_directories(./uvw-3.3.0_libuv_v1.47/src)
 include_directories(./3rd/protobuf3/include)
 include_directories(${libuv_SOURCE_DIR}/include/)
-
+include_directories(${cjson_SOURCE_DIR})
+include_directories(./)
 
 FILE(GLOB PROTO_SRC gen_proto/*.cc gen_proto/*.h)
 
 FILE(GLOB SESSION_SRC Session/*.h Session/*.hpp Session/*.cpp)
+
+
 
 set(BS_SRC 
     WrappedMessage.hpp
@@ -76,6 +89,11 @@ set(BS_SRC
     toml/TomlHelper.h
     miniz/miniz.c
     miniz/miniz.h
+    snowflake.hpp
+    nats_client/natsclient.hpp
+    nats_client/natsclient.cpp
+    cJSON.h
+    cJSON.c
     ${PROTO_SRC}
     ${SESSION_SRC}
 )
