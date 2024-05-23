@@ -32,7 +32,9 @@ namespace Base
                 mVecs.clear();
                 mVecs.shrink_to_fit();
             }
+            return ret;
         }
+        
         bool get(T&msg)
         {
             std::lock_guard<std::mutex> lk(mMutex);
