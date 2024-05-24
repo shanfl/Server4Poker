@@ -394,27 +394,27 @@ namespace uvw {
 
         mTcpHanle->on<connect_event>([this](const auto&e,const auto&h){
             std::clog << "connected\n";
-            setState(CONNECTED);
+            setState(uvw::NatsState::CONNECTED);
             mTcpHanle->read();
         });
 
         mTcpHanle->on<error_event>([this](const error_event&e,const auto&h){
-            std::clog << "error_event:" << e.what() << ",state:" << getState() <<  std::endl;
-            if(getState() == CONNECTING){
-                setState(CLOSED);
+            std::clog << "error_event:" << e.what() << ",state:" << (int)getState() <<  std::endl;
+            if(getState() == uvw::NatsState::CONNECTING){
+                setState(uvw::NatsState::CLOSED);
                 _reconnect_delay(2000);
             }
         });
 
         mTcpHanle->on<close_event>([this](const auto&e,const auto&h){
             std::clog << "close_event\n";
-            setState(CLOSED);
+            setState(uvw::NatsState::CLOSED);
             if(this->mKeepConnect){
                 _reconnect_delay(2000);
             }
         });
 
-        setState(CONNECTING);
+        setState(uvw::NatsState::CONNECTING);
         return mTcpHanle->connect(host,port);
     }
 

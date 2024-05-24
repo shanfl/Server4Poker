@@ -87,6 +87,17 @@ Message* createMessageBy(MessageID msgid)
 #define MSG_DEF(ID,CLS,FN)
 #endif
 
+template<class T>
+struct MsgDef
+{
+    ProtoMsg* instanc = nullptr;
+    void(T::*fn)(std::shared_ptr<uvw::Session>,Message&);
+
+};
+
+
+#define Def_MSG_MAP(THIS_CLASS)
+
 
 
 // kinds of server
@@ -103,8 +114,12 @@ private:
     std::string mAppPath;
     std::string mTomlCfg;
     std::string mLogFile;
-    std::string mNameServer;
-    int         mTypeServer = 0;
+    std::string mName;
+    int         mType   = 0;
+    int         mIndex  = 0;
+
+private:
+    std::map<std::string,std::shared_ptr<uvw::nats_client>> mNatsClients;
 private:
     // session
     std::unordered_map<int64_t,std::shared_ptr<uvw::Session>> mSessionUndefined;
@@ -124,15 +139,17 @@ public:
     ServerBase();
 public:
     std::string app_path() {return this->mAppPath;}
+    std::string app_name();
+    int app_type();
+    int app_index();
 
     virtual bool init(int argc,char*argv[]);
 
     // ======================== timer ========================
     virtual void on_timer_tick(int id,int delay,int interval) override;
 
-    int  thd_idx_timer() override {
-        return -1;  // mainloop
-    }
+    int thd_idx_timer() override;
+
     //TODO:
     bool add_fs(std::string path);
     bool rem_fs(std::string path);
@@ -160,8 +177,13 @@ protected:
 
     virtual void on_raw_msg(std::shared_ptr<uvw::Session> session,std::string data);
 
+    // recv nats's info
+    virtual void on_nats_info(std::shared_ptr<uvw::nats_client> client,uvw::info_data data) {}
+    virtual void on_nats_raw_sub(std::shared_ptr<uvw::nats_client> client,std::string sub,std::string msg,std::string reply_to);
+
     // 分配到哪个线程
-    virtual int calc_thd_idx(std::shared_ptr<uvw::Session> session,Message&msg);
+    virtual int calc_session_thd_idx(std::shared_ptr<uvw::Session> session,Message&msg);
+    virtual int calc_nats_thd_idx(std::shared_ptr<uvw::nats_client> cli,int32_t msgid,std::shared_ptr<ProtoMsg> msg);
 
     void dispatch_th_work(int idx,WrappedMessage &msg);
 

@@ -1,17 +1,11 @@
 # Prerequisites
 *.d
-[Bb]uild/
-[Bb]uild*/
-*.autosave
-*.autosave*
-.vscode/
+
 # Compiled Object files
 *.slo
 *.lo
 *.o
 *.obj
-
-.cache/
 
 # Precompiled Headers
 *.gch
@@ -36,4 +30,7 @@
 *.exe
 *.out
 *.app
-CMakeLists.txt.*
+
+# Libraries
+bench/hayai/
+bench/text/
