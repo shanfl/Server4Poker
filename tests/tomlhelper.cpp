@@ -25,7 +25,7 @@ int main()
 #endif
 
         //
-        v = TomlHelper::ArrayGet(pr.value,"nats",i,"subs",std::vector<std::string>());
+        std::vector<std::string> v = TomlHelper::ArrayGet(pr.value,"nats",i,"subs",std::vector<std::string>());
         for(int i = 0;i < v.size();i++){
             std::clog << v[i] << std::endl;
         }
