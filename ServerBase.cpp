@@ -181,6 +181,7 @@ namespace Base {
             if(host.length() && port > 0){
                 mNatsClients[name]->connect(host,port,true);
                 mNatsClients[name]->set_pre_subs(subs);
+                client->set_name(name);
             }
 
             mNatsClients[name]->on<uvw::info_event_nats>([this,client](auto&e,auto&h){
@@ -297,6 +298,11 @@ namespace Base {
                  this->on_msg(msg.mSessionMsg->first,msg.mSessionMsg->second);
              }
          }
+     }
+
+     void ServerBase::on_nats_raw_sub(std::shared_ptr<uvw::nats_client> client,std::string sub,std::string msg,std::string reply_to)
+     {
+
      }
 
 } //namespace Base

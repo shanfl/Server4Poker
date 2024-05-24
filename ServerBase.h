@@ -165,9 +165,10 @@ protected:
 
     virtual void on_raw_msg(std::shared_ptr<uvw::Session> session,std::string data);
 
+    // recv nats's info
     virtual void on_nats_info(std::shared_ptr<uvw::nats_client> client,uvw::info_data data) {}
 
-    virtual void on_nats_raw_sub(std::shared_ptr<uvw::nats_client> client,std::string sub,std::string msg,std::string reply_to){}
+    virtual void on_nats_raw_sub(std::shared_ptr<uvw::nats_client> client,std::string sub,std::string msg,std::string reply_to);
 
     // 分配到哪个线程
     virtual int calc_thd_idx(std::shared_ptr<uvw::Session> session,Message&msg);

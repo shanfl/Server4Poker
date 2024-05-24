@@ -56,7 +56,7 @@ FetchContent_MakeAvailable(protobuf)
 #)
 #FetchContent_MakeAvailable(cjson)
 
-include_directories(./uvw-3.3.0_libuv_v1.47/src)
+include_directories(./3rd/uvw-3.3.0_libuv_v1.47/src)
 include_directories(./3rd/protobuf3/include)
 include_directories(${libuv_SOURCE_DIR}/include/)
 include_directories(${cjson_SOURCE_DIR})
