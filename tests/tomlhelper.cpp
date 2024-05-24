@@ -17,10 +17,12 @@ int main()
         std::string name = TomlHelper::ArrayGet(pr.value,"nats",i,"name",std::to_string(i));
         std::clog << "name:" << name << std::endl;
 
+#if 0
         std::vector<std::string> v = TomlHelper::ArrayGetVec(pr.value,"nats",i,"subs",std::vector<std::string>());
         for(int i = 0;i < v.size();i++){
             std::clog << v[i] << std::endl;
         }
+#endif
 
         //
         v = TomlHelper::ArrayGet(pr.value,"nats",i,"subs",std::vector<std::string>());
