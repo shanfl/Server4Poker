@@ -5,6 +5,7 @@
 #include "google/protobuf/descriptor.h"
 #include <google/protobuf/descriptor_database.h>
 #include "toml/TomlHelper.h"
+#include "3rd/string-utils/string_utils.h"
 
 #if 0
 static std::unordered_map<uint32_t, const google::protobuf::Descriptor*> g_registry;
@@ -75,6 +76,10 @@ namespace Base {
         return mIndex;
     }
 
+    int  ServerBase::thd_idx_timer() {
+        return -1;  // mainloop
+    }
+
     void ServerBase::on_timer_tick(int id,int delay,int interval){
         std::clog << __FUNCTION__ << " id:" << id <<",delay:" << delay << ",interval:" << interval << std::endl;
     }
@@ -122,9 +127,9 @@ namespace Base {
             return false;
         }
 
-        this->mName = TomlHelper::TGet(pr.value,"","name","unknown");
-        this->mType = TomlHelper::TGet(pr.value,"","type",0);
-        this->mIndex = TomlHelper::TGet(pr.value,"","index",0);
+        this->mName = TomlHelper::TGet<std::string>(pr.value,"","name","unknown");
+        this->mType = TomlHelper::TGet<int>(pr.value,"","type",0);
+        this->mIndex = TomlHelper::TGet<int>(pr.value,"","index",0);
 
         bool r1 = init_thd(pr.value);
         bool r2 = init_db(pr.value);
@@ -261,14 +266,19 @@ namespace Base {
             return;
         }
 
-        int idx = calc_thd_idx(session,msg);
+        int idx = calc_session_thd_idx(session,msg);
 
         WrappedMessage wmsg;
         wmsg.set(session,msg);
         this->dispatch_th_work(idx,wmsg);
     }
 
-    int ServerBase::calc_thd_idx(std::shared_ptr<uvw::Session> session,Message&msg){
+    int ServerBase::calc_session_thd_idx(std::shared_ptr<uvw::Session> session,Message&msg){
+        return -1;
+    }
+
+    int calc_nats_thd_idx(std::shared_ptr<uvw::nats_client> cli,int32_t msgid,std::shared_ptr<ProtoMsg> msg)
+    {
         return -1;
     }
 
@@ -302,7 +312,22 @@ namespace Base {
 
      void ServerBase::on_nats_raw_sub(std::shared_ptr<uvw::nats_client> client,std::string sub,std::string msg,std::string reply_to)
      {
+         std::vector<std::string> v = nonstd::string_utils::split_copy(sub,".");
+         int sub_size = v.size();
+         if(sub_size >= 4 && v[2] == "id"){
+             uint64_t id = std::atoll(v[3].c_str());
+             if(id == 0){
+                 std::clog << "nats.sub:" << sub << " getid error!" << std::endl;
+                 return;
+             }
+             auto protomsg = create_msg_by_id(id);
+             bool suc = protomsg->ParseFromString(msg);
+             int index = calc_nats_thd_idx(client,id,protomsg);
 
+             WrappedMessage wmsg;
+             wmsg.set(client,sub,reply_to,id,protomsg);
+             this->dispatch_th_work(index,wmsg);
+         }
      }
 
 } //namespace Base

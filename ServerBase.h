@@ -137,9 +137,8 @@ public:
     // ======================== timer ========================
     virtual void on_timer_tick(int id,int delay,int interval) override;
 
-    int  thd_idx_timer() override {
-        return -1;  // mainloop
-    }
+    int thd_idx_timer() override;
+
     //TODO:
     bool add_fs(std::string path);
     bool rem_fs(std::string path);
@@ -151,6 +150,7 @@ public:
     void stop();
 
     std::shared_ptr<uvw::loop> loop() {return mLoop;}
+
 protected:
 
     //TODO:
@@ -167,11 +167,11 @@ protected:
 
     // recv nats's info
     virtual void on_nats_info(std::shared_ptr<uvw::nats_client> client,uvw::info_data data) {}
-
     virtual void on_nats_raw_sub(std::shared_ptr<uvw::nats_client> client,std::string sub,std::string msg,std::string reply_to);
 
     // 分配到哪个线程
-    virtual int calc_thd_idx(std::shared_ptr<uvw::Session> session,Message&msg);
+    virtual int calc_session_thd_idx(std::shared_ptr<uvw::Session> session,Message&msg);
+    virtual int calc_nats_thd_idx(std::shared_ptr<uvw::nats_client> cli,int32_t msgid,std::shared_ptr<ProtoMsg> msg);
 
     void dispatch_th_work(int idx,WrappedMessage &msg);
 
