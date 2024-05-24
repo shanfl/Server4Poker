@@ -38,7 +38,7 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(libfmt)
 
-
+set(protobuf_BUILD_TESTS 0)
 FetchContent_Declare(
     protobuf
     GIT_REPOSITORY https://github.com/protocolbuffers/protobuf.git

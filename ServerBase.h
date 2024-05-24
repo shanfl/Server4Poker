@@ -9,6 +9,7 @@
 #include "WrappedMessage.hpp"
 #include "toml/toml.h"
 #include "gen_proto/Base.pb.h"
+#include "nats_client/natsclient.hpp"
 
 namespace Base {
 
@@ -143,6 +144,8 @@ public:
     void stop();
 
     std::shared_ptr<uvw::loop> loop() {return mLoop;}
+
+    virtual void on_nats_pub(std::shared_ptr<uvw::nats_client> client,std::string subject,std::string msg,std::string replyto);
 protected:
 
     //TODO:

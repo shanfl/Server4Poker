@@ -1,5 +1,5 @@
-name="gate"
-type=1
+server_type="gate"
+server_no = 1
 
 [server]
 ip="0.0.0.0"
@@ -15,9 +15,10 @@ port=4222
 pubs = [""]
 
 [[nats]]
+name="nats_client"
 host="127.0.0.1"
 port=4222
-pubs = [""]
+pubs = ["gate.idx1.id.*"]
 
 
 [[dbs]]
