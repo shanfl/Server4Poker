@@ -9,6 +9,7 @@
 #include "WrappedMessage.hpp"
 #include "toml/toml.h"
 #include "gen_proto/Base.pb.h"
+#include "nats_client/natsclient.hpp"
 
 namespace Base {
 
@@ -102,8 +103,12 @@ private:
     std::string mAppPath;
     std::string mTomlCfg;
     std::string mLogFile;
-    std::string mNameServer;
-    int         mTypeServer = 0;
+    std::string mName;
+    int         mType   = 0;
+    int         mIndex  = 0;
+
+private:
+    std::map<std::string,std::shared_ptr<uvw::nats_client>> mNatsClients;
 private:
     // session
     std::unordered_map<int64_t,std::shared_ptr<uvw::Session>> mSessionUndefined;
@@ -123,6 +128,9 @@ public:
     ServerBase();
 public:
     std::string app_path() {return this->mAppPath;}
+    std::string app_name();
+    int app_type();
+    int app_index();
 
     virtual bool init(int argc,char*argv[]);
 
@@ -156,6 +164,10 @@ protected:
     virtual void on_session_close(std::shared_ptr<uvw::Session> session){}
 
     virtual void on_raw_msg(std::shared_ptr<uvw::Session> session,std::string data);
+
+    virtual void on_nats_info(std::shared_ptr<uvw::nats_client> client,uvw::info_data data) {}
+
+    virtual void on_nats_raw_sub(std::shared_ptr<uvw::nats_client> client,std::string sub,std::string msg,std::string reply_to){}
 
     // 分配到哪个线程
     virtual int calc_thd_idx(std::shared_ptr<uvw::Session> session,Message&msg);

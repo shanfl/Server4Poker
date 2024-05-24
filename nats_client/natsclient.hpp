@@ -109,7 +109,7 @@ namespace uvw
     using NATS_CALLBACK     = std::function<void(std::shared_ptr<nats_client> client,std::string subject,std::string payload,std::string reply_to)>;
 
 
-    enum NatsState
+    enum class NatsState
     {
         NONE,
         CONNECTING,
@@ -178,8 +178,17 @@ namespace uvw
     class nats_client:public uvw::resource<uvw::nats_client,natsclient_t,
                                              info_event_nats,msg_event_nats,ping_event_nats,pong_event_nats,ok_event_nats,error_event_nats>
     {
+    private:
+        std::string mName;
+        std::vector<std::string> mPreSubs;
     public:
         nats_client(uvw::loop::token token, std::shared_ptr<uvw::loop> parent,int centerid,int mathineid);
+
+        void set_name(std::string &name) { mName = name;}
+        std::string name(){return mName;}
+
+        std::vector<std::string> get_pre_subs(){return mPreSubs;}
+        void set_pre_subs(std::vector<std::string> &presubs){this->mPreSubs = presubs;}
 
         void connect(std::string host,int port,bool keep = true);
         void disconnect();

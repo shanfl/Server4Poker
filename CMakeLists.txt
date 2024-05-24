@@ -102,3 +102,4 @@ add_library(BaseServer STATIC ${BS_SRC})
 
 
 add_subdirectory(demos)
+add_subdirectory(tests)

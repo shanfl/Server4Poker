@@ -1,6 +1,8 @@
 # Prerequisites
 *.d
 [Bb]uild/
+[Bb]uild*/
+*.autosave
 .vscode/
 # Compiled Object files
 *.slo

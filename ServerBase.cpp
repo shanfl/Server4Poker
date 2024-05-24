@@ -59,6 +59,22 @@ namespace Base {
         mTcpHander = mLoop->resource<uvw::tcp_handle>();
     }
 
+
+    std::string ServerBase::app_name()
+    {
+        return mName;
+    }
+
+    int ServerBase::app_type()
+    {
+        return mType;
+    }
+
+    int ServerBase::app_index()
+    {
+        return mIndex;
+    }
+
     void ServerBase::on_timer_tick(int id,int delay,int interval){
         std::clog << __FUNCTION__ << " id:" << id <<",delay:" << delay << ",interval:" << interval << std::endl;
     }
@@ -106,6 +122,10 @@ namespace Base {
             return false;
         }
 
+        this->mName = TomlHelper::TGet(pr.value,"","name","unknown");
+        this->mType = TomlHelper::TGet(pr.value,"","type",0);
+        this->mIndex = TomlHelper::TGet(pr.value,"","index",0);
+
         bool r1 = init_thd(pr.value);
         bool r2 = init_db(pr.value);
         bool r3 = init_module(pr.value);
@@ -133,10 +153,8 @@ namespace Base {
     {
         int ntd = std::thread::hardware_concurrency();
         int cnt_thread = TomlHelper::TGet<int>(root,"thread","cnt",ntd);
-        if(cnt_thread == -1 || cnt_thread > ntd)
+        if(cnt_thread < 0 || cnt_thread > ntd)
             cnt_thread = ntd;
-        if(cnt_thread == 0)
-            cnt_thread= 1;
 
         for(int i = 0;i < cnt_thread;i++)
             mThreads.emplace_back(std::make_shared<Thread>(this,i));
@@ -151,6 +169,25 @@ namespace Base {
 
     bool ServerBase::init_nats(const toml::Value& root)
     {
+        int n = TomlHelper::ArrayGetCnt(root,"nats");
+        for(int i = 0;i < n;i++){
+            std::string name = TomlHelper::ArrayGet<std::string>(root,"nats",i,"name",std::to_string(i));
+            name += "." + std::to_string(i);
+            std::string host = TomlHelper::ArrayGet<std::string>(root,"nats",i,"host","");
+            int port =  TomlHelper::ArrayGet<int>(root,"nats",i,"port",0);
+            std::vector<std::string> subs = TomlHelper::ArrayGet<std::vector<std::string>>(root,"nats",i,"subs");
+            mNatsClients[name] = mLoop->resource<uvw::nats_client>(this->app_type(),this->app_index());
+            std::shared_ptr<uvw::nats_client> client = mNatsClients[name];
+            if(host.length() && port > 0){
+                mNatsClients[name]->connect(host,port,true);
+                mNatsClients[name]->set_pre_subs(subs);
+            }
+
+            mNatsClients[name]->on<uvw::info_event_nats>([this,client](auto&e,auto&h){
+                this->on_nats_info(client,e.data);
+            });
+            mNatsClients[name]->set_sub_callback(std::bind(&ServerBase::on_nats_raw_sub,this,std::placeholders::_1,std::placeholders::_2,std::placeholders::_3,std::placeholders::_4));
+        }
         return true;
     }
 
