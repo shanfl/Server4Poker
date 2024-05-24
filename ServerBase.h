@@ -87,6 +87,17 @@ Message* createMessageBy(MessageID msgid)
 #define MSG_DEF(ID,CLS,FN)
 #endif
 
+template<class T>
+struct MsgDef
+{
+    ProtoMsg* instanc = nullptr;
+    void(T::*fn)(std::shared_ptr<uvw::Session>,Message&);
+
+};
+
+
+#define Def_MSG_MAP(THIS_CLASS)
+
 
 
 // kinds of server
