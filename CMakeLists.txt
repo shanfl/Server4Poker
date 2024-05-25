@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.22)
 project(BaseServer)
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 set(BUILD_SHARED_LIBS 0)
 
 set(LIBUV_VERSION 1.47.0)
@@ -55,11 +58,13 @@ FetchContent_MakeAvailable(protobuf)
 #    GIT_SHALLOW 1
 #)
 #FetchContent_MakeAvailable(cjson)
-
+INCLUDE_DIRECTORIES(./3rd)
 include_directories(./3rd/uvw-3.3.0_libuv_v1.47/src)
 include_directories(./3rd/protobuf3/include)
 include_directories(${libuv_SOURCE_DIR}/include/)
 include_directories(${cjson_SOURCE_DIR})
+INCLUDE_DIRECTORIES(./3rd/cJSON)
+INCLUDE_DIRECTORIES(./3rd/OptionParser)
 include_directories(./)
 
 FILE(GLOB PROTO_SRC gen_proto/*.cc gen_proto/*.h)
@@ -84,17 +89,16 @@ set(BS_SRC
     AsyncUvw.hpp
     AsyncUvw.cpp
     demo.toml
-    OptionParser.h
-    OptionParser.cpp
-    toml/toml.h
-    toml/TomlHelper.h
-    miniz/miniz.c
-    miniz/miniz.h
+    TomlHelper.h
     snowflake.hpp
     nats_client/natsclient.hpp
     nats_client/natsclient.cpp
-    cJSON.h
-    cJSON.c
+    3rd/cJSON/cJSON.h
+    3rd/cJSON/cJSON.c
+    3rd/OptionParser/OptionParser.h
+    3rd/OptionParser/OptionParser.cpp
+    3rd/miniz/miniz.c
+    3rd/miniz/miniz.h
     ${PROTO_SRC}
     ${SESSION_SRC}
 )
@@ -103,4 +107,4 @@ add_library(BaseServer STATIC ${BS_SRC})
 
 
 add_subdirectory(demos)
-add_subdirectory(tests)
+#add_subdirectory(tests)

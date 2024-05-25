@@ -3,14 +3,6 @@ option optimize_for = LITE_RUNTIME;
 package Pb.Base;
 
 
-enum ServerType{
-    ST_NONE = 0;
-    ST_CLIENT = 1;
-    ST_GATE = 2;
-    ST_GAME = 3;
-
-}
-
 enum MSG_ID 
 {
     ID_0 = 0;
@@ -22,7 +14,7 @@ enum MSG_ID
 
 message Hello
 {
-    ServerType servertype = 1;  // 
+    int32 servertype = 1;  // 
     string name = 2;
 }
 

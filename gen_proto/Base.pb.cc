@@ -65,7 +65,7 @@ inline constexpr Hello::Impl_::Impl_(
       : name_(
             &::google::protobuf::internal::fixed_address_empty_string,
             ::_pbi::ConstantInitialized()),
-        servertype_{static_cast< ::Pb::Base::ServerType >(0)},
+        servertype_{0},
         _cached_size_{0} {}
 
 template <typename>
@@ -85,59 +85,6 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
 }  // namespace Pb
 namespace Pb {
 namespace Base {
-PROTOBUF_CONSTINIT const uint32_t ServerType_internal_data_[] = {
-    262144u, 0u, };
-bool ServerType_IsValid(int value) {
-  return 0 <= value && value <= 3;
-}
-static ::google::protobuf::internal::ExplicitlyConstructed<std::string>
-    ServerType_strings[4] = {};
-
-static const char ServerType_names[] = {
-    "ST_CLIENT"
-    "ST_GAME"
-    "ST_GATE"
-    "ST_NONE"
-};
-
-static const ::google::protobuf::internal::EnumEntry ServerType_entries[] =
-    {
-        {{&ServerType_names[0], 9}, 1},
-        {{&ServerType_names[9], 7}, 3},
-        {{&ServerType_names[16], 7}, 2},
-        {{&ServerType_names[23], 7}, 0},
-};
-
-static const int ServerType_entries_by_number[] = {
-    3,  // 0 -> ST_NONE
-    0,  // 1 -> ST_CLIENT
-    2,  // 2 -> ST_GATE
-    1,  // 3 -> ST_GAME
-};
-
-const std::string& ServerType_Name(ServerType value) {
-  static const bool kDummy =
-      ::google::protobuf::internal::InitializeEnumStrings(
-          ServerType_entries, ServerType_entries_by_number,
-          4, ServerType_strings);
-  (void)kDummy;
-
-  int idx = ::google::protobuf::internal::LookUpEnumName(
-      ServerType_entries, ServerType_entries_by_number, 4,
-      value);
-  return idx == -1 ? ::google::protobuf::internal::GetEmptyString()
-                   : ServerType_strings[idx].get();
-}
-
-bool ServerType_Parse(absl::string_view name, ServerType* value) {
-  int int_value;
-  bool success = ::google::protobuf::internal::LookUpEnumValue(
-      ServerType_entries, 4, name, &int_value);
-  if (success) {
-    *value = static_cast<ServerType>(int_value);
-  }
-  return success;
-}
 PROTOBUF_CONSTINIT const uint32_t MSG_ID_internal_data_[] = {
     262144u, 0u, };
 bool MSG_ID_IsValid(int value) {
@@ -300,15 +247,15 @@ const ::_pbi::TcParseTable<1, 2, 0, 26, 2> Hello::_table_ = {
     // string name = 2;
     {::_pbi::TcParser::FastUS1,
      {18, 63, 0, PROTOBUF_FIELD_OFFSET(Hello, _impl_.name_)}},
-    // .Pb.Base.ServerType servertype = 1;
+    // int32 servertype = 1;
     {::_pbi::TcParser::FastV32S1,
      {8, 63, 0, PROTOBUF_FIELD_OFFSET(Hello, _impl_.servertype_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // .Pb.Base.ServerType servertype = 1;
+    // int32 servertype = 1;
     {PROTOBUF_FIELD_OFFSET(Hello, _impl_.servertype_), 0, 0,
-    (0 | ::_fl::kFcSingular | ::_fl::kOpenEnum)},
+    (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
     // string name = 2;
     {PROTOBUF_FIELD_OFFSET(Hello, _impl_.name_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kUtf8String | ::_fl::kRepAString)},
@@ -328,11 +275,11 @@ const ::_pbi::TcParseTable<1, 2, 0, 26, 2> Hello::_table_ = {
   ::uint32_t cached_has_bits = 0;
   (void)cached_has_bits;
 
-  // .Pb.Base.ServerType servertype = 1;
+  // int32 servertype = 1;
   if (this->_internal_servertype() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteEnumToArray(
-        1, this->_internal_servertype(), target);
+    target = ::google::protobuf::internal::WireFormatLite::
+        WriteInt32ToArrayWithField<1>(
+            stream, this->_internal_servertype(), target);
   }
 
   // string name = 2;
@@ -366,10 +313,10 @@ const ::_pbi::TcParseTable<1, 2, 0, 26, 2> Hello::_table_ = {
                                     this->_internal_name());
   }
 
-  // .Pb.Base.ServerType servertype = 1;
+  // int32 servertype = 1;
   if (this->_internal_servertype() != 0) {
-    total_size += 1 +
-                  ::_pbi::WireFormatLite::EnumSize(this->_internal_servertype());
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
+        this->_internal_servertype());
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -418,7 +365,7 @@ void Hello::InternalSwap(Hello* PROTOBUF_RESTRICT other) {
   ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.name_, &other->_impl_.name_, arena);
-  swap(_impl_.servertype_, other->_impl_.servertype_);
+        swap(_impl_.servertype_, other->_impl_.servertype_);
 }
 
 // ===================================================================
