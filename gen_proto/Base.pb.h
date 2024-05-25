@@ -66,31 +66,6 @@ namespace protobuf {
 
 namespace Pb {
 namespace Base {
-enum ServerType : int {
-  ST_NONE = 0,
-  ST_CLIENT = 1,
-  ST_GATE = 2,
-  ST_GAME = 3,
-  ServerType_INT_MIN_SENTINEL_DO_NOT_USE_ =
-      std::numeric_limits<::int32_t>::min(),
-  ServerType_INT_MAX_SENTINEL_DO_NOT_USE_ =
-      std::numeric_limits<::int32_t>::max(),
-};
-
-bool ServerType_IsValid(int value);
-extern const uint32_t ServerType_internal_data_[];
-constexpr ServerType ServerType_MIN = static_cast<ServerType>(0);
-constexpr ServerType ServerType_MAX = static_cast<ServerType>(3);
-constexpr int ServerType_ARRAYSIZE = 3 + 1;
-const std::string& ServerType_Name(ServerType value);
-template <typename T>
-const std::string& ServerType_Name(T value) {
-  static_assert(std::is_same<T, ServerType>::value ||
-                    std::is_integral<T>::value,
-                "Incorrect type passed to ServerType_Name().");
-  return ServerType_Name(static_cast<ServerType>(value));
-}
-bool ServerType_Parse(absl::string_view name, ServerType* value);
 enum MSG_ID : int {
   ID_0 = 0,
   ID_HELLO = 1,
@@ -561,14 +536,14 @@ class Hello final : public ::google::protobuf::MessageLite
   std::string* _internal_mutable_name();
 
   public:
-  // .Pb.Base.ServerType servertype = 1;
+  // int32 servertype = 1;
   void clear_servertype() ;
-  ::Pb::Base::ServerType servertype() const;
-  void set_servertype(::Pb::Base::ServerType value);
+  ::int32_t servertype() const;
+  void set_servertype(::int32_t value);
 
   private:
-  ::Pb::Base::ServerType _internal_servertype() const;
-  void _internal_set_servertype(::Pb::Base::ServerType value);
+  ::int32_t _internal_servertype() const;
+  void _internal_set_servertype(::int32_t value);
 
   public:
   // @@protoc_insertion_point(class_scope:Pb.Base.Hello)
@@ -593,7 +568,7 @@ class Hello final : public ::google::protobuf::MessageLite
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from);
     ::google::protobuf::internal::ArenaStringPtr name_;
-    int servertype_;
+    ::int32_t servertype_;
     mutable ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -617,24 +592,24 @@ class Hello final : public ::google::protobuf::MessageLite
 
 // Hello
 
-// .Pb.Base.ServerType servertype = 1;
+// int32 servertype = 1;
 inline void Hello::clear_servertype() {
   PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   _impl_.servertype_ = 0;
 }
-inline ::Pb::Base::ServerType Hello::servertype() const {
+inline ::int32_t Hello::servertype() const {
   // @@protoc_insertion_point(field_get:Pb.Base.Hello.servertype)
   return _internal_servertype();
 }
-inline void Hello::set_servertype(::Pb::Base::ServerType value) {
+inline void Hello::set_servertype(::int32_t value) {
   _internal_set_servertype(value);
   // @@protoc_insertion_point(field_set:Pb.Base.Hello.servertype)
 }
-inline ::Pb::Base::ServerType Hello::_internal_servertype() const {
+inline ::int32_t Hello::_internal_servertype() const {
   PROTOBUF_TSAN_READ(&_impl_._tsan_detect_race);
-  return static_cast<::Pb::Base::ServerType>(_impl_.servertype_);
+  return _impl_.servertype_;
 }
-inline void Hello::_internal_set_servertype(::Pb::Base::ServerType value) {
+inline void Hello::_internal_set_servertype(::int32_t value) {
   PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   _impl_.servertype_ = value;
 }
@@ -775,8 +750,6 @@ inline void Pong::_internal_set_t2(::int64_t value) {
 namespace google {
 namespace protobuf {
 
-template <>
-struct is_proto_enum<::Pb::Base::ServerType> : std::true_type {};
 template <>
 struct is_proto_enum<::Pb::Base::MSG_ID> : std::true_type {};
 

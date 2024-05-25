@@ -5,7 +5,7 @@
 #include "OptionParser.h"
 #include "google/protobuf/descriptor.h"
 #include <google/protobuf/descriptor_database.h>
-#include "toml/TomlHelper.h"
+#include "TomlHelper.h"
 #include "3rd/string-utils/string_utils.h"
 
 #if 0

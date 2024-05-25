@@ -1,5 +1,5 @@
 #pragma once
-#include "toml.h"
+#include "tinytoml/toml.h"
 namespace TomlHelper
 {
 	template<class T>
