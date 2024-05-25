@@ -315,7 +315,7 @@ namespace Base {
         return -1;
     }
 
-    int calc_nats_thd_idx(std::shared_ptr<uvw::nats_client> cli,int32_t msgid,std::shared_ptr<ProtoMsg> msg)
+    int ServerBase::calc_nats_thd_idx(std::shared_ptr<uvw::nats_client> cli,int32_t msgid,std::shared_ptr<ProtoMsg> msg)
     {
         return -1;
     }
@@ -346,6 +346,9 @@ namespace Base {
                  //this->on_msg(msg.mSessionMsg->first,msg.mSessionMsg->second);
                  std::get<2>(*msg.mSessionMsg)(std::get<0>(*msg.mSessionMsg),std::get<1>(*msg.mSessionMsg));
              }
+             case WrappedMessage::WrappedMessageType::NATS_MSG:
+                break;
+
              default:
                  break;
          }
