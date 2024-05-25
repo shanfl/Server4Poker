@@ -1,4 +1,5 @@
 #include "ServerBase.h"
+#include "WrappedMessage.hpp"
 #include <filesystem>
 #include "Thread.hpp"
 #include "OptionParser.h"
@@ -246,7 +247,8 @@ namespace Base {
         mIdxLastSet = (mIdxLastSet++)%mThreads.size();
         return mIdxLastSet;
     }
-
+    
+#if 0
     void ServerBase::on_raw_msg(std::shared_ptr<uvw::Session>session, std::string data)
     {
         Message msg;
@@ -272,6 +274,42 @@ namespace Base {
         wmsg.set(session,msg);
         this->dispatch_th_work(idx,wmsg);
     }
+#endif
+
+    void ServerBase::on_raw_msg(std::shared_ptr<uvw::Session>session, std::string data)
+    {
+        Message msg;
+        std::string body;
+        bool suc = Message::Decode(data,msg.mHeader,body);
+        if(!suc){
+            std::clog << __FUNCTION__ << ",Message::Decode ERROR\n";
+            session->close();
+            return;
+        }
+
+        if(mBindMsgs.find(msg.MsgId()) == mBindMsgs.end())
+        {
+            std::clog << __FUNCTION__ << " ID:" << msg.MsgId() << " not find handler\n";
+            return;
+        }
+
+        std::shared_ptr<ProtoMsg> ptr = std::shared_ptr<ProtoMsg>(mBindMsgs[msg.MsgId()].msg_default_instance->New());
+        msg.SetProtoPtr(ptr);
+
+        bool ret = msg.parser(data);
+        if(!ret){
+            std::clog << __FUNCTION__ << ",Message.parser ERROR\n";
+            session->close();
+            return;
+        }
+
+        int idx = calc_session_thd_idx(session,msg);
+
+        WrappedMessage wmsg;
+        wmsg.set(session,msg,mBindMsgs[msg.MsgId()].fn_session);
+        this->dispatch_th_work(idx,wmsg);
+    }
+    
 
     int ServerBase::calc_session_thd_idx(std::shared_ptr<uvw::Session> session,Message&msg){
         return -1;
@@ -305,8 +343,11 @@ namespace Base {
              break;
              case WrappedMessage::WrappedMessageType::SESSION_MSG:
              {
-                 this->on_msg(msg.mSessionMsg->first,msg.mSessionMsg->second);
+                 //this->on_msg(msg.mSessionMsg->first,msg.mSessionMsg->second);
+                 std::get<2>(*msg.mSessionMsg)(std::get<0>(*msg.mSessionMsg),std::get<1>(*msg.mSessionMsg));
              }
+             default:
+                 break;
          }
      }
 
@@ -315,12 +356,20 @@ namespace Base {
          std::vector<std::string> v = nonstd::string_utils::split_copy(sub,".");
          int sub_size = v.size();
          if(sub_size >= 4 && v[2] == "id"){
-             uint64_t id = std::atoll(v[3].c_str());
+             int32_t id = std::atoll(v[3].c_str());
              if(id == 0){
                  std::clog << "nats.sub:" << sub << " getid error!" << std::endl;
                  return;
              }
-             auto protomsg = create_msg_by_id(id);
+
+             if(mBindMsgs.find(id) == mBindMsgs.end())
+             {
+                 std::clog << __FUNCTION__ << " ID:" << id << " not find handler\n";
+                 return;
+             }
+
+             std::shared_ptr<ProtoMsg> protomsg = std::shared_ptr<ProtoMsg>(mBindMsgs[id].msg_default_instance->New());
+
              bool suc = protomsg->ParseFromString(msg);
              int index = calc_nats_thd_idx(client,id,protomsg);
 

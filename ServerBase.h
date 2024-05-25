@@ -2,66 +2,48 @@
 #include <string>
 #include <iostream>
 #include "Msg.def.h"
+#include "WrappedMessage.hpp"
 #include "uvw.hpp"
 #include "TimerListener.hpp"
 #include <unordered_map>
 #include "Session/Session.hpp"
-#include "WrappedMessage.hpp"
 #include "toml/toml.h"
 #include "gen_proto/Base.pb.h"
 #include "nats_client/natsclient.hpp"
-
 namespace Base {
 
-#define ROOT_MSG_FUNCTION_BEGIN()          \
-virtual void on_msg(std::shared_ptr<uvw::Session> session, Message &x){      \
-    switch(x.MsgId()){                 
-
-
-#define ROOT_MSG_FUNCTION_END() \
-        default:    \
-            std::cout << "not handled" << std::endl; break;   \
-    }   \
-    }
-
-/*
-
-
-#define GEN_MESSAGE_MAP(XX) \
-	XX(MSG_LOGIN_REQUEST, LoginReq) \
-	XX(MSG_LOGIN_REPLY, LoginAck) 
-
-
-Message* createMessageBy(MessageID msgid)
+struct MSG_BIND_ITEM
 {
-    // 这个switch/case经过宏展开以后跟上面的switch/case其实是一样的
-    switch (msgid)
-    {
-#define XX(msgid, msgname) case msgid: return new msgname;
-        GEN_MESSAGE_MAP(XX)
-#undef XX
-    };
-    return nullptr;
-}
-*/
-
-#define ROOT_GEN_MESSAGE_MAP(XX) \
-    XX(Pb::Base, ID_HELLO,Hello,On,1)      \
-    XX(Pb::Base, ID_PING,Ping,On,0)         \
-    XX(Pb::Base, ID_PONG,Pong,On,1)
-
-
-
-#define MSG_FUNCTION_BEGIN(SUPERCLASS) \
-    virtual void on_msg(std::shared_ptr<uvw::Session> session, Message &x) override {      \
-    switch(x.MsgId()){   
-
-#define MSG_FUNCTION_END(SUPERCLASS) \
-        default:    \
-            SUPERCLASS::on_msg(session,x)    \
+    MSG_BIND_ITEM(const ProtoMsg* msginstance,SESSION_FN fn):msg_default_instance(msginstance){
+        fn_session = fn;
     }
 
+    MSG_BIND_ITEM(){}
 
+    const ProtoMsg*  msg_default_instance = nullptr;
+    SESSION_FN fn_session = nullptr;
+    //NATS_FN    fn_nats = nullptr;
+};
+
+#define BEGIN_MSG_MAP_ROOT(THIS_CLASS) \
+    using this_class = THIS_CLASS;  \
+    virtual void init_pb()  {
+
+#define BIND_MSG(PBNAMESPACE,ID,MSG_CLASS) \
+    mBindMsgs[PBNAMESPACE::ID] = MSG_BIND_ITEM(                         \
+        PBNAMESPACE::MSG_CLASS::internal_default_instance(),            \
+        std::bind(&this_class::on_msg_##MSG_CLASS,this,std::placeholders::_1,std::placeholders::_2) \
+    );
+
+#define END_MSG_MAP_ROOT() }
+
+
+#define BEGIN_MSG_MAP(THIS_CLASS,SUPER_CLASS) \
+using this_class = THIS_CLASS;  \
+    virtual void init_pb()  { SUPER_CLASS::init_pb();
+
+
+#define END_MSG_MAP() }
 
 
 /*
@@ -72,33 +54,6 @@ Message* createMessageBy(MessageID msgid)
  *
  */
 
-#if 0
-#define BEGIN_TABLE(CLS) \
-    typedef void (CLS::* cls_fn)(std::shared_ptr<uvw::Session>,Message&); \
-    using msg_fn = (CLS::*)(std::shared_ptr<uvw::Session>,Message&) \
-    using mk_proto_fn = std::function<std::shared_ptr<ProtoMsg>(int id)>; \
-    struct msg_call_t \
-    {                   \
-        int id;         \
-        msg_fn fn;      \
-        mk_proto_fn mkfn;   \
-    } ;
-
-#define MSG_DEF(ID,CLS,FN)
-#endif
-
-template<class T>
-struct MsgDef
-{
-    ProtoMsg* instanc = nullptr;
-    void(T::*fn)(std::shared_ptr<uvw::Session>,Message&);
-
-};
-
-
-#define Def_MSG_MAP(THIS_CLASS)
-
-
 
 // kinds of server
 
@@ -108,6 +63,18 @@ class ServerBase : public TimerAlloc
 {
     friend class Thread;
     friend class TimerAlloc;
+public:
+
+    BEGIN_MSG_MAP_ROOT(ServerBase)
+    BIND_MSG(Pb::Base,ID_HELLO,Hello)
+    END_MSG_MAP_ROOT()
+
+    //
+    void on_msg_Hello(SessionPtr session,Message&msg){}
+
+
+public:
+    std::unordered_map<int32_t,MSG_BIND_ITEM> mBindMsgs;
 private:
     constexpr static size_t MAX_SERVE_TYPE_CNT = 40;
 
@@ -126,7 +93,7 @@ private:
     std::unordered_map<int64_t,std::shared_ptr<uvw::Session>> mSessions[MAX_SERVE_TYPE_CNT];
     std::mutex mSessionsMutex;
 
-    // undef -> sessions
+    // undefined -> defined sessions
     void def_session_type(std::shared_ptr<uvw::Session> session,int stype);
 private:
     std::shared_ptr<uvw::loop> mLoop;
@@ -174,9 +141,7 @@ protected:
     virtual bool post_init(const toml::Value& root);
 
     virtual void on_session_close(std::shared_ptr<uvw::Session> session){}
-
     virtual void on_raw_msg(std::shared_ptr<uvw::Session> session,std::string data);
-
     // recv nats's info
     virtual void on_nats_info(std::shared_ptr<uvw::nats_client> client,uvw::info_data data) {}
     virtual void on_nats_raw_sub(std::shared_ptr<uvw::nats_client> client,std::string sub,std::string msg,std::string reply_to);
@@ -184,37 +149,7 @@ protected:
     // 分配到哪个线程
     virtual int calc_session_thd_idx(std::shared_ptr<uvw::Session> session,Message&msg);
     virtual int calc_nats_thd_idx(std::shared_ptr<uvw::nats_client> cli,int32_t msgid,std::shared_ptr<ProtoMsg> msg);
-
     void dispatch_th_work(int idx,WrappedMessage &msg);
-
-    ROOT_MSG_FUNCTION_BEGIN()
-#define XX(ns,id,cls,prefix,ifCt)   case ns::id: this->prefix##_##cls(session,x);break;
-    ROOT_GEN_MESSAGE_MAP(XX)
-#undef XX
-    ROOT_MSG_FUNCTION_END()
-
-public:
-    // declare memfn as on_hello on_ping ...
-#define XX(ns,id,cls,prefix,ifCt) void prefix##_##cls(std::shared_ptr<uvw::Session> session, Message&msg);
-
-    ROOT_GEN_MESSAGE_MAP(XX)
-#undef XX
-
-
-    // create_msg_by_id
-    std::shared_ptr<ProtoMsg> create_msg_by_id(uint32_t msgid){
-        std::shared_ptr<ProtoMsg> ret;
-        switch(msgid){
-#define XX(ns,id,cls,prefix,ifCt)  case ns::id: ret = std::make_shared<ns::cls>(ns::cls::default_instance());break;
-        ROOT_GEN_MESSAGE_MAP(XX)
-#undef XX
-        default:
-            break;
-        }
-        return ret;
-    }
-
-#undef ROOT_GEN_MESSAGE_MAP
 };
 
 } //namespace Base

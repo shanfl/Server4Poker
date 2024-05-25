@@ -50,9 +50,7 @@ namespace Base{
                 break;
                 case WrappedMessage::WrappedMessageType::SESSION_MSG:
                 {
-                    // TODO:
-                    //mServerPtr->on_
-                    mServerPtr->on_msg(msg.mSessionMsg->first,msg.mSessionMsg->second);
+                    std::get<2>(*msg.mSessionMsg)(std::get<0>(*msg.mSessionMsg),std::get<1>(*msg.mSessionMsg));
                 }
             }
         }

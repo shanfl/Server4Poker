@@ -9,6 +9,12 @@ namespace uvw {
 }
 
 namespace Base {
+    using SessionPtr        = std::shared_ptr<uvw::Session>;
+    using NatsClinetPtr     = std::shared_ptr<uvw::nats_client>;
+
+    using SESSION_FN = std::function<void(SessionPtr ptr,Message &msg)>;
+    using NATS_FN = std::function<void(NatsClinetPtr ptr,Message &msg)>;
+
     class WrappedMessage
     {
         friend class Thread;
@@ -31,7 +37,7 @@ namespace Base {
         };
 
         using TimerTickPair = std::pair<std::weak_ptr<TimerAlloc>,TimerAlloc::TimeItem>;
-        using SessionMsgPair = std::pair< std::shared_ptr<uvw::Session>,Message> ;
+        using SessionMsgPair = std::tuple< std::shared_ptr<uvw::Session>,Message,SESSION_FN> ;
         using NatsMsgPair = std::tuple<std::shared_ptr<uvw::nats_client>,NatsMsg>;
 
     public:
@@ -41,8 +47,8 @@ namespace Base {
             return *this;
         }
 
-        WrappedMessage&set(std::shared_ptr<uvw::Session> session,Message &msg){
-            mSessionMsg = std::make_shared<SessionMsgPair>(std::make_pair(session,msg));
+        WrappedMessage&set(std::shared_ptr<uvw::Session> session,Message &msg,SESSION_FN fn){
+            mSessionMsg = std::make_shared<SessionMsgPair>(std::make_tuple(session,msg,fn));
             mType = WrappedMessageType::SESSION_MSG;
             return *this;
         }
