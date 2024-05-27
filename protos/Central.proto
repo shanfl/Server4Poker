@@ -1,0 +1,25 @@
+syntax = "proto3";
+option optimize_for = LITE_RUNTIME;
+
+package Pb.Central;
+
+enum MsgID
+{
+    MsgID_Central_0 = 0;
+
+    ID_RegisterToCentral            = 3000,
+    ID_CentralHeartBeat             = 3001,
+}
+
+message RegisterToCentral
+{
+    string  servername = 1;
+    int32_t servertype =2;
+    int32_t serverindex = 3;
+}
+
+
+message CentralHeartBeat
+{
+    repeated RegisterToCentral = 1;
+}

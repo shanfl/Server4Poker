@@ -1,7 +1,4 @@
-project(gateserver)
-include_directories(../)
-set(src gateserver.h gateserver.cpp)
+project(DEMOS)
 
-add_executable(gateserver ${src})
-
-target_link_libraries(gateserver BaseServer uv::uv-static protobuf::libprotobuf-lite)
+add_subdirectory(gate)
+add_subdirectory(central)

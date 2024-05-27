@@ -93,6 +93,8 @@ set(BS_SRC
     snowflake.hpp
     nats_client/natsclient.hpp
     nats_client/natsclient.cpp
+    CommonDef.h
+    CommonDef.cpp
     3rd/cJSON/cJSON.h
     3rd/cJSON/cJSON.c
     3rd/OptionParser/OptionParser.h
