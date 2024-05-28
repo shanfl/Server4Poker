@@ -314,6 +314,10 @@ namespace Base {
 	int ServerBase::calc_session_thd_idx(std::shared_ptr<uvw::Session> session, Message& msg) {
 		return -1;
 	}
+    int ServerBase::calc_nats_thd_idx(std::shared_ptr<uvw::nats_client> cli,int32_t msgid,std::shared_ptr<ProtoMsg> msg)
+    {
+        return -1;
+    }
 
 	int ServerBase::calc_nats_thd_idx(std::shared_ptr<uvw::nats_client> cli, int32_t msgid, std::shared_ptr<ProtoMsg> msg)
 	{

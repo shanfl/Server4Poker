@@ -12,10 +12,10 @@ cnt = -1
 
 
 [[nats]]
-name="nats1"
+name="system"
 host="127.0.0.1"
 port=4222
-subs = ["all.all.id.*","gate.1.id.*"]
+subs = ["all.all.id.*","gate.1.system.id.*"]
 
 
 [[dbs]]
