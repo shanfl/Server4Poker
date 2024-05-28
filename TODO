@@ -1,0 +1,5 @@
+1. 实现2个函数
+-- nat_pub(natclient,subject,id, ProtoMsg)
+-- nat_reqreply(natclient,subject,id,ProtoMsg,callback,timeout);
+
+

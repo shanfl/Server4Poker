@@ -319,11 +319,6 @@ namespace Base {
         return -1;
     }
 
-	int ServerBase::calc_nats_thd_idx(std::shared_ptr<uvw::nats_client> cli, int32_t msgid, std::shared_ptr<ProtoMsg> msg)
-	{
-		return -1;
-	}
-
 	void ServerBase::dispatch_th_work(int idx, WrappedMessage& msg)
 	{
 		if (mThreads.size()) {
