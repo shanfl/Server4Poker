@@ -10,6 +10,8 @@
 #include "tinytoml/toml.h"
 #include "gen_proto/Base.pb.h"
 #include "nats_client/natsclient.hpp"
+#include <set>
+#include <shared_mutex>
 namespace Base {
 
 	struct MSG_BIND_ITEM
@@ -166,6 +168,14 @@ using this_class = THIS_CLASS;  \
 		virtual int calc_session_thd_idx(std::shared_ptr<uvw::Session> session, Message& msg);
 		virtual int calc_nats_thd_idx(std::shared_ptr<uvw::nats_client> cli, int32_t msgid, std::shared_ptr<ProtoMsg> msg);
 		void dispatch_th_work(int idx, WrappedMessage& msg);
+
+    protected:
+        void add_timer_alloc(TimerAlloc* ta);
+        void rem_timer_alloc(TimerAlloc* ta);
+        virtual void on_ta_timer_tick(TimerAlloc*ac, int id, int delay, int interval);
+    private:
+        std::set<TimerAlloc*> mTimerAllocs;
+        std::shared_mutex mMutexTimerAllocs;          // shared_mutex
 	};
 
 } //namespace Base

@@ -248,34 +248,6 @@ namespace Base {
 		return mIdxLastSet;
 	}
 
-#if 0
-	void ServerBase::on_raw_msg(std::shared_ptr<uvw::Session>session, std::string data)
-	{
-		Message msg;
-		std::string body;
-		bool suc = Message::Decode(data, msg.mHeader, body);
-		if (!suc) {
-			std::clog << __FUNCTION__ << ",Message::Decode ERROR\n";
-			session->close();
-			return;
-		}
-
-		msg.SetProtoPtr(create_msg_by_id(msg.MsgId()));
-		bool ret = msg.parser(data);
-		if (!ret) {
-			std::clog << __FUNCTION__ << ",Message.parser ERROR\n";
-			session->close();
-			return;
-		}
-
-		int idx = calc_session_thd_idx(session, msg);
-
-		WrappedMessage wmsg;
-		wmsg.set(session, msg);
-		this->dispatch_th_work(idx, wmsg);
-	}
-#endif
-
 	void ServerBase::on_raw_msg(std::shared_ptr<uvw::Session>session, std::string data)
 	{
 		Message msg;
@@ -336,9 +308,8 @@ namespace Base {
 		switch (msg.mType) {
 		case WrappedMessage::WrappedMessageType::TIMER_TICK:
 		{
-			std::shared_ptr<TimerAlloc> ptr = msg.mTimerTick->first.lock();
-			if (ptr)
-				ptr->on_timer_tick(msg.mTimerTick->second.id, msg.mTimerTick->second.delay, msg.mTimerTick->second.interval);
+            TimerAlloc* ptr = msg.mTimerTick->first;
+            this->on_ta_timer_tick(ptr,msg.mTimerTick->second.id, msg.mTimerTick->second.delay, msg.mTimerTick->second.interval);
 		}
 		break;
 		case WrappedMessage::WrappedMessageType::SESSION_MSG:
@@ -407,7 +378,33 @@ namespace Base {
             std::clog << "nat sub:" << subject << ",msgid:"<< id << ", handler not found!\n";
         }      
         
-	}
+    }
+
+    void ServerBase::add_timer_alloc(TimerAlloc* ta)
+    {
+        std::lock_guard lk(mMutexTimerAllocs);
+        mTimerAllocs.emplace(ta);
+    }
+
+    void ServerBase::rem_timer_alloc(TimerAlloc* ta)
+    {
+        std::lock_guard lk(mMutexTimerAllocs);
+        auto it = mTimerAllocs.find(ta);
+        if(it != mTimerAllocs.end())
+            mTimerAllocs.erase(it);
+
+        // TODO: CHECK WHY
+        //auto noSpaceEnd = std::remove(mTimerAllocs.begin(), mTimerAllocs.end(),ta);
+        //mTimerAllocs.erase(noSpaceEnd,mTimerAllocs.end());
+    }
+
+    void ServerBase::on_ta_timer_tick(TimerAlloc*ac, int id, int delay, int interval)
+    {
+        std::shared_lock lk(mMutexTimerAllocs);
+        if(mTimerAllocs.find(ac)!= mTimerAllocs.end()){
+            ac->on_timer_tick(id,delay,interval);
+        }
+    }
 
 } //namespace Base
 

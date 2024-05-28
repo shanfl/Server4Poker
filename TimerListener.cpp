@@ -3,6 +3,7 @@
 namespace Base {
     TimerAlloc::TimerAlloc(ServerBase*serverbase):mServerPtr(serverbase),mAsync(serverbase)
     {
+        serverbase->add_timer_alloc(this);
         mAsync.set_do_fn([this](){
             std::lock_guard<std::mutex> lk(mMutexTimeOps);
 
@@ -21,6 +22,11 @@ namespace Base {
         });
     }
 
+    TimerAlloc::~TimerAlloc()
+    {
+        mServerPtr->rem_timer_alloc(this);
+    }
+
     void TimerAlloc::__timer_tick(int id,int delay,int interval)
     {
         int index = thd_idx_timer();
@@ -32,7 +38,7 @@ namespace Base {
             //mServerPtr->dispatch_work();
             Message msg;
             WrappedMessage w_msg;
-            w_msg.set(this->weak_from_this(),id,delay,interval);
+            w_msg.set(this,id,delay,interval);
             //
             mServerPtr->dispatch_th_work(index,w_msg);
         }

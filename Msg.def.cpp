@@ -163,7 +163,11 @@ namespace Base {
 		return mHeader.msg_id;
 	}
 
-
+    Message& Message::SetMsgId(uint32_t id)
+    {
+        mHeader.msg_id = id;
+        return *this;
+    }
 
 	Message& Message::SetNatsSubject(std::string &sub)
 	{

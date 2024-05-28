@@ -16,7 +16,7 @@ namespace Base {
 
     class ServerBase;
     // TODO: std::enable_shared_from_this<TimerAlloc> is wrong
-    class TimerAlloc : public virtual std::enable_shared_from_this<TimerAlloc>
+    class TimerAlloc
     {
     public:
         enum TimeOpe
@@ -52,6 +52,8 @@ namespace Base {
     public:
 
         TimerAlloc(ServerBase*serverbase);
+
+        ~TimerAlloc();
 
         int add_timer(int id,int delay,int interval)
         {

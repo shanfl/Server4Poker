@@ -42,10 +42,9 @@ namespace Base {
 
 			switch (msg.mType) {
 			case WrappedMessage::WrappedMessageType::TIMER_TICK:
-			{
-				std::shared_ptr<TimerAlloc> ptr = msg.mTimerTick->first.lock();
-				if (ptr)
-					ptr->on_timer_tick(msg.mTimerTick->second.id, msg.mTimerTick->second.delay, msg.mTimerTick->second.interval);
+            {
+                TimerAlloc* ptr = msg.mTimerTick->first;
+                this->mServerPtr->on_ta_timer_tick(ptr, msg.mTimerTick->second.id, msg.mTimerTick->second.delay, msg.mTimerTick->second.interval);
 			}
 			break;
 			case WrappedMessage::WrappedMessageType::SESSION_MSG:
