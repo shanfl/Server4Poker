@@ -63,13 +63,21 @@ namespace Base {
 		template<typename T>
 		std::shared_ptr<T> GetProtoMsg();
 
-		void SetProtoPtr(std::shared_ptr<ProtoMsg> ptr);
+		Message& SetProtoPtr(std::shared_ptr<ProtoMsg> ptr);
 
 		uint32_t MsgId();
+		Message& SetMsgId(uint32_t id);
+		Message& SetNatsSubject(std::string &sub);
+		Message& SetNatsReplyto(std::string &replyto);
+		std::string Subject_Nats();
+		std::string Replyto_Nats();
 	protected:
 		std::shared_ptr<ProtoMsg> proto_msg;
 	public:
 		MsgHeader mHeader;
 		std::string mCookie;
+	private:
+		std::string mNatsSubject;
+		std::string mNatsReplyto;
 	};
 } // namespace Base

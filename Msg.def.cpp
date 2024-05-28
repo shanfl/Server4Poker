@@ -154,12 +154,27 @@ namespace Base {
 		return std::dynamic_pointer_cast<T>(proto_msg);
 	};
 
-	void Message::SetProtoPtr(std::shared_ptr<ProtoMsg> ptr) {
+	Message& Message::SetProtoPtr(std::shared_ptr<ProtoMsg> ptr) {
 		proto_msg = ptr;
+		return *this;
 	}
 
 	uint32_t Message::MsgId() {
 		return mHeader.msg_id;
+	}
+
+
+
+	Message& Message::SetNatsSubject(std::string &sub)
+	{
+		this->mNatsSubject = sub;
+		return *this;
+	}
+
+	Message& Message::SetNatsReplyto(std::string &replyto)
+	{
+		this->mNatsReplyto = replyto;
+		return *this;
 	}
 
 } // namespace Base

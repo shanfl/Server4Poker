@@ -2,20 +2,20 @@
 
 namespace Base
 {
-    std::string CommDef::ServerType2Name(ServerType st)
+    std::string CommonDef::ServerType2Name(ServerType st)
     {
         switch (st)
         {
 
-        case Server_Central:
+        case ServerType::Server_Central:
             return "central";
-        case Server_Gate:
+        case ServerType::Server_Gate:
             return "gate";
-        case Server_PlanServer:
+        case ServerType::Server_PlanServer:
             return "plan";
-        case Server_Ddz:
+        case ServerType::Server_Ddz:
             return "ddz";
-        case Server_UnKnown:   
+        case ServerType::Server_UnKnown:   
         default:
             return "unknown";
             break;

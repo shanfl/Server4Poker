@@ -22,18 +22,27 @@ namespace Base {
 
 		const ProtoMsg* msg_default_instance = nullptr;
 		SESSION_FN fn_session = nullptr;
-		//NATS_FN    fn_nats = nullptr;
+		NATS_FN    fn_nats = nullptr;
 	};
 
 #define BEGIN_MSG_MAP_ROOT(THIS_CLASS) \
     using this_class = THIS_CLASS;  \
     virtual void init_pb()  {
 
-#define BIND_MSG(PBNAMESPACE,ID,MSG_CLASS) \
-    mBindMsgs[PBNAMESPACE::ID] = MSG_BIND_ITEM(                         \
-        PBNAMESPACE::MSG_CLASS::internal_default_instance(),            \
-        std::bind(&this_class::on_msg_##MSG_CLASS,this,std::placeholders::_1,std::placeholders::_2) \
-    );
+// #define BIND_MSG(PBNAMESPACE,ID,MSG_CLASS) \
+//     mBindMsgs[PBNAMESPACE::ID] = MSG_BIND_ITEM(                         \
+//         PBNAMESPACE::MSG_CLASS::internal_default_instance(),            \
+//         std::bind(&this_class::on_msg_##MSG_CLASS,this,std::placeholders::_1,std::placeholders::_2) \
+//     );
+
+#define BIND_SESSION_MSG(PBNAMESPACE,ID,MSG_CLASS) \
+    mBindMsgs[PBNAMESPACE::ID].msg_default_instance     = PBNAMESPACE::MSG_CLASS::internal_default_instance();                   \
+    mBindMsgs[PBNAMESPACE::ID].fn_session               = std::bind(&this_class::on_msg_##MSG_CLASS,this,std::placeholders::_1,std::placeholders::_2);
+
+
+#define BIND_NATS_MSG(PBNAMESPACE,ID,MSG_CLASS) \
+    mBindMsgs[PBNAMESPACE::ID].msg_default_instance     = PBNAMESPACE::MSG_CLASS::internal_default_instance();                   \
+    mBindMsgs[PBNAMESPACE::ID].fn_nats                  = std::bind(&this_class::on_natspub_##MSG_CLASS,this,std::placeholders::_1,std::placeholders::_2);
 
 #define END_MSG_MAP_ROOT() }
 
@@ -66,12 +75,13 @@ using this_class = THIS_CLASS;  \
 	public:
 
 		BEGIN_MSG_MAP_ROOT(ServerBase)
-		BIND_MSG(Pb::Base, ID_HELLO, Hello)
+		BIND_SESSION_MSG(Pb::Base, ID_HELLO, Hello)
 		END_MSG_MAP_ROOT()
 
 		//
 		void on_msg_Hello(SessionPtr session, Message& msg) {}
 
+        //void on_natspub_Hello(NatsClinetPtr natsc,Message&msg){}
 
 	public:
 		std::unordered_map<int32_t, MSG_BIND_ITEM> mBindMsgs;
@@ -134,6 +144,8 @@ using this_class = THIS_CLASS;  \
 			int32_t id,
 			std::shared_ptr<ProtoMsg> msg,
 			std::string replyto);
+
+        
 	protected:
 
 		//TODO:

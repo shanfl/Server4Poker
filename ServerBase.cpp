@@ -395,7 +395,18 @@ namespace Base {
 		std::shared_ptr<ProtoMsg> msg,
 		std::string replyto)
 	{
-		std::clog << __FUNCTION__ << ", need to be implemented by subclass" << std::endl;
+		//std::clog << __FUNCTION__ << ", need to be implemented by subclass" << std::endl;
+        Message msgst;
+        msgst.SetProtoPtr(msg).SetNatsSubject(subject).SetNatsReplyto(replyto);
+        msgst.SetMsgId(id);
+
+        if(mBindMsgs.find(id) != mBindMsgs.end() && mBindMsgs[id].fn_nats != nullptr){
+            mBindMsgs[id].fn_nats(client,msgst);
+        }
+        else{
+            std::clog << "nat sub:" << subject << ",msgid:"<< id << ", handler not found!\n";
+        }      
+        
 	}
 
 } //namespace Base
