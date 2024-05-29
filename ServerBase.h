@@ -66,7 +66,14 @@ using this_class = THIS_CLASS;  \
 	 */
 
 
-	 // kinds of server
+    enum class LogLevel : int8_t
+    {
+        debug,
+        info,
+        warn,
+        err,
+        critical,
+    };
 
 
 	class Thread;
@@ -147,7 +154,7 @@ using this_class = THIS_CLASS;  \
 			std::shared_ptr<ProtoMsg> msg,
 			std::string replyto);
 
-        
+        static void log(LogLevel ll,std::string &&str);
 	protected:
 
 		//TODO:

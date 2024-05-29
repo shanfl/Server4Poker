@@ -8,50 +8,13 @@
 #include "TomlHelper.h"
 #include "3rd/string-utils/string_utils.h"
 
-#if 0
-static std::unordered_map<uint32_t, const google::protobuf::Descriptor*> g_registry;
+#include "spdlog/spdlog.h"
+#include "spdlog/details/registry.h"
+#include "spdlog/sinks/daily_file_sink.h"
+#include "spdlog/sinks/stdout_color_sinks.h"
 
-void initProtoRegistryV2()
-{
-	using namespace google::protobuf;
-	const DescriptorPool* pool = DescriptorPool::generated_pool();
-	DescriptorDatabase* db = pool->internal_generated_database();
-	if (db == nullptr) {
-		return;
-	}
-	std::vector<std::string> file_names;
-	db->FindAllFileNames(&file_names);   // 遍历得到所有proto文件名
-	for (const std::string& filename : file_names)
-	{
-		const FileDescriptor* fileDescriptor = pool->FindFileByName(filename);
-		if (fileDescriptor == nullptr)
-		{
-			continue;
-		}
-		int msgcount = fileDescriptor->message_type_count();
-		for (int i = 0; i < msgcount; i++)
-		{
-			const Descriptor* descriptor = fileDescriptor->message_type(i);
-			if (descriptor != nullptr)
-			{
-				const std::string& name = descriptor->full_name();
-#if 0
-				if (startsWith(name, "protocol")) { // 指定命名空间
-					// 约定消息名称中：Req结尾代表请求， Ack结尾代表响应，Ntf结尾代表通知
-					// 则含有指定后缀的消息才会自动加入关联
-					if (hasSuffix(name)) {
-						auto opts = descriptor->options();
-						protocol::MessageID v = opts.GetExtension(protocol::MsgID);
-						registry[v] = descriptor;
-					}
-				}
-#endif
-			}
-		}
-	}
-}
-#endif
 
+static std::shared_ptr<spdlog::logger> g_Logger;
 
 namespace Base {
 
@@ -119,6 +82,24 @@ namespace Base {
 			return false;
 		}
 		std::clog << "cfg:" << mTomlCfg << ",log:" << mLogFile << "\n";
+
+        // --log init --
+        if(mLogFile.length() == 0) mLogFile = app_name()+ "_" + std::to_string(time(NULL)) + ".log";
+        auto pathf = std::filesystem::path(mLogFile);
+        if(pathf.is_relative())
+            mLogFile = app_path()+"/" + mLogFile;
+
+
+		std::vector<spdlog::sink_ptr> sinks;
+		sinks.push_back(std::make_shared<spdlog::sinks::stdout_color_sink_mt>());
+        sinks.push_back(std::make_shared<spdlog::sinks::daily_file_sink_mt>(mLogFile.c_str(), 23, 59));
+
+		g_Logger = std::make_shared<spdlog::logger>("C", begin(sinks), end(sinks));
+		spdlog::register_logger(g_Logger);
+
+		g_Logger->set_level(spdlog::level::trace);
+		g_Logger->info("=========================> start <========================= ");
+        // --log init --   end
 
 		std::string fullpath = app_path() + "/" + mTomlCfg;
 		std::ifstream ifs(fullpath);
@@ -403,6 +384,29 @@ namespace Base {
         std::shared_lock lk(mMutexTimerAllocs);
         if(mTimerAllocs.find(ac)!= mTimerAllocs.end()){
             ac->on_timer_tick(id,delay,interval);
+        }
+    }
+
+    void ServerBase::log(LogLevel ll,std::string &&str)
+    {
+        switch (ll) {
+        case LogLevel::debug:
+            g_Logger->debug(str);
+            break;
+        case LogLevel::info:
+            g_Logger->info(str);break;
+        case LogLevel::warn:
+            g_Logger->warn(str);
+            break;
+        case LogLevel::err:
+            g_Logger->error(str);
+            break;
+        case LogLevel::critical:
+            g_Logger->critical(str);
+            break;
+        default:
+            g_Logger->info(str);
+            break;
         }
     }
 

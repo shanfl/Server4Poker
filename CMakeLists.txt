@@ -77,7 +77,9 @@ include_directories(${libuv_SOURCE_DIR}/include/)
 include_directories(${cjson_SOURCE_DIR})
 INCLUDE_DIRECTORIES(./3rd/cJSON)
 INCLUDE_DIRECTORIES(./3rd/OptionParser)
+INCLUDE_DIRECTORIES(./3rd/spdlog-1.14.1/include)
 include_directories(./)
+
 
 FILE(GLOB PROTO_SRC gen_proto/*.cc gen_proto/*.h)
 
