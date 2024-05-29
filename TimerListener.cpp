@@ -1,12 +1,21 @@
 #include "TimerListener.hpp"
 #include "ServerBase.h"
 namespace Base {
-    TimerAlloc::TimerAlloc(ServerBase*serverbase):mServerPtr(serverbase),mAsync(serverbase)
+    TimerAlloc::TimerAlloc(ServerBase*serverbase):mServerPtr(serverbase)
     {
-        serverbase->add_timer_alloc(this);
+    }
+
+    TimerAlloc::~TimerAlloc()
+    {
+        mServerPtr->rem_timer_alloc(this);
+    }
+
+    void TimerAlloc::init()
+    {
+        mAsync.init(this->server_ptr());
+        mServerPtr->add_timer_alloc(this);
         mAsync.set_do_fn([this](){
             std::lock_guard<std::mutex> lk(mMutexTimeOps);
-
             for(auto&it:mTimeOps){
                 if(it.op == TimeOpe::add){
                     mTimers[it.id] = std::make_shared<UvwTimerLisenter>(this,it);
@@ -20,11 +29,6 @@ namespace Base {
             }
             mTimeOps.clear();
         });
-    }
-
-    TimerAlloc::~TimerAlloc()
-    {
-        mServerPtr->rem_timer_alloc(this);
     }
 
     void TimerAlloc::__timer_tick(int id,int delay,int interval)

@@ -52,8 +52,9 @@ namespace Base {
     public:
 
         TimerAlloc(ServerBase*serverbase);
-
         ~TimerAlloc();
+
+        void init();
 
         int add_timer(int id,int delay,int interval)
         {

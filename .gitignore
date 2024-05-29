@@ -4,6 +4,7 @@
 [Bb]uild*/
 *.autosave
 *.autosave*
+*.log
 .vscode/
 # Compiled Object files
 *.slo

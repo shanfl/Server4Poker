@@ -359,11 +359,17 @@ namespace uvw {
                         msg_data data = *std::dynamic_pointer_cast<msg_data>(it);
                         std::string sid = data.sid;
                         if(mReqestMap.find(sid) != mReqestMap.end()){
-                            mReqestMap[sid].cb(this->shared_from_this(),data.subject,data.payload,data.reply_to);
+                            mReqestMap[sid].cb(this->shared_from_this(),
+                            data.subject,
+                            data.payload,
+                            data.reply_to,false);
                             mReqestMap.erase(sid);
                         }else if(mSidSubjectsMap.find(sid) != mSidSubjectsMap.end()){
                             if(mSubjectCallback){
-                                mSubjectCallback(this->shared_from_this(),data.subject,data.payload,data.reply_to);
+                                mSubjectCallback(this->shared_from_this(),
+                                data.subject,
+                                data.payload,
+                                data.reply_to,false);
                             }
                         }else{
                             std::clog << data.subject << " not handle" <<std::endl;
@@ -526,7 +532,7 @@ namespace uvw {
         raw_send(a);
     }
 
-    void nats_client::request_reply(std::string subject,std::string msg,
+    std::string nats_client::request_reply(std::string subject,std::string msg,
                  NATS_CALLBACK cb,std::chrono::microseconds timeout)
     {
         std::string sid = next_sid();
@@ -535,6 +541,7 @@ namespace uvw {
         unsub(sid,1);
         pub_with_reply(subject,msg,subject_reply_to);
         mReqestMap[sid]  = Request(subject,subject_reply_to,sid,timeout,cb);
+        return subject_reply_to;
     }
 
     void nats_client::send_connect_data(connect_data data)

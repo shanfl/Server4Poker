@@ -1,0 +1,12 @@
+name="central"
+type=1
+index=1
+
+[thread]
+cnt = 4
+
+[[nats]]
+name="system"
+host="127.0.0.1"
+port=4222
+subs = ["central.*.id.*"]

@@ -106,7 +106,7 @@ namespace uvw
     };
 
     class nats_client;
-    using NATS_CALLBACK     = std::function<void(std::shared_ptr<nats_client> client,std::string subject,std::string payload,std::string reply_to)>;
+    using NATS_CALLBACK     = std::function<void(std::shared_ptr<nats_client> client,std::string subject,std::string payload,std::string reply_to,bool istimout)>;
 
 
     enum class NatsState
@@ -204,8 +204,8 @@ namespace uvw
         void pub(std::string subject,std::string msg);
         void pub_with_reply(std::string subject,std::string msg,std::string replay_to);
 
-
-        void request_reply(std::string subject,std::string reqmsg,
+        // 返回 reply'subject
+        std::string request_reply(std::string subject,std::string reqmsg,
                      NATS_CALLBACK cb,std::chrono::microseconds timeout);
 
 

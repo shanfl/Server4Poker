@@ -5,6 +5,7 @@
 #include "Msg.def.h"
 #include "WrappedMessage.hpp"
 #include <mutex>
+#include <thread>
 namespace Base
 {   
     class ServerBase;
@@ -15,10 +16,19 @@ namespace Base
     {   
     public:    
         Thread(ServerBase*baseserver,int index);
+
         void push(WrappedMessage&msg);
+
         std::vector<WrappedMessage> get(int maxnum);
+
         bool get(WrappedMessage&msg);
+
+        std::thread::id get_thd_id(){return mWorkThreadId;}
+
+        int get_index(){return mIndex;}
+
         static void on_work(Thread*ptr);
+
         void msg_loop();
     private:
         ServerBase*mServerPtr = nullptr;
@@ -27,6 +37,6 @@ namespace Base
 
         MessagePool<WrappedMessage> mMsgPool;
         bool mRun = false;
-        //std::mutext mMsgPoolMutex;
+        std::thread::id mWorkThreadId{0};
     };
 }   // namespace Base

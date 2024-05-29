@@ -12,6 +12,9 @@
 #include "nats_client/natsclient.hpp"
 #include <set>
 #include <shared_mutex>
+
+
+
 namespace Base {
 
 	struct MSG_BIND_ITEM
@@ -75,6 +78,7 @@ using this_class = THIS_CLASS;  \
         critical,
     };
 
+	static const int MIN_USER_TIMERID = 1000;
 
 	class Thread;
 	class ServerBase : public TimerAlloc
@@ -96,7 +100,7 @@ using this_class = THIS_CLASS;  \
 		std::unordered_map<int32_t, MSG_BIND_ITEM> mBindMsgs;
 	private:
 		constexpr static size_t MAX_SERVE_TYPE_CNT = 40;
-
+        bool        mRunning = false;
 		std::string mAppPath;
 		std::string mTomlCfg;
 		std::string mLogFile;
@@ -123,6 +127,7 @@ using this_class = THIS_CLASS;  \
 		int next_thd_idx();
 	public:
 		ServerBase();
+        ~ServerBase(){ stop();}
 	public:
 		std::string app_path() { return this->mAppPath; }
 		std::string app_name();
@@ -131,8 +136,7 @@ using this_class = THIS_CLASS;  \
 
 		virtual bool init(int argc, char* argv[]);
 
-		// ======================== timer ========================
-		virtual void on_timer_tick(int id, int delay, int interval) override;
+		virtual void on_timer(int id,int delay, int interval) {};
 
 		int thd_idx_timer() override;
 
@@ -154,9 +158,13 @@ using this_class = THIS_CLASS;  \
 			std::shared_ptr<ProtoMsg> msg,
 			std::string replyto);
 
-        static void log(LogLevel ll,std::string &&str);
-	protected:
+        void log(LogLevel ll,std::string str);
 
+        void nats_pub(NatsClinetPtr client,std::string subject,int id,ProtoMsg &msg);
+        void nats_reqest_reply(NatsClinetPtr client,std::string subject,int id,ProtoMsg &msg,int mstimout,NatsReqReplyCallBack cb);
+    protected:
+        // ======================== timer ========================
+        void on_timer_tick(int id, int delay, int interval) override;
 		//TODO:
 		virtual bool init_db(const toml::Value& root);
 		virtual bool init_thd(const toml::Value& root);
@@ -169,7 +177,7 @@ using this_class = THIS_CLASS;  \
 		virtual void on_raw_msg(std::shared_ptr<uvw::Session> session, std::string data);
 		// recv nats's info
 		virtual void on_nats_info(std::shared_ptr<uvw::nats_client> client, uvw::info_data data) {}
-		virtual void on_nats_raw_sub(std::shared_ptr<uvw::nats_client> client, std::string sub, std::string msg, std::string reply_to);
+        virtual void on_nats_raw_sub(std::shared_ptr<uvw::nats_client> client, std::string sub, std::string msg, std::string reply_to,bool timeout = false);
 
 		// 分配到哪个线程
 		virtual int calc_session_thd_idx(std::shared_ptr<uvw::Session> session, Message& msg);
@@ -183,6 +191,12 @@ using this_class = THIS_CLASS;  \
     private:
         std::set<TimerAlloc*> mTimerAllocs;
         std::shared_mutex mMutexTimerAllocs;          // shared_mutex
+
+
+    private:
+        void on_nats_reqest_reply(NatsClinetPtr client,std::string subject,std::string payload,std::string reply_to,bool istimout);
+        std::unordered_map<std::string,std::tuple<NatsReqReplyCallBack,std::thread::id,std::chrono::steady_clock::time_point>> mNats_Request_Reply;
+        std::shared_mutex mMutexRequestReply;          // shared_mutex
 	};
 
 } //namespace Base

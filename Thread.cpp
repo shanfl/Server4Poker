@@ -27,6 +27,7 @@ namespace Base {
 
 	void Thread::on_work(Thread* ptr)
 	{
+        ptr->mWorkThreadId = std::this_thread::get_id();
 		ptr->msg_loop();
 	}
 
@@ -61,7 +62,10 @@ namespace Base {
 					msg.mNatsMsg->second.msg,
 					msg.mNatsMsg->second.reply_to);
 			}
-			break;
+            break;
+            case WrappedMessage::WrappedMessageType::NATS_REQUESTPLY:
+                msg.mNatsRequestReplyMsg->second.cb(msg.mNatsRequestReplyMsg->first,msg.mNatsRequestReplyMsg->second.msg,msg.mNatsRequestReplyMsg->second.error);
+                break;
 			default:
 				break;
 

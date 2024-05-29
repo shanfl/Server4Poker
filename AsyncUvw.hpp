@@ -8,7 +8,8 @@ class ServerBase;
 class AsyncUvw
 {
 public:
-    AsyncUvw(ServerBase*base);
+    AsyncUvw();
+    void init(ServerBase*base);
     std::shared_ptr<uvw::async_handle> mAsync;
     void set_do_fn(std::function<void(void)> fn);
     void do_sync();

@@ -18,10 +18,11 @@ static std::shared_ptr<spdlog::logger> g_Logger;
 
 namespace Base {
 
-	ServerBase::ServerBase() :TimerAlloc(this)
-	{
-		mLoop = uvw::loop::get_default();
-		mTcpHander = mLoop->resource<uvw::tcp_handle>();
+    ServerBase::ServerBase() : TimerAlloc(this)
+    {
+        mLoop = uvw::loop::get_default();
+
+        mTcpHander = mLoop->resource<uvw::tcp_handle>();
 	}
 
 
@@ -46,6 +47,12 @@ namespace Base {
 
 	void ServerBase::on_timer_tick(int id, int delay, int interval) {
 		std::clog << __FUNCTION__ << " id:" << id << ",delay:" << delay << ",interval:" << interval << std::endl;
+		if(id >= MIN_USER_TIMERID){
+			this->on_timer(id,delay,interval);
+			return;
+		}
+
+		//TODO:
 	}
 
 	bool ServerBase::post_init(const toml::Value& root)
@@ -55,6 +62,7 @@ namespace Base {
 
 	bool ServerBase::init(int argc, char* argv[])
 	{
+        TimerAlloc::init();
 		//get app path
 		std::string path = std::string(argv[0]);
 		std::filesystem::path p(path);
@@ -174,7 +182,7 @@ namespace Base {
 			mNatsClients[name]->on<uvw::info_event_nats>([this, client](auto& e, auto& h) {
 				this->on_nats_info(client, e.data);
 				});
-			mNatsClients[name]->set_sub_callback(std::bind(&ServerBase::on_nats_raw_sub, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
+            mNatsClients[name]->set_sub_callback(std::bind(&ServerBase::on_nats_raw_sub, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4,false));
 		}
 		return true;
 	}
@@ -192,6 +200,7 @@ namespace Base {
 
 	bool ServerBase::run()
 	{
+        mRunning = true;
 		mLoop->run();
 		return true;
 	}
@@ -222,6 +231,12 @@ namespace Base {
 		mTcpHander->bind(ip, port);
 		return mTcpHander->listen() == 0;
 	}
+
+    void ServerBase::stop()
+    {
+        if(mRunning == false) return;
+        mRunning = false;
+    }
 
 	int  ServerBase::next_thd_idx()
 	{
@@ -293,12 +308,14 @@ namespace Base {
             this->on_ta_timer_tick(ptr,msg.mTimerTick->second.id, msg.mTimerTick->second.delay, msg.mTimerTick->second.interval);
 		}
 		break;
+
 		case WrappedMessage::WrappedMessageType::SESSION_MSG:
 		{
 			//this->on_msg(msg.mSessionMsg->first,msg.mSessionMsg->second);
 			std::get<2>(*msg.mSessionMsg)(std::get<0>(*msg.mSessionMsg), std::get<1>(*msg.mSessionMsg));
 		}
 		break;
+
 		case WrappedMessage::WrappedMessageType::NATS_MSG:
 		{
 			this->mServerPtr->on_nats_pub(msg.mNatsMsg->first,
@@ -307,13 +324,18 @@ namespace Base {
 				msg.mNatsMsg->second.msg,
 				msg.mNatsMsg->second.reply_to);
 		}
-		break;
+        break;
+
+        case WrappedMessage::WrappedMessageType::NATS_REQUESTPLY:
+            msg.mNatsRequestReplyMsg->second.cb(msg.mNatsRequestReplyMsg->first,msg.mNatsRequestReplyMsg->second.msg,msg.mNatsRequestReplyMsg->second.error);
+            break;
+
 		default:
 			break;
 		}
 	}
 
-	void ServerBase::on_nats_raw_sub(std::shared_ptr<uvw::nats_client> client, std::string sub, std::string msg, std::string reply_to)
+    void ServerBase::on_nats_raw_sub(std::shared_ptr<uvw::nats_client> client, std::string sub, std::string msg, std::string reply_to,bool timeout)
 	{
 		std::vector<std::string> v = nonstd::string_utils::split_copy(sub, ".");
 		int sub_size = v.size();
@@ -364,7 +386,7 @@ namespace Base {
     void ServerBase::add_timer_alloc(TimerAlloc* ta)
     {
         std::lock_guard lk(mMutexTimerAllocs);
-        mTimerAllocs.emplace(ta);
+        mTimerAllocs.insert(ta);
     }
 
     void ServerBase::rem_timer_alloc(TimerAlloc* ta)
@@ -387,7 +409,7 @@ namespace Base {
         }
     }
 
-    void ServerBase::log(LogLevel ll,std::string &&str)
+    void ServerBase::log(LogLevel ll,std::string str)
     {
         switch (ll) {
         case LogLevel::debug:
@@ -407,6 +429,96 @@ namespace Base {
         default:
             g_Logger->info(str);
             break;
+        }
+    }
+
+    void ServerBase::nats_pub(NatsClinetPtr client,std::string subject,int id,ProtoMsg &msg)
+    {
+        std::string str_msg = msg.SerializeAsString();
+        std::string str_enc= Message::Encode(id,str_msg);
+        client->pub(subject,str_enc);
+    }
+
+    void ServerBase::nats_reqest_reply(NatsClinetPtr client,std::string subject,int id,ProtoMsg &msg,int mstimout,NatsReqReplyCallBack cb)
+    {
+        std::string str_msg = msg.SerializeAsString();
+        std::string str_enc= Message::Encode(id,str_msg);
+        std::string subject_wait_reply = client->request_reply(subject
+                        ,str_enc,
+                        std::bind(&ServerBase::on_nats_reqest_reply,this,std::placeholders::_1,std::placeholders::_2,std::placeholders::_3,std::placeholders::_4,std::placeholders::_5)
+                        ,std::chrono::microseconds{mstimout});
+
+        auto thd_id = std::this_thread::get_id();
+        std::tuple<NatsReqReplyCallBack,std::thread::id,std::chrono::steady_clock::time_point> tp{cb,thd_id,std::chrono::steady_clock::now()};
+        std::lock_guard lk(mMutexRequestReply);
+        mNats_Request_Reply[subject_wait_reply] = tp;
+    }
+
+    void ServerBase::on_nats_reqest_reply(NatsClinetPtr client,std::string subject,std::string payload,std::string reply_to,bool istimout)
+    {
+        // this is uv main loop
+        std::tuple<NatsReqReplyCallBack,std::thread::id,std::chrono::steady_clock::time_point> tp;
+        std::thread::id thd_id{0};
+        int thd_idx_distpatch = -1;
+
+        {
+            std::lock_guard lk(mMutexRequestReply);
+            if(mNats_Request_Reply.find(subject) != mNats_Request_Reply.end()){
+                tp = mNats_Request_Reply[subject];
+                thd_id = std::get<1>(tp);
+                mNats_Request_Reply.erase(subject);
+            }
+        }
+
+        if(std::get<0>(tp) == nullptr){
+            this->log(LogLevel::warn,__FUNCTION__ + std::string(": ") + subject + " not found ");
+            return;
+        }
+
+
+        for(auto&it:mThreads){
+            if(it->get_thd_id() == thd_id){
+                thd_idx_distpatch = it->get_index();
+                break;
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------------------
+
+        Message msg;
+        NatsReqReplyCallBack_Error err = NatsReqReplyCallBack_Error::no_error;
+        if(istimout)
+            err = NatsReqReplyCallBack_Error::time_out;
+
+        if(!istimout)
+        {
+            std::string body;
+            bool suc = Message::Decode(payload,msg.mHeader,body);
+            if(suc){
+                if (mBindMsgs.find(msg.MsgId()) == mBindMsgs.end())
+                {
+                    std::clog << __FUNCTION__ << " ID:" << msg.MsgId() << " not find handler\n";
+                    err = NatsReqReplyCallBack_Error::parse_err;
+                }
+                else
+                {
+                    std::shared_ptr<ProtoMsg> ptr = std::shared_ptr<ProtoMsg>(mBindMsgs[msg.MsgId()].msg_default_instance->New());
+                    msg.SetProtoPtr(ptr);
+                    thd_idx_distpatch = this->calc_nats_thd_idx(client,msg.MsgId(),ptr);
+                }
+            }
+            else
+            {
+                err = NatsReqReplyCallBack_Error::parse_err;
+            }
+        }
+
+        if(thd_id == std::this_thread::get_id() || thd_idx_distpatch == -1){
+            std::get<0>(tp)(client,msg,err);
+        }else{
+            WrappedMessage wmsg;
+            wmsg.set(client,std::get<0>(tp),msg,err);
+            this->dispatch_th_work(thd_idx_distpatch,wmsg);
         }
     }
 
