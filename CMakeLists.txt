@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.22)
-#if(WIN32)
+if(WIN32)
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
-#ENDIF()
+ENDIF()
 project(BaseServer)
 
 
@@ -36,10 +36,10 @@ function(fetch_libuv)
     add_library(uv::uv-static ALIAS uv_a)
 
     set_target_properties(uv_a PROPERTIES POSITION_INDEPENDENT_CODE 1)
-    #if(WIN32)
-    set_property(TARGET uv_a PROPERTY
-  MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
-    #endif(WIN32)
+    if(WIN32)
+        set_property(TARGET uv_a PROPERTY
+            MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+    endif(WIN32)
 
     #install(DIRECTORY ${libuv_SOURCE_DIR}/include/ DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/3rd/uvw-3.3.0_libuv_v1.47/uv/include)
 endfunction()
@@ -121,10 +121,10 @@ set(BS_SRC
 
 add_library(BaseServer STATIC ${BS_SRC})
 
-#if(WIN32)
+if(WIN32)
 set_property(TARGET BaseServer PROPERTY
   MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
-#ENDIF(WIN32)
+ENDIF(WIN32)
 
 add_subdirectory(demos)
 #add_subdirectory(tests)

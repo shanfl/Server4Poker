@@ -74,7 +74,7 @@ namespace Base {
 		parser.add_option("-l", "--log").dest("log")
 			.help("write  log").metavar("LOG");
 
-		parser.add_option("-tc", "--toml").dest("toml")
+        parser.add_option("-t", "--toml").dest("toml")
 			.help("toml file").metavar("toml");
 
 		optparse::Values options = parser.parse_args(argc, argv);
@@ -108,12 +108,13 @@ namespace Base {
 		g_Logger->set_level(spdlog::level::trace);
 		g_Logger->info("=========================> start <========================= ");
         // --log init --   end
-
-		std::string fullpath = app_path() + "/" + mTomlCfg;
+        std::filesystem::path pcfg = std::filesystem::path(mTomlCfg);
+        std::string fullpath =  pcfg.is_relative() ? (app_path() + "/" + mTomlCfg):pcfg.string();
+        this->log(LogLevel::info," toml:" + fullpath);
 		std::ifstream ifs(fullpath);
 		toml::ParseResult pr = toml::parse(ifs);
-		if (!pr.valid()) {
-			std::clog << "parser toml:" << mTomlCfg << "failed \n";
+        if (!pr.valid()) {
+            this->log(LogLevel::err,"parser toml:" + mTomlCfg + " failed, reason:" + pr.errorReason);
 			return false;
 		}
 

@@ -80,6 +80,9 @@ using this_class = THIS_CLASS;  \
 
 	static const int MIN_USER_TIMERID = 1000;
 
+    static const int TIMERID_SESSION_CHECK  = 1;        // 检查session的timer
+    static const int TIMERID_NATS_CHECK     = 2;        // 检查nats的timer
+
 	class Thread;
 	class ServerBase : public TimerAlloc
 	{

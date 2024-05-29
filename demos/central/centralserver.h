@@ -13,6 +13,15 @@ struct ServerInfo
 
 using ServerLayout = std::map<std::pair<int32_t,int32_t> ,ServerInfo> ;
 
+class Timer123 : public Base::TimerAlloc
+{
+public:
+    virtual int  thd_idx_timer()
+    {
+        return random();
+    }
+};
+
 class CentralServer:public Base::ServerBase
 {
     BEGIN_MSG_MAP(CentralServer,Base::ServerBase)

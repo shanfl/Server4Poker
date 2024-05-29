@@ -9,7 +9,10 @@ void CentralServer::on_natspub_RegisterToCentral(Base::NatsClinetPtr nats,Base::
 
 bool CentralServer::post_init(const toml::Value& root)
 {
-    add_timer(TIMERID_HEATBEAT,2000,1000);
+    add_timer(TIMERID_HEATBEAT,2000,5000);
+
+
+
     return true;
 }
 
@@ -17,6 +20,8 @@ bool CentralServer::post_init(const toml::Value& root)
 void CentralServer::on_timer(int timerid,int delay,int interval)
 {
     log(Base::LogLevel::info, "timer:" + std::to_string(timerid));
+
+
 }
 
 

@@ -7,7 +7,8 @@ namespace Base {
 
     TimerAlloc::~TimerAlloc()
     {
-        mServerPtr->rem_timer_alloc(this);
+        if(this != mServerPtr)
+            mServerPtr->rem_timer_alloc(this);
     }
 
     void TimerAlloc::init()
@@ -52,6 +53,7 @@ namespace Base {
     // UvwTimerLisenter
     UvwTimerLisenter::UvwTimerLisenter(TimerAlloc*ta,TimerAlloc::TimeItem item)
     {
+        mTimerAlloc = ta;
         mTimeItem = item;
         mTimeHandle = ta->server_ptr()->loop()->resource<uvw::timer_handle>();
 
