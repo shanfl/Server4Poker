@@ -9,9 +9,14 @@ void CentralServer::on_natspub_RegisterToCentral(Base::NatsClinetPtr nats,Base::
 
 bool CentralServer::post_init(const toml::Value& root)
 {
-    add_timer(TIMERID_HEATBEAT,2000,5000);
+    add_timer(TIMERID_HEATBEAT,2000,2000);
 
-
+    for(int i = 0;i < 10;i++){
+        auto tm = std::make_shared<Timer123>();
+        tm->init(this);
+        tm->add_timer(1+i,1000,4000 + i * 1000);
+        mTimers.push_back(tm);
+    }
 
     return true;
 }
@@ -20,8 +25,13 @@ bool CentralServer::post_init(const toml::Value& root)
 void CentralServer::on_timer(int timerid,int delay,int interval)
 {
     log(Base::LogLevel::info, "timer:" + std::to_string(timerid));
+    static int i = 0;
+    i++;
 
-
+    if(i % 36 == 0 && mTimers.size()){
+        log(Base::LogLevel::info,"=========> remove one ");
+        mTimers.erase(mTimers.begin());
+    }
 }
 
 

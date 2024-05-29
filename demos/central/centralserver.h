@@ -16,9 +16,15 @@ using ServerLayout = std::map<std::pair<int32_t,int32_t> ,ServerInfo> ;
 class Timer123 : public Base::TimerAlloc
 {
 public:
-    virtual int  thd_idx_timer()
+    virtual int  thd_idx_timer() override
     {
         return random();
+    }
+
+    void on_timer_tick(int id,int d,int i) override
+    {
+
+        this->server_ptr()->log(Base::LogLevel::info, "timerid:" , std::to_string(id),",thread:",std::this_thread::get_id());
     }
 };
 
@@ -35,4 +41,6 @@ public:
     void on_natspub_RegisterToCentral(Base::NatsClinetPtr nats,Base::Message&msg);
 public:
     ServerLayout mServerLayout;
+
+    std::vector<std::shared_ptr<Timer123>> mTimers;
 };

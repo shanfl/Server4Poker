@@ -50,11 +50,11 @@ namespace Base {
         };
 
     public:
-
+        TimerAlloc(){}
         TimerAlloc(ServerBase*serverbase);
         ~TimerAlloc();
 
-        void init();
+        void init(ServerBase*serverbase);
 
         int add_timer(int id,int delay,int interval)
         {
@@ -102,7 +102,7 @@ namespace Base {
         virtual int delay(){return mTimeItem.delay;}
         virtual int interval(){return mTimeItem.interval;}
         virtual int timer_id() {return mTimeItem.id;}
-        virtual void stop(){ mTimeHandle->stop();}
+        virtual void stop(){ mTimeHandle->stop(); mTimeHandle->reset(); mTimerAlloc = nullptr;}
     };
 }
 

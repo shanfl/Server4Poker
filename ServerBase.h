@@ -12,6 +12,7 @@
 #include "nats_client/natsclient.hpp"
 #include <set>
 #include <shared_mutex>
+#include <sstream>
 
 
 
@@ -54,7 +55,7 @@ namespace Base {
 
 #define BEGIN_MSG_MAP(THIS_CLASS,SUPER_CLASS) \
 using this_class = THIS_CLASS;  \
-    virtual void init_pb()  { SUPER_CLASS::init_pb();
+    virtual void init_pb() override { SUPER_CLASS::init_pb();
 
 
 #define END_MSG_MAP() }
@@ -162,6 +163,14 @@ using this_class = THIS_CLASS;  \
 			std::string replyto);
 
         void log(LogLevel ll,std::string str);
+
+        template<class ...T >
+        void log(LogLevel ll,T...args)
+        {
+            std::stringstream os;
+            std::vector<int> v{(os<<args,0)...};
+            log(ll,os.str());
+        }
 
         void nats_pub(NatsClinetPtr client,std::string subject,int id,ProtoMsg &msg);
         void nats_reqest_reply(NatsClinetPtr client,std::string subject,int id,ProtoMsg &msg,int mstimout,NatsReqReplyCallBack cb);

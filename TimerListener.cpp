@@ -7,12 +7,20 @@ namespace Base {
 
     TimerAlloc::~TimerAlloc()
     {
+        this->mServerPtr->log(LogLevel::info, __FUNCTION__);
         if(this != mServerPtr)
             mServerPtr->rem_timer_alloc(this);
+
+        for(auto&it:mTimers){
+            it.second->stop();// = nullptr;
+        }
     }
 
-    void TimerAlloc::init()
+    void TimerAlloc::init(ServerBase*serverbase)
     {
+        if(this->mServerPtr == nullptr)
+            this->mServerPtr = serverbase;
+
         mAsync.init(this->server_ptr());
         mServerPtr->add_timer_alloc(this);
         mAsync.set_do_fn([this](){
@@ -56,12 +64,13 @@ namespace Base {
         mTimerAlloc = ta;
         mTimeItem = item;
         mTimeHandle = ta->server_ptr()->loop()->resource<uvw::timer_handle>();
-
+        ServerBase* baseServer = ta->server_ptr();
         int _id = item.id;
         int _delay = item.delay;
         int _interval = item.interval;
-        mTimeHandle->on<uvw::timer_event>([this,_id,_delay,_interval](auto&,auto&){
-            mTimerAlloc->__timer_tick(_id,_delay,_interval);
+        mTimeHandle->on<uvw::timer_event>([this,baseServer,_id,_delay,_interval](auto&,auto&){
+            if(mTimerAlloc)
+                mTimerAlloc->__timer_tick(_id,_delay,_interval);
         });
     }
 }  // namespace Base

@@ -62,11 +62,12 @@ namespace Base {
 
 	bool ServerBase::init(int argc, char* argv[])
 	{
-        TimerAlloc::init();
+        TimerAlloc::init(this);
 		//get app path
 		std::string path = std::string(argv[0]);
 		std::filesystem::path p(path);
 		mAppPath = p.parent_path().string();
+        mName = p.filename();
 
 		//-l abc.log -c int.cfg
 		using optparse::OptionParser;
@@ -393,9 +394,12 @@ namespace Base {
     void ServerBase::rem_timer_alloc(TimerAlloc* ta)
     {
         std::lock_guard lk(mMutexTimerAllocs);
+        this->log(LogLevel::info, __FUNCTION__, ",WILL REMOVE TA");
         auto it = mTimerAllocs.find(ta);
-        if(it != mTimerAllocs.end())
+        if(it != mTimerAllocs.end()) {
             mTimerAllocs.erase(it);
+            this->log(LogLevel::info, " timealloc removed");
+        }
 
         // TODO: CHECK WHY
         //auto noSpaceEnd = std::remove(mTimerAllocs.begin(), mTimerAllocs.end(),ta);

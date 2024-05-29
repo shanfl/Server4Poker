@@ -1,6 +1,5 @@
 #include "WrappedMessage.hpp"
 
-namespace Base
-{
+namespace Base{
 
 }
