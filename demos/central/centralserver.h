@@ -13,19 +13,35 @@ struct ServerInfo
 
 using ServerLayout = std::map<std::pair<int32_t,int32_t> ,ServerInfo> ;
 
-class Timer123 : public Base::TimerAlloc
+class Timer123 : public Base::ITimerListener ,public std::enable_shared_from_this<Timer123>
 {
 public:
+
+    Timer123(Base::ServerBase*base){
+        ptr = base;
+        mTimerAlloc.init(ptr);
+    }
+
     virtual int  thd_idx_timer() override
     {
         return -1 + random()%10;
     }
 
-    void on_timer_tick(int id,int d,int i) override
+    void add_timer(int id,int delay,int interval)
     {
-
-        this->server_ptr()->log(Base::LogLevel::info, "timerid:" , std::to_string(id),",thread:",std::this_thread::get_id());
+        mTimerAlloc.add_timer(id,delay,interval,shared_from_this());
     }
+
+    void rem_timer(int id){
+        mTimerAlloc.rem_timer(id);
+    }
+
+    void __on_timer(int id,int d,int i) override
+    {
+        this->ptr->log(Base::LogLevel::info, "timerid:" , std::to_string(id),",thread:",std::this_thread::get_id());
+    }
+    Base::ServerBase*ptr;
+    Base::TimerAlloc mTimerAlloc;
 };
 
 class CentralServer:public Base::ServerBase
@@ -36,7 +52,7 @@ class CentralServer:public Base::ServerBase
 
     virtual bool post_init(const toml::Value& root) override;
 
-    virtual void on_timer(int timerid,int delay,int interval) override;
+    virtual void on_timer(int timerid,int interval) override;
 public:
     void on_natspub_RegisterToCentral(Base::NatsClinetPtr nats,Base::Message&msg);
 public:

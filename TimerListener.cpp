@@ -8,11 +8,8 @@ namespace Base {
     TimerAlloc::~TimerAlloc()
     {
         this->mServerPtr->log(LogLevel::info, __FUNCTION__);
-        if(this != mServerPtr)
-            mServerPtr->rem_timer_alloc(this);
-
         for(auto&it:mTimers){
-            it.second->stop();// = nullptr;
+            it.second->stop();
         }
     }
 
@@ -22,7 +19,6 @@ namespace Base {
             this->mServerPtr = serverbase;
 
         mAsync.init(this->server_ptr());
-        mServerPtr->add_timer_alloc(this);
         mAsync.set_do_fn([this](){
             std::lock_guard<std::mutex> lk(mMutexTimeOps);
             for(auto&it:mTimeOps){
@@ -40,23 +36,6 @@ namespace Base {
         });
     }
 
-    void TimerAlloc::__timer_tick(int id,int delay,int interval)
-    {
-        int index = thd_idx_timer();
-        if(this == mServerPtr || index < 0 || mServerPtr->mThreads.size() == 0){
-            this->on_timer_tick(id,delay,interval);     // libuv main-loop thread
-        }else
-        {
-            //构建protobuf timermsg；
-            //mServerPtr->dispatch_work();
-            Message msg;
-            WrappedMessage w_msg;
-            w_msg.set(this,id,delay,interval);
-            //
-            mServerPtr->dispatch_th_work(index,w_msg);
-        }
-    }
-
     //-----------------------------------------------------------------------------
     // UvwTimerLisenter
     UvwTimerLisenter::UvwTimerLisenter(TimerAlloc*ta,TimerAlloc::TimeItem item)
@@ -68,9 +47,9 @@ namespace Base {
         int _id = item.id;
         int _delay = item.delay;
         int _interval = item.interval;
-        mTimeHandle->on<uvw::timer_event>([this,baseServer,_id,_delay,_interval](auto&,auto&){
-            if(mTimerAlloc) //TODO: not thread safe
-                mTimerAlloc->__timer_tick(_id,_delay,_interval);
+        ITimerListenerWPtr wptr= item.wptr;
+        mTimeHandle->on<uvw::timer_event>([this,baseServer,wptr,_id,_delay,_interval](auto&,auto&){
+            baseServer->__on_timer(wptr,_id,_interval);
         });
     }
 }  // namespace Base

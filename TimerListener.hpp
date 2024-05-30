@@ -4,7 +4,7 @@
 #include "AsyncUvw.hpp"
 #include <mutex>
 namespace Base {
-    class ITimerListener
+    class ITimer
     {
     public:
         virtual int delay() = 0;
@@ -13,6 +13,15 @@ namespace Base {
         virtual int start() = 0;
         virtual void stop() = 0;
     };
+
+    class ITimerListener
+    {
+    public:
+        virtual void __on_timer(int id,int interval,int thdidx) = 0;
+        virtual int thd_idx_timer() = 0;
+    };
+
+    using ITimerListenerWPtr = std::weak_ptr<ITimerListener>;
 
     class ServerBase;
     // TODO: std::enable_shared_from_this<TimerAlloc> is wrong
@@ -29,7 +38,7 @@ namespace Base {
         struct TimeItem
         {
             TimeItem(){}
-            TimeItem(int _id,int _delay,int _interval):id(_id),delay(_delay),interval(_interval){}
+            TimeItem(int _id,int _delay,int _interval,ITimerListenerWPtr _wptr):id(_id),delay(_delay),interval(_interval),wptr(_wptr){}
             TimeItem(int _id): id(_id){
                 delay = 0;
                 interval = 0;
@@ -38,12 +47,13 @@ namespace Base {
             int id = -1;
             int delay = 0;
             int interval = 0;
+            ITimerListenerWPtr wptr;
         };
 
         struct TimeOperation:public TimeItem
         {
             TimeOperation(){}
-            TimeOperation(int id,int delay,int interval):TimeItem(id,delay,interval),op(TimeOpe::add){}
+            TimeOperation(int id,int delay,int interval,ITimerListenerWPtr _wptr):TimeItem(id,delay,interval,_wptr),op(TimeOpe::add){}
             TimeOperation(TimeOpe _op,int _id):TimeItem(_id),op(_op){}
 
             TimeOpe op;
@@ -56,10 +66,10 @@ namespace Base {
 
         void init(ServerBase*serverbase);
 
-        int add_timer(int id,int delay,int interval)
+        int add_timer(int id,int delay,int interval,ITimerListenerWPtr wptr)
         {
             std::lock_guard<std::mutex> lk(mMutexTimeOps);
-            mTimeOps.push_back(TimeOperation{id,delay,interval});
+            mTimeOps.push_back(TimeOperation{id,delay,interval,wptr});
             mAsync.do_sync();
             return id;
         }
@@ -70,16 +80,9 @@ namespace Base {
             mAsync.do_sync();
             return true;
         }
-
-        virtual void __timer_tick(int id,int delay,int interval);
-
-        virtual void on_timer_tick(int id,int delay,int interval) = 0;
-
-        virtual int  thd_idx_timer() = 0;
-
         ServerBase* server_ptr() {return mServerPtr;}
     protected:
-        std::unordered_map<int,std::shared_ptr<ITimerListener>> mTimers;
+        std::unordered_map<int,std::shared_ptr<ITimer>> mTimers;
         std::mutex mMutexTimers;
 
         std::vector<TimeOperation> mTimeOps;
@@ -90,7 +93,7 @@ namespace Base {
         ServerBase* mServerPtr = nullptr;
     };
 
-    class UvwTimerLisenter:public ITimerListener
+    class UvwTimerLisenter:public ITimer
     {
     public:
         UvwTimerLisenter(TimerAlloc*ta,TimerAlloc::TimeItem item);

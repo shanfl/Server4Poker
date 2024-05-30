@@ -2,7 +2,10 @@
 
 int main(int argc,char*argv[])
 {
-    GateServer gs;
+    std::shared_ptr<GateServer> gs = std::make_shared<GateServer>();
 
-    bool ret =  gs.init(argc,argv);
+    bool ret =  gs->init(argc,argv);
+    gs->run();
+
+    return 0;
 }

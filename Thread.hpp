@@ -16,8 +16,11 @@ namespace Base
     {   
     public:    
         Thread(ServerBase*baseserver,int index);
+        ~Thread();
 
         void push(WrappedMessage&msg);
+
+        void stop();
 
         std::vector<WrappedMessage> get(int maxnum);
 

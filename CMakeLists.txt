@@ -89,7 +89,7 @@ FILE(GLOB SESSION_SRC Session/*.h Session/*.hpp Session/*.cpp)
 
 set(BS_SRC 
     WrappedMessage.hpp
-    WrappedMessage.cpp
+    #WrappedMessage.cpp
     MessagePool.h
     #MessagePool.cpp
     Msg.def.h

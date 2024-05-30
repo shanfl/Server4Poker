@@ -7,14 +7,22 @@ namespace Base {
 		mThd = std::thread(Thread::on_work, this);
 	}
 
+    Thread::~Thread(){
+        stop();
+        if(mThd.joinable())
+            mThd.join();
+    }
+
 	void Thread::push(WrappedMessage& msg)
-	{
-		mMsgPool.push(msg);
+    {
+        if(!mRun) return;
+        mMsgPool.push(msg);
 	}
 
 	std::vector<WrappedMessage> Thread::get(int maxnum)
-	{
-		return mMsgPool.get(maxnum);
+    {
+        if(!mRun) return {};
+        return mMsgPool.get(maxnum);
 	}
 
 	bool Thread::get(WrappedMessage& msg)
@@ -31,21 +39,30 @@ namespace Base {
 		ptr->msg_loop();
 	}
 
+    void Thread::stop()
+    {
+        mRun = false;
+    }
+
 	void Thread::msg_loop() {
 		while (mRun) {
 			WrappedMessage msg;
 			bool b = get(msg);
 			if (!b)
 			{
-				std::this_thread::sleep_for(std::chrono::microseconds(10));
+                std::this_thread::sleep_for(std::chrono::microseconds(1000));
 				continue;
 			}
 
 			switch (msg.mType) {
 			case WrappedMessage::WrappedMessageType::TIMER_TICK:
             {
-                TimerAlloc* ptr = msg.mTimerTick->first;
-                this->mServerPtr->on_ta_timer_tick(ptr, msg.mTimerTick->second.id, msg.mTimerTick->second.delay, msg.mTimerTick->second.interval);
+                ITimerListenerWPtr ptr = msg.mTimerTick->first;
+                auto sptr = ptr.lock();
+                if(sptr)
+                {
+                    sptr->__on_timer(msg.mTimerTick->second.id, msg.mTimerTick->second.interval,this->mIndex);
+                }
 			}
 			break;
 			case WrappedMessage::WrappedMessageType::SESSION_MSG:
@@ -68,7 +85,6 @@ namespace Base {
                 break;
 			default:
 				break;
-
 			}
 		}
 	}

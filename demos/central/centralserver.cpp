@@ -12,8 +12,8 @@ bool CentralServer::post_init(const toml::Value& root)
     add_timer(TIMERID_HEATBEAT,2000,1300);
 
     for(int i = 0;i < 15;i++){
-        auto tm = std::make_shared<Timer123>();
-        tm->init(this);
+        auto tm = std::make_shared<Timer123>(this);
+        //tm->init(this);
         tm->add_timer(1+i,300,1000 + i * 10);
         mTimers.push_back(tm);
     }
@@ -22,7 +22,7 @@ bool CentralServer::post_init(const toml::Value& root)
 }
 
 
-void CentralServer::on_timer(int timerid,int delay,int interval)
+void CentralServer::on_timer(int timerid,int interval)
 {
     log(Base::LogLevel::info, "timer:" + std::to_string(timerid));
     static int i = 0;
@@ -44,8 +44,7 @@ void CentralServer::on_timer(int timerid,int delay,int interval)
             log(Base::LogLevel::info,"=========> remove one ");
             mTimers.clear();
             for(int k = i;k < i+15;k++){
-                auto tm = std::make_shared<Timer123>();
-                tm->init(this);
+                auto tm = std::make_shared<Timer123>(this);
                 tm->add_timer(1+k,300,1000 + random()%4 * 10);
                 mTimers.push_back(tm);
             }
@@ -55,15 +54,15 @@ void CentralServer::on_timer(int timerid,int delay,int interval)
 
 int main(int argc,char*argv[])
 {
-    CentralServer gs;
+    auto  gs = std::make_shared<CentralServer>();
 
-    bool ret =  gs.init(argc,argv);
+    bool ret =  gs->init(argc,argv);
     if(!ret){
         std::clog << "CentralServer init error \n";
         return 1;
     }
 
-    gs.run();
+    gs->run();
 
     return 0;
 }

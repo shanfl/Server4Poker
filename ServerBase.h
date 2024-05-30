@@ -85,10 +85,11 @@ using this_class = THIS_CLASS;  \
     static const int TIMERID_NATS_CHECK     = 2;        // 检查nats的timer
 
 	class Thread;
-	class ServerBase : public TimerAlloc
+    class ServerBase : public ITimerListener ,public std::enable_shared_from_this<ServerBase>
 	{
 		friend class Thread;
 		friend class TimerAlloc;
+        friend class UvwTimerLisenter;
 	public:
 
 		BEGIN_MSG_MAP_ROOT(ServerBase)
@@ -131,7 +132,7 @@ using this_class = THIS_CLASS;  \
 		int next_thd_idx();
 	public:
 		ServerBase();
-        ~ServerBase(){ stop();}
+        ~ServerBase();
 	public:
 		std::string app_path() { return this->mAppPath; }
 		std::string app_name();
@@ -140,9 +141,10 @@ using this_class = THIS_CLASS;  \
 
 		virtual bool init(int argc, char* argv[]);
 
-		virtual void on_timer(int id,int delay, int interval) {};
+        void add_timer(int id,int delay,int interval);
+        void rem_timer(int id);
 
-		int thd_idx_timer() override;
+        virtual void on_timer(int id,int interval) {};
 
 		//TODO:
 		bool add_fs(std::string path);
@@ -176,7 +178,10 @@ using this_class = THIS_CLASS;  \
         void nats_reqest_reply(NatsClinetPtr client,std::string subject,int id,ProtoMsg &msg,int mstimout,NatsReqReplyCallBack cb);
     protected:
         // ======================== timer ========================
-        void on_timer_tick(int id, int delay, int interval) override;
+        virtual void __on_timer(int id,int interval,int thdidx) override {};
+        void on_timer_tick(int id, int interval);
+        void __on_timer(ITimerListenerWPtr wptr,int id,int interval);
+        int thd_idx_timer() override;
 		//TODO:
 		virtual bool init_db(const toml::Value& root);
 		virtual bool init_thd(const toml::Value& root);
@@ -197,14 +202,7 @@ using this_class = THIS_CLASS;  \
 		void dispatch_th_work(int idx, WrappedMessage& msg);
 
     protected:
-        void add_timer_alloc(TimerAlloc* ta);
-        void rem_timer_alloc(TimerAlloc* ta);
-        virtual void on_ta_timer_tick(TimerAlloc*ac, int id, int delay, int interval);
-    private:
-        std::set<TimerAlloc*> mTimerAllocs;
-        std::shared_mutex mMutexTimerAllocs;          // shared_mutex
-
-
+        TimerAlloc mTimerAlloc;
     private:
         void on_nats_reqest_reply(NatsClinetPtr client,std::string subject,std::string payload,std::string reply_to,bool istimout);
         std::unordered_map<std::string,std::tuple<NatsReqReplyCallBack,std::thread::id,std::chrono::steady_clock::time_point>> mNats_Request_Reply;

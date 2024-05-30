@@ -18,12 +18,16 @@ static std::shared_ptr<spdlog::logger> g_Logger;
 
 namespace Base {
 
-    ServerBase::ServerBase() : TimerAlloc(this)
+    ServerBase::ServerBase()
     {
         mLoop = uvw::loop::get_default();
 
         mTcpHander = mLoop->resource<uvw::tcp_handle>();
 	}
+
+    ServerBase::~ServerBase(){
+        stop();
+    }
 
 
 	std::string ServerBase::app_name()
@@ -45,10 +49,32 @@ namespace Base {
 		return -1;  // mainloop
 	}
 
-	void ServerBase::on_timer_tick(int id, int delay, int interval) {
-		std::clog << __FUNCTION__ << " id:" << id << ",delay:" << delay << ",interval:" << interval << std::endl;
+    void ServerBase::__on_timer(ITimerListenerWPtr wptr,int id,int interval)
+    {
+        if(wptr.expired()) return;
+        std::shared_ptr<ITimerListener> sptr = wptr.lock();
+        if(!sptr) return;
+        if(sptr.get() == this){
+            this->on_timer_tick(id,interval);
+            return;
+        }
+        int index = sptr->thd_idx_timer();
+        if(index == 0 || this->mThreads.size() == 0){
+            sptr->__on_timer(id,interval,0);
+            return;
+        }
+        else
+        {
+            WrappedMessage w_msg;
+            w_msg.set(wptr,id,interval);
+            this->dispatch_th_work(index,w_msg);
+        }
+    }
+
+    void ServerBase::on_timer_tick(int id,int interval) {
+        std::clog << __FUNCTION__ << " id:" << id << ",interval:" << interval << std::endl;
 		if(id >= MIN_USER_TIMERID){
-			this->on_timer(id,delay,interval);
+            this->on_timer(id,interval);
 			return;
 		}
 
@@ -60,10 +86,20 @@ namespace Base {
 		return true;
 	}
 
+    void ServerBase::add_timer(int id,int delay,int interval)
+    {
+        mTimerAlloc.add_timer(id,delay,interval,shared_from_this());
+    }
+
+    void ServerBase::rem_timer(int id)
+    {
+        mTimerAlloc.rem_timer(id);
+    }
+
 	bool ServerBase::init(int argc, char* argv[])
 	{
-        TimerAlloc::init(this);
-		//get app path
+        mTimerAlloc.init(this);
+
 		std::string path = std::string(argv[0]);
 		std::filesystem::path p(path);
 		mAppPath = p.parent_path().string();
@@ -219,8 +255,6 @@ namespace Base {
 			this->mSessionUndefined[clientSession->id()] = clientSession;
 
 			clientSession->on<uvw::on_msg_event>([clientSession, this](const uvw::on_msg_event& ev, const auto& hdl) {
-				//std::clog << "msg:" << ev.data << ",opcode:" << ev.opcode << "\n";
-				//clientSession->send(ev.data);
 				this->on_raw_msg(clientSession, ev.data);
 				});
 			clientSession->on<uvw::on_close_event>([clientSession, this](const auto&, const auto&) {
@@ -238,6 +272,15 @@ namespace Base {
     {
         if(mRunning == false) return;
         mRunning = false;
+
+        for(auto&it:mThreads){
+            it->stop();
+        }
+
+
+        // nats
+        // session
+        // timers
     }
 
 	int  ServerBase::next_thd_idx()
@@ -305,9 +348,12 @@ namespace Base {
 		// 主循环做了 copy from Thread
 		switch (msg.mType) {
 		case WrappedMessage::WrappedMessageType::TIMER_TICK:
-		{
-            TimerAlloc* ptr = msg.mTimerTick->first;
-            this->on_ta_timer_tick(ptr,msg.mTimerTick->second.id, msg.mTimerTick->second.delay, msg.mTimerTick->second.interval);
+        {
+            ITimerListenerWPtr ptr = msg.mTimerTick->first;
+            auto sptr = ptr.lock();
+            if(sptr){
+                sptr->__on_timer(msg.mTimerTick->second.id, msg.mTimerTick->second.interval,this->mIndex);
+            }
 		}
 		break;
 
@@ -320,7 +366,7 @@ namespace Base {
 
 		case WrappedMessage::WrappedMessageType::NATS_MSG:
 		{
-			this->mServerPtr->on_nats_pub(msg.mNatsMsg->first,
+            this->on_nats_pub(msg.mNatsMsg->first,
 				msg.mNatsMsg->second.sub,
 				msg.mNatsMsg->second.id,
 				msg.mNatsMsg->second.msg,
@@ -383,35 +429,6 @@ namespace Base {
             std::clog << "nat sub:" << subject << ",msgid:"<< id << ", handler not found!\n";
         }      
         
-    }
-
-    void ServerBase::add_timer_alloc(TimerAlloc* ta)
-    {
-        std::lock_guard lk(mMutexTimerAllocs);
-        mTimerAllocs.insert(ta);
-    }
-
-    void ServerBase::rem_timer_alloc(TimerAlloc* ta)
-    {
-        std::lock_guard lk(mMutexTimerAllocs);
-        this->log(LogLevel::info, __FUNCTION__, ",WILL REMOVE TA");
-        auto it = mTimerAllocs.find(ta);
-        if(it != mTimerAllocs.end()) {
-            mTimerAllocs.erase(it);
-            this->log(LogLevel::info, " timealloc removed");
-        }
-
-        // TODO: CHECK WHY
-        //auto noSpaceEnd = std::remove(mTimerAllocs.begin(), mTimerAllocs.end(),ta);
-        //mTimerAllocs.erase(noSpaceEnd,mTimerAllocs.end());
-    }
-
-    void ServerBase::on_ta_timer_tick(TimerAlloc*ac, int id, int delay, int interval)
-    {
-        std::shared_lock lk(mMutexTimerAllocs);
-        if(mTimerAllocs.find(ac)!= mTimerAllocs.end()){
-            ac->on_timer_tick(id,delay,interval);
-        }
     }
 
     void ServerBase::log(LogLevel ll,std::string str)

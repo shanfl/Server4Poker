@@ -53,13 +53,18 @@ namespace Base {
             NatsReqReplyCallBack_Error error;
         };
 
-        using TimerTickPair = std::pair<TimerAlloc*, TimerAlloc::TimeItem>;
+        using TimerTickPair = std::pair<ITimerListenerWPtr, TimerAlloc::TimeItem>;
 		using SessionMsgPair = std::tuple< std::shared_ptr<uvw::Session>, Message, SESSION_FN>;
 		using NatsMsgPair = std::pair<std::shared_ptr<uvw::nats_client>, NatsMsg>;
         using NatsRequestReplyPair = std::pair<std::shared_ptr<uvw::nats_client>, NatsRequestReply>;
 	public:
-        WrappedMessage& set(TimerAlloc* ta, int timerid, int delay, int repeat) {
-			mTimerTick = std::make_shared<TimerTickPair>(std::make_pair(ta, TimerAlloc::TimeItem(timerid, delay, repeat)));
+        WrappedMessage& set(ITimerListenerWPtr wptr, int timerid,int repeat) {
+            TimerAlloc::TimeItem item;
+            item.delay = 0;
+            item.id = timerid;
+            item.interval = repeat;
+
+            mTimerTick = std::make_shared<TimerTickPair>(std::make_pair(wptr, item));
 			mType = WrappedMessageType::TIMER_TICK;
 			return *this;
 		}
