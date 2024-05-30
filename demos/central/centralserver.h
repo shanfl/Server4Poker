@@ -24,7 +24,7 @@ public:
 
     virtual int  thd_idx_timer() override
     {
-        return -1 + random()%10;
+        return 1+random()%13;
     }
 
     void add_timer(int id,int delay,int interval)
@@ -38,7 +38,7 @@ public:
 
     void __on_timer(int id,int d,int i) override
     {
-        this->ptr->log(Base::LogLevel::info, "timerid:" , std::to_string(id),",thread:",std::this_thread::get_id());
+        this->ptr->log(Base::LogLevel::info, "timerid:" , std::to_string(id),",thread:",i);
     }
     Base::ServerBase*ptr;
     Base::TimerAlloc mTimerAlloc;

@@ -40,7 +40,7 @@ void CentralServer::on_timer(int timerid,int interval)
 //        }
 //    }
 
-        if(i % 7 == 0 && mTimers.size()){
+        if(i % 37 == 0 && mTimers.size()){
             log(Base::LogLevel::info,"=========> remove one ");
             mTimers.clear();
             for(int k = i;k < i+15;k++){

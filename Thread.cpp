@@ -50,7 +50,7 @@ namespace Base {
 			bool b = get(msg);
 			if (!b)
 			{
-                std::this_thread::sleep_for(std::chrono::microseconds(1000));
+                std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 				continue;
 			}
 
@@ -86,6 +86,8 @@ namespace Base {
 			default:
 				break;
 			}
+
+            std::this_thread::sleep_for(std::chrono::milliseconds(300));
 		}
 	}
 }

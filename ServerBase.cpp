@@ -59,6 +59,7 @@ namespace Base {
             return;
         }
         int index = sptr->thd_idx_timer();
+        this->log(LogLevel::info," index = ", index);
         if(index == 0 || this->mThreads.size() == 0){
             sptr->__on_timer(id,interval,0);
             return;
@@ -190,7 +191,7 @@ namespace Base {
 			cnt_thread = ntd;
 
 		for (int i = 0; i < cnt_thread; i++)
-			mThreads.emplace_back(std::make_shared<Thread>(this, i));
+            mThreads.emplace_back(std::make_shared<Thread>(this, i+1));
 
 		return true;
 	}
