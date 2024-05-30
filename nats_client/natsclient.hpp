@@ -212,6 +212,8 @@ namespace uvw
         void ping();
         void pong();
         void send_connect_data(connect_data data);
+        // CONNECT {"verbose":false,"pedantic":false,"tls_required":false,"name":"","lang":"go","version":"1.2.2","protocol":1}␍␊
+        void send_connect_str(std::string str);
         NatsState getState();
         void set_uv_thdid(std::thread::id id);
     protected:

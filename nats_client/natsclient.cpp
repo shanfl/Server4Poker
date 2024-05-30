@@ -264,7 +264,7 @@ namespace uvw {
                     break;
                     case SEND:
                     {
-                        raw_send(it.data_send);
+                        _raw_send(it.data_send);
                     }
                     break;
                     default:
@@ -330,11 +330,12 @@ namespace uvw {
         mTcpHanle = this->parent().resource<uvw::tcp_handle>();
         mTcpHanle->on<data_event>([this](const auto&e,const auto&h){
             mData += std::string(e.data.get(),e.length);
-
+            std::cout << mData << std::endl;
             bool err = false;
             std::vector<std::shared_ptr<data_base>> msgVecs = Parser(mData,err);
 
             if(err){
+                std::cout << "parser error!" << std::endl;
                 _disconnect();
                 return;
             }
@@ -573,6 +574,12 @@ namespace uvw {
         cJSON_Delete(monitor);
 
         raw_send(data_jsoned);
+    }
+
+    void nats_client::send_connect_str(std::string str)
+    {
+        std::string full = "CONNECT " + str + CLRF;
+        raw_send(full);
     }
 
     void nats_client::_reconnect_delay(int ms)

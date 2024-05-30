@@ -11,7 +11,7 @@ bool CentralServer::post_init(const toml::Value& root)
 {
     add_timer(TIMERID_HEATBEAT,2000,1300);
 
-    for(int i = 0;i < 15;i++){
+    for(int i = 0;i < 0;i++){
         auto tm = std::make_shared<Timer123>(this);
         //tm->init(this);
         tm->add_timer(1+i,300,1000 + i * 10);
@@ -43,7 +43,7 @@ void CentralServer::on_timer(int timerid,int interval)
         if(i % 37 == 0 && mTimers.size()){
             log(Base::LogLevel::info,"=========> remove one ");
             mTimers.clear();
-            for(int k = i;k < i+15;k++){
+            for(int k = i;k < i+0;k++){
                 auto tm = std::make_shared<Timer123>(this);
                 tm->add_timer(1+k,300,1000 + random()%4 * 10);
                 mTimers.push_back(tm);

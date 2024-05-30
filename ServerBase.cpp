@@ -219,9 +219,14 @@ namespace Base {
 				client->set_name(name);
 			}
 
-            mNatsClients[name]->on<uvw::info_event_nats>([this, client,host,port](auto& e, auto& h) {
+            mNatsClients[name]->on<uvw::info_event_nats>([this, client,host,port,subs](auto& e, auto& h) {
                 this->log(LogLevel::info, "connected:" ,host, ",port:",port);
 				this->on_nats_info(client, e.data);
+                std::string str = "{\"verbose\":false,\"pedantic\":false,\"tls_required\":false,\"name\":\"\",\"lang\":\"go\",\"version\":\"1.2.2\",\"protocol\":1}";
+                client->send_connect_str(str);
+                for(auto&it:subs){
+                    client->sub(it);
+                }
 				});
             mNatsClients[name]->set_sub_callback(std::bind(&ServerBase::on_nats_raw_sub, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4,false));
 		}
