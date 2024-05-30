@@ -164,7 +164,8 @@ namespace Base {
 		bool r2 = init_db(pr.value);
 		bool r3 = init_module(pr.value);
 		bool r4 = init_serve(pr.value);
-		if (r1 && r2 && r3 && r4) {
+        bool r5 = init_nats(pr.value);
+        if (r1 && r2 && r3 && r4 && r5) {
 			return post_init(pr.value);
 		}
 		return false;
@@ -218,7 +219,8 @@ namespace Base {
 				client->set_name(name);
 			}
 
-			mNatsClients[name]->on<uvw::info_event_nats>([this, client](auto& e, auto& h) {
+            mNatsClients[name]->on<uvw::info_event_nats>([this, client,host,port](auto& e, auto& h) {
+                this->log(LogLevel::info, "connected:" ,host, ",port:",port);
 				this->on_nats_info(client, e.data);
 				});
             mNatsClients[name]->set_sub_callback(std::bind(&ServerBase::on_nats_raw_sub, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4,false));
