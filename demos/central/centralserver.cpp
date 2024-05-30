@@ -9,12 +9,12 @@ void CentralServer::on_natspub_RegisterToCentral(Base::NatsClinetPtr nats,Base::
 
 bool CentralServer::post_init(const toml::Value& root)
 {
-    add_timer(TIMERID_HEATBEAT,2000,2000);
+    add_timer(TIMERID_HEATBEAT,2000,1300);
 
-    for(int i = 0;i < 10;i++){
+    for(int i = 0;i < 15;i++){
         auto tm = std::make_shared<Timer123>();
         tm->init(this);
-        tm->add_timer(1+i,1000,4000 + i * 1000);
+        tm->add_timer(1+i,300,1000 + i * 10);
         mTimers.push_back(tm);
     }
 
@@ -28,10 +28,28 @@ void CentralServer::on_timer(int timerid,int delay,int interval)
     static int i = 0;
     i++;
 
-    if(i % 36 == 0 && mTimers.size()){
-        log(Base::LogLevel::info,"=========> remove one ");
-        mTimers.erase(mTimers.begin());
-    }
+//    if(i % 20 == 0 && mTimers.size()){
+//        log(Base::LogLevel::info,"=========> remove one ");
+//        mTimers.erase(mTimers.begin());
+
+//        for(int j = 0;j < 1;j++){
+//            auto tm = std::make_shared<Timer123>();
+//            tm->init(this);
+//            tm->add_timer(1+i,1000,1000 + j * 10);
+//            mTimers.push_back(tm);
+//        }
+//    }
+
+        if(i % 7 == 0 && mTimers.size()){
+            log(Base::LogLevel::info,"=========> remove one ");
+            mTimers.clear();
+            for(int k = i;k < i+15;k++){
+                auto tm = std::make_shared<Timer123>();
+                tm->init(this);
+                tm->add_timer(1+k,300,1000 + random()%4 * 10);
+                mTimers.push_back(tm);
+            }
+        }
 }
 
 

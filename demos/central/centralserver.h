@@ -18,7 +18,7 @@ class Timer123 : public Base::TimerAlloc
 public:
     virtual int  thd_idx_timer() override
     {
-        return random();
+        return -1 + random()%10;
     }
 
     void on_timer_tick(int id,int d,int i) override

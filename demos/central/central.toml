@@ -3,7 +3,7 @@ type=1
 index=1
 
 [thread]
-cnt = 4
+cnt = 8
 
 [[nats]]
 name="system"

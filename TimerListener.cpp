@@ -43,7 +43,7 @@ namespace Base {
     void TimerAlloc::__timer_tick(int id,int delay,int interval)
     {
         int index = thd_idx_timer();
-        if(index < 0){
+        if(this == mServerPtr || index < 0 || mServerPtr->mThreads.size() == 0){
             this->on_timer_tick(id,delay,interval);     // libuv main-loop thread
         }else
         {
@@ -69,7 +69,7 @@ namespace Base {
         int _delay = item.delay;
         int _interval = item.interval;
         mTimeHandle->on<uvw::timer_event>([this,baseServer,_id,_delay,_interval](auto&,auto&){
-            if(mTimerAlloc)
+            if(mTimerAlloc) //TODO: not thread safe
                 mTimerAlloc->__timer_tick(_id,_delay,_interval);
         });
     }

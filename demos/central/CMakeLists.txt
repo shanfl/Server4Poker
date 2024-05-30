@@ -1,6 +1,6 @@
 project(centralserver)
 include_directories(../../)
-set(src centralserver.h centralserver.cpp)
+set(src centralserver.h centralserver.cpp central.toml)
 
 add_executable(centralserver ${src})
 
