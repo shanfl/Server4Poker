@@ -7,39 +7,39 @@
 #include <mutex>
 #include <thread>
 namespace Base
-{   
-    class ServerBase;
+{
+	class ServerBase;
 
-    using MsgPool = MessagePool<WrappedMessage>;
+	using MsgPool = MessagePool<WrappedMessage>;
 
-    class Thread
-    {   
-    public:    
-        Thread(ServerBase*baseserver,int index);
-        ~Thread();
+	class Thread
+	{
+	public:
+		Thread(ServerBase* baseserver, int index);
+		~Thread();
 
-        void push(WrappedMessage&msg);
+		void push(WrappedMessage& msg);
 
-        void stop();
+		void stop();
 
-        std::vector<WrappedMessage> get(int maxnum);
+		std::vector<WrappedMessage> get(int maxnum);
 
-        bool get(WrappedMessage&msg);
+		bool get(WrappedMessage& msg);
 
-        std::thread::id get_thd_id(){return mWorkThreadId;}
+		std::thread::id get_thd_id() { return mWorkThreadId; }
 
-        int get_index(){return mIndex;}
+		int get_index() { return mIndex; }
 
-        static void on_work(Thread*ptr);
+		static void on_work(Thread* ptr);
 
-        void msg_loop();
-    private:
-        ServerBase*mServerPtr = nullptr;
-        int mIndex;
-        std::thread mThd;  
+		void msg_loop();
+	private:
+		ServerBase* mServerPtr = nullptr;
+		int mIndex;
+		std::thread mThd;
 
-        MessagePool<WrappedMessage> mMsgPool;
-        bool mRun = false;
-        std::thread::id mWorkThreadId{0};
-    };
+		MessagePool<WrappedMessage> mMsgPool;
+		bool mRun = false;
+		std::thread::id mWorkThreadId;// { 0 };
+	};
 }   // namespace Base
