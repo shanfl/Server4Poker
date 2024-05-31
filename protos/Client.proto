@@ -23,6 +23,7 @@ enum LoginAppSdk
     UNKNOWN_LAS = 0;
     IDANDPASSWORD = 1;
     WECHAT=2;
+    KEY_ENC=3;
 };
 
 message PlayerLoginReq
@@ -32,15 +33,17 @@ message PlayerLoginReq
     string id                   = 3;
     string pass                 = 4;
     string app_spec             = 5;
+    string keys_enc             = 6;
 };
 
 
 message PlayerLoginRes
 {
-    string key          = 1;
-    uint64 playerid     = 2;
-    string name         = 3;
-    int32 sex             = 4;    
+    int32  result           = 1;
+    string key              = 2;
+    uint64 playerid         = 3;
+    string name             = 4;
+    int32 sex               = 5;    
 }
 
 

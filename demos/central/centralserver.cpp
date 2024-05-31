@@ -64,6 +64,8 @@ void CentralServer::on_timer(int timerid,int interval)
 
     // 检查超时的natsclient 并去掉
     pub_ServerInfo(nullptr);
+
+
 #if 0
 
 

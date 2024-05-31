@@ -6,11 +6,12 @@ namespace Base
 {
 enum class ServerType : int16_t
 {
-    Server_UnKnown = 0,         // 未知
-    Server_Central = 1,         
-    Server_Gate = 2,
-    Server_PlanServer = 3,
-    Server_Ddz = 4,
+    Server_UnKnown          = 0,         // 未知
+    Server_Central          = 1,         
+    Server_Gate             = 2,
+    Server_Login            = 3,
+    Server_PlanServer,
+    Server_Ddz,
 };
 
 struct ServerId
