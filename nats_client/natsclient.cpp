@@ -17,7 +17,7 @@ namespace uvw {
         {"MSG ",2},
         {"PING",1},
         {"PONG",1},
-        {"+OK ",1},
+        {"+OK\r",1},
         {"-ERR",1}
     };
 
@@ -167,7 +167,7 @@ namespace uvw {
             std::shared_ptr<pong_data> pong = std::make_shared<pong_data>();
             pong->t = PONG;
             return pong;
-        }else if(starter == "+OK ")
+        }else if(starter == "+OK\r")
         {
             std::shared_ptr<ok_data> ok = std::make_shared<ok_data>();
             ok->t = OK;
