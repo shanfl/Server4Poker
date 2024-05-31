@@ -61,7 +61,10 @@ namespace Base {
 		bool parser(std::string& data);
 		//std::dynamic_pointer_cast
 		template<typename T>
-		std::shared_ptr<T> GetProtoMsg();
+        std::shared_ptr<T> GetProtoMsg()
+        {
+            return std::dynamic_pointer_cast<T>(proto_msg);
+        }
 
 		Message& SetProtoPtr(std::shared_ptr<ProtoMsg> ptr);
 

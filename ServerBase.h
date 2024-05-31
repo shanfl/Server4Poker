@@ -13,7 +13,7 @@
 #include <set>
 #include <shared_mutex>
 #include <sstream>
-
+#include "CommonDef.h"
 
 
 namespace Base {
@@ -115,6 +115,7 @@ using this_class = THIS_CLASS;  \
 
 	private:
 		std::map<std::string, std::shared_ptr<uvw::nats_client>> mNatsClients;
+        std::shared_mutex mMutexNatscs;
 	private:
 		// session
 		std::unordered_map<int64_t, std::shared_ptr<uvw::Session>> mSessionUndefined;
@@ -139,6 +140,15 @@ using this_class = THIS_CLASS;  \
 		int app_type();
 		int app_index();
 
+        std::string subject_pre()
+        {
+            return CommonDef::ServerType2Name((Base::ServerType)app_type()) + "."+std::to_string(app_index()) + ".";
+        }
+
+        std::string subject_byid(int32_t id){
+            return subject_pre() + "id."+ std::to_string(id);
+        }
+
 		virtual bool init(int argc, char* argv[]);
 
         void add_timer(int id,int delay,int interval);
@@ -157,6 +167,8 @@ using this_class = THIS_CLASS;  \
 		void stop();
 
 		std::shared_ptr<uvw::loop> loop() { return mLoop; }
+
+        NatsClinetPtr get_natsc_byname(std::string name);
 
 		virtual void on_nats_pub(std::shared_ptr<uvw::nats_client> client,
 			std::string subject,

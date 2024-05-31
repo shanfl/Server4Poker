@@ -148,12 +148,6 @@ namespace Base {
 		return ret;
 	}
 
-	//std::dynamic_pointer_cast
-	template<typename T>
-	std::shared_ptr<T> Message::GetProtoMsg() {
-		return std::dynamic_pointer_cast<T>(proto_msg);
-	};
-
 	Message& Message::SetProtoPtr(std::shared_ptr<ProtoMsg> ptr) {
 		proto_msg = ptr;
 		return *this;

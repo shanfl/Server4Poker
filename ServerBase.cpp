@@ -207,7 +207,7 @@ namespace Base {
 		int n = TomlHelper::ArrayGetCnt(root, "nats");
 		for (int i = 0; i < n; i++) {
 			std::string name = TomlHelper::ArrayGet<std::string>(root, "nats", i, "name", std::to_string(i));
-			name += "." + std::to_string(i);
+            name == "system" ? name : name += "." + std::to_string(i);
 			std::string host = TomlHelper::ArrayGet<std::string>(root, "nats", i, "host", "");
 			int port = TomlHelper::ArrayGet<int>(root, "nats", i, "port", 0);
 			std::vector<std::string> subs = TomlHelper::ArrayGet<std::vector<std::string>>(root, "nats", i, "subs");
@@ -460,6 +460,15 @@ namespace Base {
             g_Logger->info(str);
             break;
         }
+    }
+
+    NatsClinetPtr ServerBase:: get_natsc_byname(std::string name)
+    {
+        std::shared_lock lk( mMutexNatscs);
+
+        if(mNatsClients.find(name) != mNatsClients.end())
+            return mNatsClients[name];
+        return nullptr;
     }
 
     void ServerBase::nats_pub(NatsClinetPtr client,std::string subject,int id,ProtoMsg &msg)

@@ -6,6 +6,7 @@
 
 struct ServerInfo
 {
+    std::string server_name;
     int32_t server_type;
     int32_t server_index;
     std::chrono::steady_clock::time_point last_active;
@@ -53,10 +54,13 @@ class CentralServer:public Base::ServerBase
     virtual bool post_init(const toml::Value& root) override;
 
     virtual void on_timer(int timerid,int interval) override;
-public:
+protected:
     void on_natspub_RegisterToCentral(Base::NatsClinetPtr nats,Base::Message&msg);
+
+    void pub_ServerInfo(Base::NatsClinetPtr natss);
 public:
     ServerLayout mServerLayout;
+    std::shared_mutex mMutexServerLayout;
 
     std::vector<std::shared_ptr<Timer123>> mTimers;
 };
