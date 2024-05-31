@@ -61,6 +61,8 @@ using this_class = THIS_CLASS;  \
 #define END_MSG_MAP() }
 
 
+
+#define DECLARE_SERVER_TYPE(T)  public:virtual int app_type() override {return (int) T;}
 	/*
 	 *
 	 *
@@ -137,7 +139,7 @@ using this_class = THIS_CLASS;  \
 	public:
 		std::string app_path() { return this->mAppPath; }
 		std::string app_name();
-		int app_type();
+        virtual int app_type();
 		int app_index();
 
         std::string subject_pre()
