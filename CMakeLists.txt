@@ -85,7 +85,7 @@ FILE(GLOB PROTO_SRC gen_proto/*.cc gen_proto/*.h)
 
 FILE(GLOB SESSION_SRC Session/*.h Session/*.hpp Session/*.cpp)
 
-
+FILE(GLOB DBPOOL_SRC dbpool/*.h dbpool/*.hpp dbpool/*.cpp)
 
 set(BS_SRC 
     WrappedMessage.hpp
@@ -117,6 +117,7 @@ set(BS_SRC
     3rd/miniz/miniz.h
     ${PROTO_SRC}
     ${SESSION_SRC}
+    ${DBPOOL_SRC}
 )
 
 add_library(BaseServer STATIC ${BS_SRC})
