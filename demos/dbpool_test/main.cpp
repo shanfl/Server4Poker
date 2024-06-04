@@ -15,8 +15,8 @@ int main()
 	}
 
     {
-       // DBProc proc(&pool);
-       // proc.Query("select * from t1;");
+        DBProc proc(&pool);
+        proc.Query("select * from t1;");
     }
 
     DBProc proc(&pool);
@@ -26,14 +26,5 @@ int main()
     std::string res2 = proc.GetOutParam("@res2");
 
     std::cout << "res:" << res << ", res2:" <<  res2 << std::endl;
-
-
-
-
-
-
-
-
-
     return 0;
 }

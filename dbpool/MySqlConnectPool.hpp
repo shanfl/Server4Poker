@@ -87,7 +87,20 @@ namespace DBPool {
             return ret;
         }
 
-
+        int Execute_WithOutResult(const char* name, const char* pOutParams, const char* format, ...)
+        {
+            std::string new_output_params = "@result," + std::string(pOutParams);
+            if (!mConnect)
+            {
+                std::cout << "Invalidate DATABASE connection!" << std::endl;
+                return -1;
+            }
+            va_list ap;
+            va_start(ap, format);
+            int ret = this->ExecuteImpl(name, pOutParams, format, ap);
+            va_end(ap);
+            return ret;
+        }
 
         int Query(std::string stringStream) {
 
