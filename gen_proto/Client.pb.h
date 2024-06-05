@@ -114,7 +114,7 @@ const std::string& OS_PLATFORM_Name(T value) {
 bool OS_PLATFORM_Parse(absl::string_view name, OS_PLATFORM* value);
 enum LoginAppSdk : int {
   UNKNOWN_LAS = 0,
-  IDANDPASSWORD = 1,
+  NAMEPASSWORD = 1,
   GUEST = 3,
   WECHAT = 4,
   KEY_ENC = 5,

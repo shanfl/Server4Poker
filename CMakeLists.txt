@@ -81,11 +81,11 @@ INCLUDE_DIRECTORIES(./3rd/spdlog-1.14.1/include)
 include_directories(./)
 
 
-FILE(GLOB PROTO_SRC gen_proto/*.cc gen_proto/*.h)
+FILE(GLOB PROTO_SRC gen_proto/*.cc gen_proto/*.h protos/*.proto)
 
 FILE(GLOB SESSION_SRC Session/*.h Session/*.hpp Session/*.cpp)
 
-FILE(GLOB DBPOOL_SRC dbpool/*.h dbpool/*.hpp dbpool/*.cpp)
+FILE(GLOB DBPOOL_SRC dbpool/*.h dbpool/*.hpp)
 
 set(BS_SRC 
     WrappedMessage.hpp

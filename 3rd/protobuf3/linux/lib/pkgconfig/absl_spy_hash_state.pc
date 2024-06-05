@@ -1,0 +1,12 @@
+prefix=/home/shanfl/S4p/3rd/protobuf3/linux
+exec_prefix=${prefix}
+libdir=/home/shanfl/S4p/3rd/protobuf3/linux/lib
+includedir=/home/shanfl/S4p/3rd/protobuf3/linux/include
+
+Name: absl_spy_hash_state
+Description: Abseil spy_hash_state library
+URL: https://abseil.io/
+Version: 20240116
+Requires: absl_hash = 20240116, absl_strings = 20240116, absl_str_format = 20240116
+Libs: -L${libdir}  
+Cflags: -I${includedir} -DNOMINMAX

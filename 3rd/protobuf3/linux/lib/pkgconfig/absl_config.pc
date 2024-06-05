@@ -1,0 +1,12 @@
+prefix=/home/shanfl/S4p/3rd/protobuf3/linux
+exec_prefix=${prefix}
+libdir=/home/shanfl/S4p/3rd/protobuf3/linux/lib
+includedir=/home/shanfl/S4p/3rd/protobuf3/linux/include
+
+Name: absl_config
+Description: Abseil config library
+URL: https://abseil.io/
+Version: 20240116
+Requires:
+Libs: -L${libdir}  
+Cflags: -I${includedir} -DNOMINMAX

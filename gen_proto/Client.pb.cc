@@ -197,8 +197,8 @@ static ::google::protobuf::internal::ExplicitlyConstructed<std::string>
 
 static const char LoginAppSdk_names[] = {
     "GUEST"
-    "IDANDPASSWORD"
     "KEY_ENC"
+    "NAMEPASSWORD"
     "UNKNOWN_LAS"
     "WECHAT"
 };
@@ -206,18 +206,18 @@ static const char LoginAppSdk_names[] = {
 static const ::google::protobuf::internal::EnumEntry LoginAppSdk_entries[] =
     {
         {{&LoginAppSdk_names[0], 5}, 3},
-        {{&LoginAppSdk_names[5], 13}, 1},
-        {{&LoginAppSdk_names[18], 7}, 5},
-        {{&LoginAppSdk_names[25], 11}, 0},
-        {{&LoginAppSdk_names[36], 6}, 4},
+        {{&LoginAppSdk_names[5], 7}, 5},
+        {{&LoginAppSdk_names[12], 12}, 1},
+        {{&LoginAppSdk_names[24], 11}, 0},
+        {{&LoginAppSdk_names[35], 6}, 4},
 };
 
 static const int LoginAppSdk_entries_by_number[] = {
     3,  // 0 -> UNKNOWN_LAS
-    1,  // 1 -> IDANDPASSWORD
+    2,  // 1 -> NAMEPASSWORD
     0,  // 3 -> GUEST
     4,  // 4 -> WECHAT
-    2,  // 5 -> KEY_ENC
+    1,  // 5 -> KEY_ENC
 };
 
 const std::string& LoginAppSdk_Name(LoginAppSdk value) {

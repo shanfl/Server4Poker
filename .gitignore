@@ -2,6 +2,8 @@
 *.d
 [Bb]uild/
 [Bb]uild*/
+3rd/wolfssl/
+tmp/
 *.autosave
 *.autosave*
 *.log

@@ -1,0 +1,11 @@
+prefix=/home/shanfl/S4p/3rd/protobuf3/linux
+exec_prefix=/home/shanfl/S4p/3rd/protobuf3/linux
+libdir=/home/shanfl/S4p/3rd/protobuf3/linux/lib
+includedir=/home/shanfl/S4p/3rd/protobuf3/linux/include
+
+Name: UTF8 Range
+Description: Google's UTF8 Library
+Version: 1.0
+Requires: absl_strings
+Libs: -L${libdir} -lutf8_validity -lutf8_range 
+Cflags: -I${includedir}

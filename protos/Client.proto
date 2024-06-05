@@ -21,7 +21,7 @@ enum OS_PLATFORM
 enum LoginAppSdk
 {
     UNKNOWN_LAS = 0;
-    IDANDPASSWORD = 1;
+    NAMEPASSWORD = 1;
     GUEST = 3;
     WECHAT=4;
     KEY_ENC=5;

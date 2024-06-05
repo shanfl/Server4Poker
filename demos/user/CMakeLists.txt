@@ -2,7 +2,7 @@ project(login)
 include_directories(../../)
 set(src user.h user.cpp user.toml)
 
-add_executable(lousergin ${src})
+add_executable(user ${src})
 
 target_link_libraries(user BaseServer uv::uv-static protobuf::libprotobuf-lite)
 if(WIN32)
