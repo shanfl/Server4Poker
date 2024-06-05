@@ -15,6 +15,16 @@ namespace DBPool {
             
         }
 
+        ~MySqlConnectPool() {
+            std::lock_guard<std::mutex> lk(mMutex);
+            for(auto&it:mPool){
+                it->Disconnect();
+                delete it;
+            }
+            mPool.clear();
+        }
+
+
         MysqlConnect*get()
         {
             mSem.acquire();  

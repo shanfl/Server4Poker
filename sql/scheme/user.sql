@@ -12,7 +12,7 @@ create table if not exists `user`
     figure  text,
     flag    int ,
     banned  int not null default 0,
-    `created_at` timestamp DEFAULT current_timestamp COMMENT '创建时间',
+    `created_at` timestamp DEFAULT   current_timestamp COMMENT '创建时间',
     `updated_at` timestamp null on update current_timestamp COMMENT '更新时间',
     primary key(uid)
 );
