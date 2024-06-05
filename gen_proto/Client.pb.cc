@@ -187,14 +187,15 @@ bool OS_PLATFORM_Parse(absl::string_view name, OS_PLATFORM* value) {
   return success;
 }
 PROTOBUF_CONSTINIT const uint32_t LoginAppSdk_internal_data_[] = {
-    262144u, 0u, };
+    327680u, 0u, };
 bool LoginAppSdk_IsValid(int value) {
-  return 0 <= value && value <= 3;
+  return 0 <= value && value <= 4;
 }
 static ::google::protobuf::internal::ExplicitlyConstructed<std::string>
-    LoginAppSdk_strings[4] = {};
+    LoginAppSdk_strings[5] = {};
 
 static const char LoginAppSdk_names[] = {
+    "GUEST"
     "IDANDPASSWORD"
     "KEY_ENC"
     "UNKNOWN_LAS"
@@ -203,28 +204,30 @@ static const char LoginAppSdk_names[] = {
 
 static const ::google::protobuf::internal::EnumEntry LoginAppSdk_entries[] =
     {
-        {{&LoginAppSdk_names[0], 13}, 1},
-        {{&LoginAppSdk_names[13], 7}, 3},
-        {{&LoginAppSdk_names[20], 11}, 0},
-        {{&LoginAppSdk_names[31], 6}, 2},
+        {{&LoginAppSdk_names[0], 5}, 4},
+        {{&LoginAppSdk_names[5], 13}, 1},
+        {{&LoginAppSdk_names[18], 7}, 3},
+        {{&LoginAppSdk_names[25], 11}, 0},
+        {{&LoginAppSdk_names[36], 6}, 2},
 };
 
 static const int LoginAppSdk_entries_by_number[] = {
-    2,  // 0 -> UNKNOWN_LAS
-    0,  // 1 -> IDANDPASSWORD
-    3,  // 2 -> WECHAT
-    1,  // 3 -> KEY_ENC
+    3,  // 0 -> UNKNOWN_LAS
+    1,  // 1 -> IDANDPASSWORD
+    4,  // 2 -> WECHAT
+    2,  // 3 -> KEY_ENC
+    0,  // 4 -> GUEST
 };
 
 const std::string& LoginAppSdk_Name(LoginAppSdk value) {
   static const bool kDummy =
       ::google::protobuf::internal::InitializeEnumStrings(
           LoginAppSdk_entries, LoginAppSdk_entries_by_number,
-          4, LoginAppSdk_strings);
+          5, LoginAppSdk_strings);
   (void)kDummy;
 
   int idx = ::google::protobuf::internal::LookUpEnumName(
-      LoginAppSdk_entries, LoginAppSdk_entries_by_number, 4,
+      LoginAppSdk_entries, LoginAppSdk_entries_by_number, 5,
       value);
   return idx == -1 ? ::google::protobuf::internal::GetEmptyString()
                    : LoginAppSdk_strings[idx].get();
@@ -233,7 +236,7 @@ const std::string& LoginAppSdk_Name(LoginAppSdk value) {
 bool LoginAppSdk_Parse(absl::string_view name, LoginAppSdk* value) {
   int int_value;
   bool success = ::google::protobuf::internal::LookUpEnumValue(
-      LoginAppSdk_entries, 4, name, &int_value);
+      LoginAppSdk_entries, 5, name, &int_value);
   if (success) {
     *value = static_cast<LoginAppSdk>(int_value);
   }
