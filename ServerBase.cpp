@@ -562,5 +562,33 @@ namespace Base {
 		}
 	}
 
+    bool ServerBase::load_db(const toml::Value& root,std::string name)
+    {
+        using namespace DBPool;
+
+        std::string ip = TomlHelper::TGet<std::string>(root,name,"ip");
+        int port = TomlHelper::TGet<int>(root,name,"port");
+        std::string user =  TomlHelper::TGet<std::string>(root,name,"user");
+        std::string passwd  =  TomlHelper::TGet<std::string>(root,name,"password");
+        std::string dbname = TomlHelper::TGet<std::string>(root,name,"dbname");
+        std::string charset = TomlHelper::TGet<std::string>(root,name,"charset");
+
+        int poolsize = TomlHelper::TGet<int>(root,name,"poolsize",this->mThreads.size());
+
+        auto pool = std::make_shared<MySqlConnectPool>();
+        for(int i = 0;i < poolsize;i++){
+            MysqlConnect*con = new MysqlConnect(ip, user, passwd, dbname, charset, port);
+            if(con->Connect()){
+                pool->put(con);
+            }else{
+                delete con;
+                return false;
+            }
+        }
+
+        mDbPools[name] = pool;
+        return true;
+    }
+
 } //namespace Base
 

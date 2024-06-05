@@ -1,12 +1,22 @@
-name="login"
+name="user"
 type=1
 index=1
 
 [thread]
-cnt = 0
+cnt = 8
 
 [[nats]]
 name="system"
 host="127.0.0.1"
 port=4222
 subs = ["login.*.id.*"]
+
+
+[db.user]
+charset="utf8mb4"
+ip="192.168.1.205"
+port=3307
+user="dzqp"
+password="DzQp@2021"
+dbname="lepai_guest"
+poolsize=1

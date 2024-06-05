@@ -10,6 +10,7 @@ enum class ServerType : int16_t
     Server_Central          = 1,         
     Server_Gate             = 2,
     Server_Login            = 3,
+    Server_User,
     Server_PlanServer,
     Server_Ddz,
 };
