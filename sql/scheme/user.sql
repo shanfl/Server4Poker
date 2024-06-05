@@ -10,7 +10,7 @@ create table if not exists `user`
     pass    varchar(255),
     figure  text,
     flag    int ,
-    banned  int ,
+    banned  int not null default 0,
     primary key(uid)
 );
 
