@@ -188,9 +188,9 @@ bool OS_PLATFORM_Parse(absl::string_view name, OS_PLATFORM* value) {
   return success;
 }
 PROTOBUF_CONSTINIT const uint32_t LoginAppSdk_internal_data_[] = {
-    327680u, 0u, };
+    131072u, 32u, 14u, };
 bool LoginAppSdk_IsValid(int value) {
-  return 0 <= value && value <= 4;
+  return 0 <= value && value <= 5 && ((59u >> value) & 1) != 0;
 }
 static ::google::protobuf::internal::ExplicitlyConstructed<std::string>
     LoginAppSdk_strings[5] = {};
@@ -205,19 +205,19 @@ static const char LoginAppSdk_names[] = {
 
 static const ::google::protobuf::internal::EnumEntry LoginAppSdk_entries[] =
     {
-        {{&LoginAppSdk_names[0], 5}, 4},
+        {{&LoginAppSdk_names[0], 5}, 3},
         {{&LoginAppSdk_names[5], 13}, 1},
-        {{&LoginAppSdk_names[18], 7}, 3},
+        {{&LoginAppSdk_names[18], 7}, 5},
         {{&LoginAppSdk_names[25], 11}, 0},
-        {{&LoginAppSdk_names[36], 6}, 2},
+        {{&LoginAppSdk_names[36], 6}, 4},
 };
 
 static const int LoginAppSdk_entries_by_number[] = {
     3,  // 0 -> UNKNOWN_LAS
     1,  // 1 -> IDANDPASSWORD
-    4,  // 2 -> WECHAT
-    2,  // 3 -> KEY_ENC
-    0,  // 4 -> GUEST
+    0,  // 3 -> GUEST
+    4,  // 4 -> WECHAT
+    2,  // 5 -> KEY_ENC
 };
 
 const std::string& LoginAppSdk_Name(LoginAppSdk value) {

@@ -22,9 +22,10 @@ enum LoginAppSdk
 {
     UNKNOWN_LAS = 0;
     IDANDPASSWORD = 1;
-    WECHAT=2;
-    KEY_ENC=3;
-    GUEST = 4;
+    GUEST = 3;
+    WECHAT=4;
+    KEY_ENC=5;
+    
 };
 
 message PlayerLoginReq

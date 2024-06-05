@@ -115,9 +115,9 @@ bool OS_PLATFORM_Parse(absl::string_view name, OS_PLATFORM* value);
 enum LoginAppSdk : int {
   UNKNOWN_LAS = 0,
   IDANDPASSWORD = 1,
-  WECHAT = 2,
-  KEY_ENC = 3,
-  GUEST = 4,
+  GUEST = 3,
+  WECHAT = 4,
+  KEY_ENC = 5,
   LoginAppSdk_INT_MIN_SENTINEL_DO_NOT_USE_ =
       std::numeric_limits<::int32_t>::min(),
   LoginAppSdk_INT_MAX_SENTINEL_DO_NOT_USE_ =
@@ -127,8 +127,8 @@ enum LoginAppSdk : int {
 bool LoginAppSdk_IsValid(int value);
 extern const uint32_t LoginAppSdk_internal_data_[];
 constexpr LoginAppSdk LoginAppSdk_MIN = static_cast<LoginAppSdk>(0);
-constexpr LoginAppSdk LoginAppSdk_MAX = static_cast<LoginAppSdk>(4);
-constexpr int LoginAppSdk_ARRAYSIZE = 4 + 1;
+constexpr LoginAppSdk LoginAppSdk_MAX = static_cast<LoginAppSdk>(5);
+constexpr int LoginAppSdk_ARRAYSIZE = 5 + 1;
 const std::string& LoginAppSdk_Name(LoginAppSdk value);
 template <typename T>
 const std::string& LoginAppSdk_Name(T value) {
