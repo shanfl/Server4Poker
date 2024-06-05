@@ -24,6 +24,7 @@ enum LoginAppSdk
     IDANDPASSWORD = 1;
     WECHAT=2;
     KEY_ENC=3;
+    GUEST = 4;
 };
 
 message PlayerLoginReq
