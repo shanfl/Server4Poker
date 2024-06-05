@@ -462,30 +462,31 @@ class PlayerLoginReq final : public ::google::protobuf::MessageLite
 
   // accessors -------------------------------------------------------
   enum : int {
-    kIdFieldNumber = 3,
-    kPassFieldNumber = 4,
-    kAppSpecFieldNumber = 5,
-    kKeysEncFieldNumber = 6,
+    kNameFieldNumber = 4,
+    kPassFieldNumber = 5,
+    kAppSpecFieldNumber = 6,
+    kKeysEncFieldNumber = 7,
     kOsplatformFieldNumber = 1,
     kLasFieldNumber = 2,
+    kIdFieldNumber = 3,
   };
-  // string id = 3;
-  void clear_id() ;
-  const std::string& id() const;
+  // string name = 4;
+  void clear_name() ;
+  const std::string& name() const;
   template <typename Arg_ = const std::string&, typename... Args_>
-  void set_id(Arg_&& arg, Args_... args);
-  std::string* mutable_id();
-  PROTOBUF_NODISCARD std::string* release_id();
-  void set_allocated_id(std::string* value);
+  void set_name(Arg_&& arg, Args_... args);
+  std::string* mutable_name();
+  PROTOBUF_NODISCARD std::string* release_name();
+  void set_allocated_name(std::string* value);
 
   private:
-  const std::string& _internal_id() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_id(
+  const std::string& _internal_name() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_name(
       const std::string& value);
-  std::string* _internal_mutable_id();
+  std::string* _internal_mutable_name();
 
   public:
-  // string pass = 4;
+  // string pass = 5;
   void clear_pass() ;
   const std::string& pass() const;
   template <typename Arg_ = const std::string&, typename... Args_>
@@ -501,7 +502,7 @@ class PlayerLoginReq final : public ::google::protobuf::MessageLite
   std::string* _internal_mutable_pass();
 
   public:
-  // string app_spec = 5;
+  // string app_spec = 6;
   void clear_app_spec() ;
   const std::string& app_spec() const;
   template <typename Arg_ = const std::string&, typename... Args_>
@@ -517,7 +518,7 @@ class PlayerLoginReq final : public ::google::protobuf::MessageLite
   std::string* _internal_mutable_app_spec();
 
   public:
-  // string keys_enc = 6;
+  // string keys_enc = 7;
   void clear_keys_enc() ;
   const std::string& keys_enc() const;
   template <typename Arg_ = const std::string&, typename... Args_>
@@ -553,13 +554,23 @@ class PlayerLoginReq final : public ::google::protobuf::MessageLite
   void _internal_set_las(::Pb::Client::LoginAppSdk value);
 
   public:
+  // int64 id = 3;
+  void clear_id() ;
+  ::int64_t id() const;
+  void set_id(::int64_t value);
+
+  private:
+  ::int64_t _internal_id() const;
+  void _internal_set_id(::int64_t value);
+
+  public:
   // @@protoc_insertion_point(class_scope:Pb.Client.PlayerLoginReq)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      3, 6, 0,
-      55, 2>
+      3, 7, 0,
+      57, 2>
       _table_;
   friend class ::google::protobuf::MessageLite;
   friend class ::google::protobuf::Arena;
@@ -574,12 +585,13 @@ class PlayerLoginReq final : public ::google::protobuf::MessageLite
                           ::google::protobuf::Arena* arena);
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from);
-    ::google::protobuf::internal::ArenaStringPtr id_;
+    ::google::protobuf::internal::ArenaStringPtr name_;
     ::google::protobuf::internal::ArenaStringPtr pass_;
     ::google::protobuf::internal::ArenaStringPtr app_spec_;
     ::google::protobuf::internal::ArenaStringPtr keys_enc_;
     int osplatform_;
     int las_;
+    ::int64_t id_;
     mutable ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -647,57 +659,79 @@ inline void PlayerLoginReq::_internal_set_las(::Pb::Client::LoginAppSdk value) {
   _impl_.las_ = value;
 }
 
-// string id = 3;
+// int64 id = 3;
 inline void PlayerLoginReq::clear_id() {
   PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
-  _impl_.id_.ClearToEmpty();
+  _impl_.id_ = ::int64_t{0};
 }
-inline const std::string& PlayerLoginReq::id() const
-    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+inline ::int64_t PlayerLoginReq::id() const {
   // @@protoc_insertion_point(field_get:Pb.Client.PlayerLoginReq.id)
   return _internal_id();
 }
-template <typename Arg_, typename... Args_>
-inline PROTOBUF_ALWAYS_INLINE void PlayerLoginReq::set_id(Arg_&& arg,
-                                                     Args_... args) {
-  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
-  _impl_.id_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+inline void PlayerLoginReq::set_id(::int64_t value) {
+  _internal_set_id(value);
   // @@protoc_insertion_point(field_set:Pb.Client.PlayerLoginReq.id)
 }
-inline std::string* PlayerLoginReq::mutable_id() ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  std::string* _s = _internal_mutable_id();
-  // @@protoc_insertion_point(field_mutable:Pb.Client.PlayerLoginReq.id)
-  return _s;
-}
-inline const std::string& PlayerLoginReq::_internal_id() const {
+inline ::int64_t PlayerLoginReq::_internal_id() const {
   PROTOBUF_TSAN_READ(&_impl_._tsan_detect_race);
-  return _impl_.id_.Get();
+  return _impl_.id_;
 }
-inline void PlayerLoginReq::_internal_set_id(const std::string& value) {
+inline void PlayerLoginReq::_internal_set_id(::int64_t value) {
   PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
-  _impl_.id_.Set(value, GetArena());
-}
-inline std::string* PlayerLoginReq::_internal_mutable_id() {
-  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
-  return _impl_.id_.Mutable( GetArena());
-}
-inline std::string* PlayerLoginReq::release_id() {
-  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
-  // @@protoc_insertion_point(field_release:Pb.Client.PlayerLoginReq.id)
-  return _impl_.id_.Release();
-}
-inline void PlayerLoginReq::set_allocated_id(std::string* value) {
-  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
-  _impl_.id_.SetAllocated(value, GetArena());
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        if (_impl_.id_.IsDefault()) {
-          _impl_.id_.Set("", GetArena());
-        }
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:Pb.Client.PlayerLoginReq.id)
+  _impl_.id_ = value;
 }
 
-// string pass = 4;
+// string name = 4;
+inline void PlayerLoginReq::clear_name() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  _impl_.name_.ClearToEmpty();
+}
+inline const std::string& PlayerLoginReq::name() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:Pb.Client.PlayerLoginReq.name)
+  return _internal_name();
+}
+template <typename Arg_, typename... Args_>
+inline PROTOBUF_ALWAYS_INLINE void PlayerLoginReq::set_name(Arg_&& arg,
+                                                     Args_... args) {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  _impl_.name_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:Pb.Client.PlayerLoginReq.name)
+}
+inline std::string* PlayerLoginReq::mutable_name() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_name();
+  // @@protoc_insertion_point(field_mutable:Pb.Client.PlayerLoginReq.name)
+  return _s;
+}
+inline const std::string& PlayerLoginReq::_internal_name() const {
+  PROTOBUF_TSAN_READ(&_impl_._tsan_detect_race);
+  return _impl_.name_.Get();
+}
+inline void PlayerLoginReq::_internal_set_name(const std::string& value) {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  _impl_.name_.Set(value, GetArena());
+}
+inline std::string* PlayerLoginReq::_internal_mutable_name() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  return _impl_.name_.Mutable( GetArena());
+}
+inline std::string* PlayerLoginReq::release_name() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  // @@protoc_insertion_point(field_release:Pb.Client.PlayerLoginReq.name)
+  return _impl_.name_.Release();
+}
+inline void PlayerLoginReq::set_allocated_name(std::string* value) {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  _impl_.name_.SetAllocated(value, GetArena());
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+        if (_impl_.name_.IsDefault()) {
+          _impl_.name_.Set("", GetArena());
+        }
+  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:Pb.Client.PlayerLoginReq.name)
+}
+
+// string pass = 5;
 inline void PlayerLoginReq::clear_pass() {
   PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   _impl_.pass_.ClearToEmpty();
@@ -747,7 +781,7 @@ inline void PlayerLoginReq::set_allocated_pass(std::string* value) {
   // @@protoc_insertion_point(field_set_allocated:Pb.Client.PlayerLoginReq.pass)
 }
 
-// string app_spec = 5;
+// string app_spec = 6;
 inline void PlayerLoginReq::clear_app_spec() {
   PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   _impl_.app_spec_.ClearToEmpty();
@@ -797,7 +831,7 @@ inline void PlayerLoginReq::set_allocated_app_spec(std::string* value) {
   // @@protoc_insertion_point(field_set_allocated:Pb.Client.PlayerLoginReq.app_spec)
 }
 
-// string keys_enc = 6;
+// string keys_enc = 7;
 inline void PlayerLoginReq::clear_keys_enc() {
   PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   _impl_.keys_enc_.ClearToEmpty();

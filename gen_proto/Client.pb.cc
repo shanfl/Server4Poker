@@ -50,7 +50,7 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
 
 inline constexpr PlayerLoginReq::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
-      : id_(
+      : name_(
             &::google::protobuf::internal::fixed_address_empty_string,
             ::_pbi::ConstantInitialized()),
         pass_(
@@ -64,6 +64,7 @@ inline constexpr PlayerLoginReq::Impl_::Impl_(
             ::_pbi::ConstantInitialized()),
         osplatform_{static_cast< ::Pb::Client::OS_PLATFORM >(0)},
         las_{static_cast< ::Pb::Client::LoginAppSdk >(0)},
+        id_{::int64_t{0}},
         _cached_size_{0} {}
 
 template <typename>
@@ -256,7 +257,7 @@ PlayerLoginReq::PlayerLoginReq(::google::protobuf::Arena* arena)
 inline PROTOBUF_NDEBUG_INLINE PlayerLoginReq::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
     const Impl_& from)
-      : id_(arena, from.id_),
+      : name_(arena, from.name_),
         pass_(arena, from.pass_),
         app_spec_(arena, from.app_spec_),
         keys_enc_(arena, from.keys_enc_),
@@ -275,16 +276,16 @@ PlayerLoginReq::PlayerLoginReq(
                offsetof(Impl_, osplatform_),
            reinterpret_cast<const char *>(&from._impl_) +
                offsetof(Impl_, osplatform_),
-           offsetof(Impl_, las_) -
+           offsetof(Impl_, id_) -
                offsetof(Impl_, osplatform_) +
-               sizeof(Impl_::las_));
+               sizeof(Impl_::id_));
 
   // @@protoc_insertion_point(copy_constructor:Pb.Client.PlayerLoginReq)
 }
 inline PROTOBUF_NDEBUG_INLINE PlayerLoginReq::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
     ::google::protobuf::Arena* arena)
-      : id_(arena),
+      : name_(arena),
         pass_(arena),
         app_spec_(arena),
         keys_enc_(arena),
@@ -295,9 +296,9 @@ inline void PlayerLoginReq::SharedCtor(::_pb::Arena* arena) {
   ::memset(reinterpret_cast<char *>(&_impl_) +
                offsetof(Impl_, osplatform_),
            0,
-           offsetof(Impl_, las_) -
+           offsetof(Impl_, id_) -
                offsetof(Impl_, osplatform_) +
-               sizeof(Impl_::las_));
+               sizeof(Impl_::id_));
 }
 PlayerLoginReq::~PlayerLoginReq() {
   // @@protoc_insertion_point(destructor:Pb.Client.PlayerLoginReq)
@@ -306,7 +307,7 @@ PlayerLoginReq::~PlayerLoginReq() {
 }
 inline void PlayerLoginReq::SharedDtor() {
   ABSL_DCHECK(GetArena() == nullptr);
-  _impl_.id_.Destroy();
+  _impl_.name_.Destroy();
   _impl_.pass_.Destroy();
   _impl_.app_spec_.Destroy();
   _impl_.keys_enc_.Destroy();
@@ -338,13 +339,13 @@ PROTOBUF_NOINLINE void PlayerLoginReq::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _impl_.id_.ClearToEmpty();
+  _impl_.name_.ClearToEmpty();
   _impl_.pass_.ClearToEmpty();
   _impl_.app_spec_.ClearToEmpty();
   _impl_.keys_enc_.ClearToEmpty();
   ::memset(&_impl_.osplatform_, 0, static_cast<::size_t>(
-      reinterpret_cast<char*>(&_impl_.las_) -
-      reinterpret_cast<char*>(&_impl_.osplatform_)) + sizeof(_impl_.las_));
+      reinterpret_cast<char*>(&_impl_.id_) -
+      reinterpret_cast<char*>(&_impl_.osplatform_)) + sizeof(_impl_.id_));
   _internal_metadata_.Clear<std::string>();
 }
 
@@ -356,15 +357,15 @@ const char* PlayerLoginReq::_InternalParse(
 
 
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<3, 6, 0, 55, 2> PlayerLoginReq::_table_ = {
+const ::_pbi::TcParseTable<3, 7, 0, 57, 2> PlayerLoginReq::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    6, 56,  // max_field_number, fast_idx_mask
+    7, 56,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294967232,  // skipmap
+    4294967168,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    6,  // num_field_entries
+    7,  // num_field_entries
     0,  // num_aux_entries
     offsetof(decltype(_table_), field_names),  // no aux_entries
     &_PlayerLoginReq_default_instance_._instance,
@@ -380,19 +381,21 @@ const ::_pbi::TcParseTable<3, 6, 0, 55, 2> PlayerLoginReq::_table_ = {
     // .Pb.Client.LoginAppSdk las = 2;
     {::_pbi::TcParser::FastV32S1,
      {16, 63, 0, PROTOBUF_FIELD_OFFSET(PlayerLoginReq, _impl_.las_)}},
-    // string id = 3;
+    // int64 id = 3;
+    {::_pbi::TcParser::FastV64S1,
+     {24, 63, 0, PROTOBUF_FIELD_OFFSET(PlayerLoginReq, _impl_.id_)}},
+    // string name = 4;
     {::_pbi::TcParser::FastUS1,
-     {26, 63, 0, PROTOBUF_FIELD_OFFSET(PlayerLoginReq, _impl_.id_)}},
-    // string pass = 4;
+     {34, 63, 0, PROTOBUF_FIELD_OFFSET(PlayerLoginReq, _impl_.name_)}},
+    // string pass = 5;
     {::_pbi::TcParser::FastUS1,
-     {34, 63, 0, PROTOBUF_FIELD_OFFSET(PlayerLoginReq, _impl_.pass_)}},
-    // string app_spec = 5;
+     {42, 63, 0, PROTOBUF_FIELD_OFFSET(PlayerLoginReq, _impl_.pass_)}},
+    // string app_spec = 6;
     {::_pbi::TcParser::FastUS1,
-     {42, 63, 0, PROTOBUF_FIELD_OFFSET(PlayerLoginReq, _impl_.app_spec_)}},
-    // string keys_enc = 6;
+     {50, 63, 0, PROTOBUF_FIELD_OFFSET(PlayerLoginReq, _impl_.app_spec_)}},
+    // string keys_enc = 7;
     {::_pbi::TcParser::FastUS1,
-     {50, 63, 0, PROTOBUF_FIELD_OFFSET(PlayerLoginReq, _impl_.keys_enc_)}},
-    {::_pbi::TcParser::MiniParse, {}},
+     {58, 63, 0, PROTOBUF_FIELD_OFFSET(PlayerLoginReq, _impl_.keys_enc_)}},
   }}, {{
     65535, 65535
   }}, {{
@@ -402,24 +405,27 @@ const ::_pbi::TcParseTable<3, 6, 0, 55, 2> PlayerLoginReq::_table_ = {
     // .Pb.Client.LoginAppSdk las = 2;
     {PROTOBUF_FIELD_OFFSET(PlayerLoginReq, _impl_.las_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kOpenEnum)},
-    // string id = 3;
+    // int64 id = 3;
     {PROTOBUF_FIELD_OFFSET(PlayerLoginReq, _impl_.id_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kInt64)},
+    // string name = 4;
+    {PROTOBUF_FIELD_OFFSET(PlayerLoginReq, _impl_.name_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kUtf8String | ::_fl::kRepAString)},
-    // string pass = 4;
+    // string pass = 5;
     {PROTOBUF_FIELD_OFFSET(PlayerLoginReq, _impl_.pass_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kUtf8String | ::_fl::kRepAString)},
-    // string app_spec = 5;
+    // string app_spec = 6;
     {PROTOBUF_FIELD_OFFSET(PlayerLoginReq, _impl_.app_spec_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kUtf8String | ::_fl::kRepAString)},
-    // string keys_enc = 6;
+    // string keys_enc = 7;
     {PROTOBUF_FIELD_OFFSET(PlayerLoginReq, _impl_.keys_enc_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kUtf8String | ::_fl::kRepAString)},
   }},
   // no aux_entries
   {{
-    "\30\0\0\2\4\10\10\0"
+    "\30\0\0\0\4\4\10\10"
     "Pb.Client.PlayerLoginReq"
-    "id"
+    "name"
     "pass"
     "app_spec"
     "keys_enc"
@@ -447,36 +453,43 @@ const ::_pbi::TcParseTable<3, 6, 0, 55, 2> PlayerLoginReq::_table_ = {
         2, this->_internal_las(), target);
   }
 
-  // string id = 3;
-  if (!this->_internal_id().empty()) {
-    const std::string& _s = this->_internal_id();
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-        _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "Pb.Client.PlayerLoginReq.id");
-    target = stream->WriteStringMaybeAliased(3, _s, target);
+  // int64 id = 3;
+  if (this->_internal_id() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::
+        WriteInt64ToArrayWithField<3>(
+            stream, this->_internal_id(), target);
   }
 
-  // string pass = 4;
+  // string name = 4;
+  if (!this->_internal_name().empty()) {
+    const std::string& _s = this->_internal_name();
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+        _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "Pb.Client.PlayerLoginReq.name");
+    target = stream->WriteStringMaybeAliased(4, _s, target);
+  }
+
+  // string pass = 5;
   if (!this->_internal_pass().empty()) {
     const std::string& _s = this->_internal_pass();
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
         _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "Pb.Client.PlayerLoginReq.pass");
-    target = stream->WriteStringMaybeAliased(4, _s, target);
+    target = stream->WriteStringMaybeAliased(5, _s, target);
   }
 
-  // string app_spec = 5;
+  // string app_spec = 6;
   if (!this->_internal_app_spec().empty()) {
     const std::string& _s = this->_internal_app_spec();
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
         _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "Pb.Client.PlayerLoginReq.app_spec");
-    target = stream->WriteStringMaybeAliased(5, _s, target);
+    target = stream->WriteStringMaybeAliased(6, _s, target);
   }
 
-  // string keys_enc = 6;
+  // string keys_enc = 7;
   if (!this->_internal_keys_enc().empty()) {
     const std::string& _s = this->_internal_keys_enc();
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
         _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "Pb.Client.PlayerLoginReq.keys_enc");
-    target = stream->WriteStringMaybeAliased(6, _s, target);
+    target = stream->WriteStringMaybeAliased(7, _s, target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -496,25 +509,25 @@ const ::_pbi::TcParseTable<3, 6, 0, 55, 2> PlayerLoginReq::_table_ = {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // string id = 3;
-  if (!this->_internal_id().empty()) {
+  // string name = 4;
+  if (!this->_internal_name().empty()) {
     total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
-                                    this->_internal_id());
+                                    this->_internal_name());
   }
 
-  // string pass = 4;
+  // string pass = 5;
   if (!this->_internal_pass().empty()) {
     total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
                                     this->_internal_pass());
   }
 
-  // string app_spec = 5;
+  // string app_spec = 6;
   if (!this->_internal_app_spec().empty()) {
     total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
                                     this->_internal_app_spec());
   }
 
-  // string keys_enc = 6;
+  // string keys_enc = 7;
   if (!this->_internal_keys_enc().empty()) {
     total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
                                     this->_internal_keys_enc());
@@ -530,6 +543,12 @@ const ::_pbi::TcParseTable<3, 6, 0, 55, 2> PlayerLoginReq::_table_ = {
   if (this->_internal_las() != 0) {
     total_size += 1 +
                   ::_pbi::WireFormatLite::EnumSize(this->_internal_las());
+  }
+
+  // int64 id = 3;
+  if (this->_internal_id() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(
+        this->_internal_id());
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -552,8 +571,8 @@ void PlayerLoginReq::MergeFrom(const PlayerLoginReq& from) {
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (!from._internal_id().empty()) {
-    _this->_internal_set_id(from._internal_id());
+  if (!from._internal_name().empty()) {
+    _this->_internal_set_name(from._internal_name());
   }
   if (!from._internal_pass().empty()) {
     _this->_internal_set_pass(from._internal_pass());
@@ -569,6 +588,9 @@ void PlayerLoginReq::MergeFrom(const PlayerLoginReq& from) {
   }
   if (from._internal_las() != 0) {
     _this->_impl_.las_ = from._impl_.las_;
+  }
+  if (from._internal_id() != 0) {
+    _this->_impl_.id_ = from._impl_.id_;
   }
   _this->_internal_metadata_.MergeFrom<std::string>(from._internal_metadata_);
 }
@@ -589,13 +611,13 @@ void PlayerLoginReq::InternalSwap(PlayerLoginReq* PROTOBUF_RESTRICT other) {
   auto* arena = GetArena();
   ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.id_, &other->_impl_.id_, arena);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.name_, &other->_impl_.name_, arena);
   ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.pass_, &other->_impl_.pass_, arena);
   ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.app_spec_, &other->_impl_.app_spec_, arena);
   ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.keys_enc_, &other->_impl_.keys_enc_, arena);
   ::google::protobuf::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(PlayerLoginReq, _impl_.las_)
-      + sizeof(PlayerLoginReq::_impl_.las_)
+      PROTOBUF_FIELD_OFFSET(PlayerLoginReq, _impl_.id_)
+      + sizeof(PlayerLoginReq::_impl_.id_)
       - PROTOBUF_FIELD_OFFSET(PlayerLoginReq, _impl_.osplatform_)>(
           reinterpret_cast<char*>(&_impl_.osplatform_),
           reinterpret_cast<char*>(&other->_impl_.osplatform_));

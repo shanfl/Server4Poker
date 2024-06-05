@@ -31,10 +31,11 @@ message PlayerLoginReq
 {
     OS_PLATFORM  osplatform     = 1;
     LoginAppSdk  las            = 2;
-    string id                   = 3;
-    string pass                 = 4;
-    string app_spec             = 5;
-    string keys_enc             = 6;
+    int64 id                    = 3;
+    string name                 = 4;
+    string pass                 = 5;
+    string app_spec             = 6;
+    string keys_enc             = 7;
 };
 
 

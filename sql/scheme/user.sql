@@ -13,4 +13,3 @@ create table if not exists `user`
     banned  int not null default 0,
     primary key(uid)
 );
-
