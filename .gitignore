@@ -3,7 +3,8 @@
 [Bb]uild/
 [Bb]uild*/
 3rd/wolfssl/
-3rd/protobuf3/
+3rd/protobuf3/*/*
+3rd/protobuf3/*/*
 tmp/
 *.autosave
 *.autosave*
