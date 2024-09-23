@@ -1,7 +1,7 @@
-prefix=/home/shanfl/S4p/3rd/protobuf3/linux
+prefix=/home/shanfl/Server4Poker/3rd/protobuf3/linux
 exec_prefix=${prefix}
-libdir=/home/shanfl/S4p/3rd/protobuf3/linux/lib
-includedir=/home/shanfl/S4p/3rd/protobuf3/linux/include
+libdir=/home/shanfl/Server4Poker/3rd/protobuf3/linux/lib
+includedir=/home/shanfl/Server4Poker/3rd/protobuf3/linux/include
 
 Name: absl_inlined_vector_internal
 Description: Abseil inlined_vector_internal library
