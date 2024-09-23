@@ -53,15 +53,23 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(libfmt)
 
-set(protobuf_BUILD_TESTS 0)
-FetchContent_Declare(
-    protobuf
-    GIT_REPOSITORY https://github.com/protocolbuffers/protobuf.git
-    GIT_TAG "v3.26.0"
-    GIT_SHALLOW 1
-)
-FetchContent_MakeAvailable(protobuf)
+#
+#set(protobuf_BUILD_TESTS 0)
+#FetchContent_Declare(
+#    protobuf
+#    GIT_REPOSITORY https://github.com/protocolbuffers/protobuf.git
+#    GIT_TAG "v3.26.0"
+#    GIT_SHALLOW 1
+#)
+#FetchContent_MakeAvailable(protobuf)
+set(absl_DIR ${CMAKE_CURRENT_SOURCE_DIR}/3rd/protobuf3/linux/lib/cmake/absl)
+set(utf8_range_DIR ${CMAKE_CURRENT_SOURCE_DIR}/3rd/protobuf3/linux/lib/cmake/utf8_range)
+SET(protobuf_DIR ${CMAKE_CURRENT_SOURCE_DIR}/3rd/protobuf3/linux/lib/cmake/protobuf)
+find_package(protobuf PATHS ${CMAKE_CURRENT_SOURCE_DIR}/3rd/protobuf3/linux/lib/cmake
+    NO_DEFAULT_PATH REQUIRED
+    )
 
+MESSAGE(STATUS "INC:" ${protobuf_INCLUDE_DIR})
 
 #FetchContent_Declare(
 #    cjson
@@ -72,7 +80,7 @@ FetchContent_MakeAvailable(protobuf)
 #FetchContent_MakeAvailable(cjson)
 INCLUDE_DIRECTORIES(./3rd)
 include_directories(./3rd/uvw-3.3.0_libuv_v1.47/src)
-include_directories(./3rd/protobuf3/include)
+include_directories(./3rd/protobuf3/linux/include)
 include_directories(${libuv_SOURCE_DIR}/include/)
 include_directories(${cjson_SOURCE_DIR})
 INCLUDE_DIRECTORIES(./3rd/cJSON)

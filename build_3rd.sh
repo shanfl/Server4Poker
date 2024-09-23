@@ -27,3 +27,4 @@ install_protobuf3()
 }
 
 install_protobuf3
+install_wolfssl
