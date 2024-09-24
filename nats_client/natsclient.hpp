@@ -125,7 +125,7 @@ namespace uvw
 
         }
 
-        Request(std::string _sub_req,std::string _reply_to,std::string _sid,std::chrono::microseconds _ms_to,NATS_CALLBACK _cb){
+        Request(std::string _sub_req,std::string _reply_to,std::string _sid,std::chrono::milliseconds _ms_to,NATS_CALLBACK _cb){
             subject_request = _sub_req;
             subject_reply_to = _reply_to;
             sid = _sid;
@@ -137,7 +137,7 @@ namespace uvw
         std::string subject_request;
         std::string subject_reply_to;
         std::string sid;
-        std::chrono::microseconds timeout = std::chrono::microseconds(1000*60*2);
+        std::chrono::milliseconds timeout = std::chrono::milliseconds(1000);
         std::chrono::steady_clock::time_point start_time;
     };
 }   // namespace uvw
@@ -206,8 +206,10 @@ namespace uvw
 
         // 返回 reply'subject
         std::string request_reply(std::string subject,std::string reqmsg,
-                     NATS_CALLBACK cb,std::chrono::microseconds timeout);
+                     NATS_CALLBACK cb,std::chrono::milliseconds timeout);
 
+        // 检查超时的request_reply
+        void check_timeout_request_reply( std::chrono::steady_clock::time_point &tp);
 
         void ping();
         void pong();
@@ -249,6 +251,7 @@ namespace uvw
         NATS_CALLBACK mSubjectCallback;
         std::map<std::string,std::pair<std::string,std::string>> mSidSubjectsMap;
         std::map<std::string,Request> mReqestMap;
+        std::mutex mRequestMapMutex;
 
         snowflake<1716253976000L,std::mutex> mSnowFlake;
 

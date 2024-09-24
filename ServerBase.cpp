@@ -484,8 +484,8 @@ namespace Base {
 		std::string str_enc = Message::Encode(id, str_msg);
 		std::string subject_wait_reply = client->request_reply(subject
 			, str_enc,
-			std::bind(&ServerBase::on_nats_reqest_reply, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5)
-			, std::chrono::microseconds{ mstimout });
+            std::bind(&ServerBase::on_nats_reqest_reply, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5)
+                                                               , std::chrono::milliseconds { mstimout });
 
 		auto thd_id = std::this_thread::get_id();
 		std::tuple<NatsReqReplyCallBack, std::thread::id, std::chrono::steady_clock::time_point> tp{ cb,thd_id,std::chrono::steady_clock::now() };

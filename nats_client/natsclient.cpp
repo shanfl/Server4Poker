@@ -534,13 +534,14 @@ namespace uvw {
     }
 
     std::string nats_client::request_reply(std::string subject,std::string msg,
-                 NATS_CALLBACK cb,std::chrono::microseconds timeout)
+                 NATS_CALLBACK cb,std::chrono::milliseconds timeout)
     {
         std::string sid = next_sid();
         std::string subject_reply_to = "reply_to" + sid;
         sub(subject_reply_to,sid);
         unsub(sid,1);
         pub_with_reply(subject,msg,subject_reply_to);
+        std::lock_guard lk(mRequestMapMutex);
         mReqestMap[sid]  = Request(subject,subject_reply_to,sid,timeout,cb);
         return subject_reply_to;
     }
@@ -608,5 +609,29 @@ namespace uvw {
     void nats_client::set_uv_thdid(std::thread::id id){
         mUvMainThdId = id;
     }
+
+    void nats_client::check_timeout_request_reply(std::chrono::steady_clock::time_point &tp)
+    {
+        std::map<std::string,Request> outtime_map;
+        {
+            std::lock_guard lk(mRequestMapMutex);
+            for(auto it = mReqestMap.begin();it != mReqestMap.end();)
+            {
+                auto diff = std::chrono::duration_cast<std::chrono::milliseconds>(tp-it->second.start_time);
+                if(diff >= it->second.timeout){
+                    //it->second.cb(this->shared_from_this(),it->second.subject_request,"",it->second.subject_reply_to,true);
+                    outtime_map[it->first] = it->second;
+                    mReqestMap.erase(it++);
+                }else{
+                    it++;
+                }
+            }
+        }
+
+        for(auto&it:outtime_map){
+            it.second.cb(this->shared_from_this(),it.second.subject_request,"",it.second.subject_reply_to,true);
+        }
+    }
 }
+
 
