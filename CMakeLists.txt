@@ -1,12 +1,29 @@
 cmake_minimum_required(VERSION 3.22)
+project(Server4Poker)
+
+
 if(WIN32)
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
 ENDIF()
-project(BaseServer)
 
 
 
+macro(source_group_by_dir source_files)
+    if(MSVC)
+        set(sgbd_cur_dir ${CMAKE_CURRENT_SOURCE_DIR})
+        foreach(sgbd_file ${${source_files}})
+            string(REGEX REPLACE ${sgbd_cur_dir}/\(.*\) \\1 sgbd_fpath ${sgbd_file})
+            string(REGEX REPLACE "\(.*\)/.*" \\1 sgbd_group_name ${sgbd_fpath})
+            string(COMPARE EQUAL ${sgbd_fpath} ${sgbd_group_name} sgbd_nogroup)
+            string(REPLACE "/" "\\" sgbd_group_name ${sgbd_group_name})
+            if(sgbd_nogroup)
+                set(sgbd_group_name "\\")
+            endif(sgbd_nogroup)
+            source_group(${sgbd_group_name} FILES ${sgbd_file})
+        endforeach(sgbd_file)
+    endif(MSVC)
+endmacro(source_group_by_dir)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -62,14 +79,32 @@ FetchContent_MakeAvailable(libfmt)
 #    GIT_SHALLOW 1
 #)
 #FetchContent_MakeAvailable(protobuf)
-set(absl_DIR ${CMAKE_CURRENT_SOURCE_DIR}/3rd/protobuf3/linux/lib/cmake/absl)
-set(utf8_range_DIR ${CMAKE_CURRENT_SOURCE_DIR}/3rd/protobuf3/linux/lib/cmake/utf8_range)
-SET(protobuf_DIR ${CMAKE_CURRENT_SOURCE_DIR}/3rd/protobuf3/linux/lib/cmake/protobuf)
-find_package(protobuf PATHS ${CMAKE_CURRENT_SOURCE_DIR}/3rd/protobuf3/linux/lib/cmake
-    NO_DEFAULT_PATH REQUIRED
-    )
+
+IF(WIN32)
+    set(absl_DIR ${CMAKE_CURRENT_SOURCE_DIR}/3rd/protobuf3/win64/debug/lib/cmake/absl)
+    set(utf8_range_DIR ${CMAKE_CURRENT_SOURCE_DIR}/3rd/protobuf3/win64/debug/lib/cmake/utf8_range)
+    SET(protobuf_DIR ${CMAKE_CURRENT_SOURCE_DIR}/3rd/protobuf3/win64/debug/cmake)
+    find_package(protobuf PATHS ${CMAKE_CURRENT_SOURCE_DIR}/3rd/protobuf3/win64/debug/cmake
+        NO_DEFAULT_PATH REQUIRED
+        )
+ELSE()
+    set(absl_DIR ${CMAKE_CURRENT_SOURCE_DIR}/3rd/protobuf3/linux/lib/cmake/absl)
+    set(utf8_range_DIR ${CMAKE_CURRENT_SOURCE_DIR}/3rd/protobuf3/linux/lib/cmake/utf8_range)
+    SET(protobuf_DIR ${CMAKE_CURRENT_SOURCE_DIR}/3rd/protobuf3/linux/lib/cmake/protobuf)
+    find_package(protobuf PATHS ${CMAKE_CURRENT_SOURCE_DIR}/3rd/protobuf3/linux/lib/cmake
+        NO_DEFAULT_PATH REQUIRED
+        )
 
 MESSAGE(STATUS "INC:" ${protobuf_INCLUDE_DIR})
+ENDIF()
+
+IF(WIN32)
+SET(MYSQL_BIN "C:/Program Files/MySQL/MySQL Server 8.0")
+include_directories(${MYSQL_BIN}/include)
+link_directories(${MYSQL_BIN}/lib)
+ENDIF()
+
+
 
 #FetchContent_Declare(
 #    cjson
@@ -80,7 +115,11 @@ MESSAGE(STATUS "INC:" ${protobuf_INCLUDE_DIR})
 #FetchContent_MakeAvailable(cjson)
 INCLUDE_DIRECTORIES(./3rd)
 include_directories(./3rd/uvw-3.3.0_libuv_v1.47/src)
+IF(WIN32)
+include_directories(./3rd/protobuf3/win64/debug/include)
+ELSE()
 include_directories(./3rd/protobuf3/linux/include)
+ENDIF()
 include_directories(${libuv_SOURCE_DIR}/include/)
 include_directories(${cjson_SOURCE_DIR})
 INCLUDE_DIRECTORIES(./3rd/cJSON)
@@ -127,6 +166,8 @@ set(BS_SRC
     ${SESSION_SRC}
     ${DBPOOL_SRC}
 )
+
+source_group_by_dir(BS_SRC)
 
 add_library(BaseServer STATIC ${BS_SRC})
 
