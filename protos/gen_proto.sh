@@ -1,0 +1,1 @@
+../3rd/protobuf3/linux/bin/protoc --proto_path=./ --cpp_out=../core/  ./Core.proto
