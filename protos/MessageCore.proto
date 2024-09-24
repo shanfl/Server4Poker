@@ -1,0 +1,11 @@
+syntax = "proto3";
+option optimize_for = LITE_RUNTIME;
+package Ps;
+
+message ProtoMsgWrapper
+{
+   int32 	id   	= 1;
+   int32 	zipped  = 2;
+   string 	cookie 	= 3;
+   string  	msg	= 4;
+}

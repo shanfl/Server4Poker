@@ -1,0 +1,10 @@
+name="gate"
+type=2
+index=1
+
+[thread]
+cnt = 1
+
+[server]
+ip=0.0.0.0
+port=8899

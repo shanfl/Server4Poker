@@ -31,7 +31,7 @@ static unsigned long GetTickCount()
 #endif
 
 
-std::vector<std::string> split( const std::string& str, const std::string& delims, unsigned int maxSplits, bool preserveDelims = false)
+static inline std::vector<std::string> split( const std::string& str, const std::string& delims, unsigned int maxSplits, bool preserveDelims = false)
 {
     std::vector<std::string> ret;
     // Pre-allocate some space for performance
@@ -87,7 +87,7 @@ std::vector<std::string> split( const std::string& str, const std::string& delim
     } while (pos != std::string::npos);
     return ret;
 }
-std::string join(std::vector<std::string> &vs,char c){
+static inline std::string join(std::vector<std::string> &vs,char c){
         if(vs.size() == 0) return "";
         if(vs.size() == 1) return vs[0];
 

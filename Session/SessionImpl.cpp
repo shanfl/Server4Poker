@@ -332,7 +332,8 @@ namespace uvw {
 	}
 
 	void SessionImpl::read() {
-		if (mTcpHandler) mTcpHandler->read();
+        if (mTcpHandler)
+            mTcpHandler->read();
     }
 
 	void SessionImpl::raw_send(const char* buf, size_t length)
@@ -389,9 +390,9 @@ namespace uvw {
 			hdl.read();
 			});
 
-		this->mTcpHandler->on<uvw::error_event>([](const uvw::error_event&, uvw::tcp_handle&) {
+        this->mTcpHandler->on<uvw::error_event>([](const uvw::error_event&e, uvw::tcp_handle&) {
 			/* handle errors */
-			std::clog << "connect_event\n";
+            std::clog << "error_event: " << e.what() << std::endl;
 			});
 	}
 
@@ -435,8 +436,8 @@ namespace uvw {
                 memcpy(wskey, accept_key.c_str(), accept_key.length());
                 char accept_str[32];
                 accept_str[WebsocketHelper::sha1base64((uint8_t*)wskey, 24 + 36, accept_str)] = 0;
-                std::string check_key = std::string(accept_str);
-                if(check_key != accept_key){
+                std::string check_key = std::string(accept_str,accept_str+24);
+                if(check_key != appcet_string){
                     this->mSessionPtr->publish(on_error_event{"Sec-WebSocket-Accept error",-1});
                     close();
                     return;
@@ -549,12 +550,13 @@ namespace uvw {
 	}
 
 	void SessionImpl::on_tcp_connected(SideClient side, std::shared_ptr<uvw::tcp_handle> hdl) {
+        std::clog << __FUNCTION__ << std::endl;
 		mSideClient = side;
         set_session_state(SessionState::TCP_CONNECTED);
         if (side == SideClient::REMOTE_CLIENT) {
 			mTcpHandler = hdl;
 			init_tcp();
-
+            //mTcpHandler->read();
             //set_session_state(SessionState::PROXY_JUDGING);  // 尚未实现
             set_session_state(SessionState::WS_JUDGING);  // 尚未实现
 		}
@@ -612,6 +614,7 @@ namespace uvw {
 
 		request += "\r\n";
 		raw_send(request.data(), request.length());
+        std::clog << "send:\n" << request.data() << std::endl;
 	}
 
 	void SessionImpl::send(std::string data)

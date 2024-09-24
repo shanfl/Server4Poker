@@ -35,10 +35,10 @@ void UserServer::on_natspub_PlayerLoginReq(Base::NatsClinetPtr natsc,Base::Messa
             // 如果uid == 0 说明可以注册
             loginResult = Login_ByNamePass(uid,msgptr->name(),msgptr->pass());
         }else if(loginWay == GUEST){
-            loginResult = error_rc;
+            //loginResult = error_rc;
         }
         else if(WECHAT == loginWay){
-            loginResult = error_rc;
+            //loginResult = error_rc;
         }
     }
 

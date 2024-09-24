@@ -256,10 +256,12 @@ namespace Base {
 		std::clog << "======> listenat:" << ip << ":" << port << std::endl;
 
 		mTcpHander->on<uvw::listen_event>([this](const uvw::listen_event&, uvw::tcp_handle& srv) {
+            std::clog << "listen_event" << std::endl;
 			std::shared_ptr<uvw::tcp_handle> client = srv.parent().resource<uvw::tcp_handle>();
 
 			std::shared_ptr<uvw::Session> clientSession = srv.parent().resource<uvw::Session>(client);
 			clientSession->set_tcpmsg_spliter(Message::fast_split);
+            //client->no_delay(true);
 			this->mSessionUndefined[clientSession->id()] = clientSession;
 
 			clientSession->on<uvw::on_msg_event>([clientSession, this](const uvw::on_msg_event& ev, const auto& hdl) {
@@ -268,6 +270,7 @@ namespace Base {
 			clientSession->on<uvw::on_close_event>([clientSession, this](const auto&, const auto&) {
 				this->on_session_close(clientSession);
 				});
+            srv.accept(*client);
 			clientSession->read();
 			});
 

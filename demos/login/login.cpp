@@ -20,7 +20,7 @@ void LoginServer::on_natspub_PlayerLoginReq(Base::NatsClinetPtr natsc,Base::Mess
 
     LoginAppSdk wayLogin = msgptr->las();
     switch (wayLogin) {
-    case IDANDPASSWORD:
+    //case IDANDPASSWORD:
     {
         //this->nats_reqest_reply() // to user-server
     }
