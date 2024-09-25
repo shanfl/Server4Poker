@@ -46,23 +46,20 @@ class AnyMetadata;
 struct TableStruct_Central_2eproto {
   static const ::uint32_t offsets[];
 };
-namespace Pb {
-namespace Central {
+namespace Ps {
 class CentralHeartBeat;
 struct CentralHeartBeatDefaultTypeInternal;
 extern CentralHeartBeatDefaultTypeInternal _CentralHeartBeat_default_instance_;
 class RegisterToCentral;
 struct RegisterToCentralDefaultTypeInternal;
 extern RegisterToCentralDefaultTypeInternal _RegisterToCentral_default_instance_;
-}  // namespace Central
-}  // namespace Pb
+}  // namespace Ps
 namespace google {
 namespace protobuf {
 }  // namespace protobuf
 }  // namespace google
 
-namespace Pb {
-namespace Central {
+namespace Ps {
 enum MsgID : int {
   MsgID_Central_0 = 0,
   ID_RegisterToCentral = 3000,
@@ -94,7 +91,7 @@ bool MsgID_Parse(absl::string_view name, MsgID* value);
 // -------------------------------------------------------------------
 
 class RegisterToCentral final : public ::google::protobuf::MessageLite
-/* @@protoc_insertion_point(class_definition:Pb.Central.RegisterToCentral) */ {
+/* @@protoc_insertion_point(class_definition:Ps.RegisterToCentral) */ {
  public:
   inline RegisterToCentral() : RegisterToCentral(nullptr) {}
   ~RegisterToCentral() override;
@@ -184,7 +181,7 @@ class RegisterToCentral final : public ::google::protobuf::MessageLite
   void InternalSwap(RegisterToCentral* other);
  private:
   friend class ::google::protobuf::internal::AnyMetadata;
-  static ::absl::string_view FullMessageName() { return "Pb.Central.RegisterToCentral"; }
+  static ::absl::string_view FullMessageName() { return "Ps.RegisterToCentral"; }
 
  protected:
   explicit RegisterToCentral(::google::protobuf::Arena* arena);
@@ -241,13 +238,13 @@ class RegisterToCentral final : public ::google::protobuf::MessageLite
   void _internal_set_serverindex(::int32_t value);
 
   public:
-  // @@protoc_insertion_point(class_scope:Pb.Central.RegisterToCentral)
+  // @@protoc_insertion_point(class_scope:Ps.RegisterToCentral)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
       2, 3, 0,
-      47, 2>
+      39, 2>
       _table_;
   friend class ::google::protobuf::MessageLite;
   friend class ::google::protobuf::Arena;
@@ -274,7 +271,7 @@ class RegisterToCentral final : public ::google::protobuf::MessageLite
 // -------------------------------------------------------------------
 
 class CentralHeartBeat final : public ::google::protobuf::MessageLite
-/* @@protoc_insertion_point(class_definition:Pb.Central.CentralHeartBeat) */ {
+/* @@protoc_insertion_point(class_definition:Ps.CentralHeartBeat) */ {
  public:
   inline CentralHeartBeat() : CentralHeartBeat(nullptr) {}
   ~CentralHeartBeat() override;
@@ -364,7 +361,7 @@ class CentralHeartBeat final : public ::google::protobuf::MessageLite
   void InternalSwap(CentralHeartBeat* other);
  private:
   friend class ::google::protobuf::internal::AnyMetadata;
-  static ::absl::string_view FullMessageName() { return "Pb.Central.CentralHeartBeat"; }
+  static ::absl::string_view FullMessageName() { return "Ps.CentralHeartBeat"; }
 
  protected:
   explicit CentralHeartBeat(::google::protobuf::Arena* arena);
@@ -383,24 +380,24 @@ class CentralHeartBeat final : public ::google::protobuf::MessageLite
   enum : int {
     kNatsclientsFieldNumber = 1,
   };
-  // repeated .Pb.Central.RegisterToCentral natsclients = 1;
+  // repeated .Ps.RegisterToCentral natsclients = 1;
   int natsclients_size() const;
   private:
   int _internal_natsclients_size() const;
 
   public:
   void clear_natsclients() ;
-  ::Pb::Central::RegisterToCentral* mutable_natsclients(int index);
-  ::google::protobuf::RepeatedPtrField<::Pb::Central::RegisterToCentral>* mutable_natsclients();
+  ::Ps::RegisterToCentral* mutable_natsclients(int index);
+  ::google::protobuf::RepeatedPtrField<::Ps::RegisterToCentral>* mutable_natsclients();
 
   private:
-  const ::google::protobuf::RepeatedPtrField<::Pb::Central::RegisterToCentral>& _internal_natsclients() const;
-  ::google::protobuf::RepeatedPtrField<::Pb::Central::RegisterToCentral>* _internal_mutable_natsclients();
+  const ::google::protobuf::RepeatedPtrField<::Ps::RegisterToCentral>& _internal_natsclients() const;
+  ::google::protobuf::RepeatedPtrField<::Ps::RegisterToCentral>* _internal_mutable_natsclients();
   public:
-  const ::Pb::Central::RegisterToCentral& natsclients(int index) const;
-  ::Pb::Central::RegisterToCentral* add_natsclients();
-  const ::google::protobuf::RepeatedPtrField<::Pb::Central::RegisterToCentral>& natsclients() const;
-  // @@protoc_insertion_point(class_scope:Pb.Central.CentralHeartBeat)
+  const ::Ps::RegisterToCentral& natsclients(int index) const;
+  ::Ps::RegisterToCentral* add_natsclients();
+  const ::google::protobuf::RepeatedPtrField<::Ps::RegisterToCentral>& natsclients() const;
+  // @@protoc_insertion_point(class_scope:Ps.CentralHeartBeat)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
@@ -421,7 +418,7 @@ class CentralHeartBeat final : public ::google::protobuf::MessageLite
                           ::google::protobuf::Arena* arena);
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from);
-    ::google::protobuf::RepeatedPtrField< ::Pb::Central::RegisterToCentral > natsclients_;
+    ::google::protobuf::RepeatedPtrField< ::Ps::RegisterToCentral > natsclients_;
     mutable ::google::protobuf::internal::CachedSize _cached_size_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
@@ -452,7 +449,7 @@ inline void RegisterToCentral::clear_servername() {
 }
 inline const std::string& RegisterToCentral::servername() const
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:Pb.Central.RegisterToCentral.servername)
+  // @@protoc_insertion_point(field_get:Ps.RegisterToCentral.servername)
   return _internal_servername();
 }
 template <typename Arg_, typename... Args_>
@@ -460,11 +457,11 @@ inline PROTOBUF_ALWAYS_INLINE void RegisterToCentral::set_servername(Arg_&& arg,
                                                      Args_... args) {
   PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   _impl_.servername_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
-  // @@protoc_insertion_point(field_set:Pb.Central.RegisterToCentral.servername)
+  // @@protoc_insertion_point(field_set:Ps.RegisterToCentral.servername)
 }
 inline std::string* RegisterToCentral::mutable_servername() ABSL_ATTRIBUTE_LIFETIME_BOUND {
   std::string* _s = _internal_mutable_servername();
-  // @@protoc_insertion_point(field_mutable:Pb.Central.RegisterToCentral.servername)
+  // @@protoc_insertion_point(field_mutable:Ps.RegisterToCentral.servername)
   return _s;
 }
 inline const std::string& RegisterToCentral::_internal_servername() const {
@@ -481,7 +478,7 @@ inline std::string* RegisterToCentral::_internal_mutable_servername() {
 }
 inline std::string* RegisterToCentral::release_servername() {
   PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
-  // @@protoc_insertion_point(field_release:Pb.Central.RegisterToCentral.servername)
+  // @@protoc_insertion_point(field_release:Ps.RegisterToCentral.servername)
   return _impl_.servername_.Release();
 }
 inline void RegisterToCentral::set_allocated_servername(std::string* value) {
@@ -492,7 +489,7 @@ inline void RegisterToCentral::set_allocated_servername(std::string* value) {
           _impl_.servername_.Set("", GetArena());
         }
   #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:Pb.Central.RegisterToCentral.servername)
+  // @@protoc_insertion_point(field_set_allocated:Ps.RegisterToCentral.servername)
 }
 
 // int32 servertype = 2;
@@ -501,12 +498,12 @@ inline void RegisterToCentral::clear_servertype() {
   _impl_.servertype_ = 0;
 }
 inline ::int32_t RegisterToCentral::servertype() const {
-  // @@protoc_insertion_point(field_get:Pb.Central.RegisterToCentral.servertype)
+  // @@protoc_insertion_point(field_get:Ps.RegisterToCentral.servertype)
   return _internal_servertype();
 }
 inline void RegisterToCentral::set_servertype(::int32_t value) {
   _internal_set_servertype(value);
-  // @@protoc_insertion_point(field_set:Pb.Central.RegisterToCentral.servertype)
+  // @@protoc_insertion_point(field_set:Ps.RegisterToCentral.servertype)
 }
 inline ::int32_t RegisterToCentral::_internal_servertype() const {
   PROTOBUF_TSAN_READ(&_impl_._tsan_detect_race);
@@ -523,12 +520,12 @@ inline void RegisterToCentral::clear_serverindex() {
   _impl_.serverindex_ = 0;
 }
 inline ::int32_t RegisterToCentral::serverindex() const {
-  // @@protoc_insertion_point(field_get:Pb.Central.RegisterToCentral.serverindex)
+  // @@protoc_insertion_point(field_get:Ps.RegisterToCentral.serverindex)
   return _internal_serverindex();
 }
 inline void RegisterToCentral::set_serverindex(::int32_t value) {
   _internal_set_serverindex(value);
-  // @@protoc_insertion_point(field_set:Pb.Central.RegisterToCentral.serverindex)
+  // @@protoc_insertion_point(field_set:Ps.RegisterToCentral.serverindex)
 }
 inline ::int32_t RegisterToCentral::_internal_serverindex() const {
   PROTOBUF_TSAN_READ(&_impl_._tsan_detect_race);
@@ -543,7 +540,7 @@ inline void RegisterToCentral::_internal_set_serverindex(::int32_t value) {
 
 // CentralHeartBeat
 
-// repeated .Pb.Central.RegisterToCentral natsclients = 1;
+// repeated .Ps.RegisterToCentral natsclients = 1;
 inline int CentralHeartBeat::_internal_natsclients_size() const {
   return _internal_natsclients().size();
 }
@@ -554,39 +551,39 @@ inline void CentralHeartBeat::clear_natsclients() {
   PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   _impl_.natsclients_.Clear();
 }
-inline ::Pb::Central::RegisterToCentral* CentralHeartBeat::mutable_natsclients(int index)
+inline ::Ps::RegisterToCentral* CentralHeartBeat::mutable_natsclients(int index)
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_mutable:Pb.Central.CentralHeartBeat.natsclients)
+  // @@protoc_insertion_point(field_mutable:Ps.CentralHeartBeat.natsclients)
   return _internal_mutable_natsclients()->Mutable(index);
 }
-inline ::google::protobuf::RepeatedPtrField<::Pb::Central::RegisterToCentral>* CentralHeartBeat::mutable_natsclients()
+inline ::google::protobuf::RepeatedPtrField<::Ps::RegisterToCentral>* CentralHeartBeat::mutable_natsclients()
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_mutable_list:Pb.Central.CentralHeartBeat.natsclients)
+  // @@protoc_insertion_point(field_mutable_list:Ps.CentralHeartBeat.natsclients)
   PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   return _internal_mutable_natsclients();
 }
-inline const ::Pb::Central::RegisterToCentral& CentralHeartBeat::natsclients(int index) const
+inline const ::Ps::RegisterToCentral& CentralHeartBeat::natsclients(int index) const
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:Pb.Central.CentralHeartBeat.natsclients)
+  // @@protoc_insertion_point(field_get:Ps.CentralHeartBeat.natsclients)
   return _internal_natsclients().Get(index);
 }
-inline ::Pb::Central::RegisterToCentral* CentralHeartBeat::add_natsclients() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+inline ::Ps::RegisterToCentral* CentralHeartBeat::add_natsclients() ABSL_ATTRIBUTE_LIFETIME_BOUND {
   PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
-  ::Pb::Central::RegisterToCentral* _add = _internal_mutable_natsclients()->Add();
-  // @@protoc_insertion_point(field_add:Pb.Central.CentralHeartBeat.natsclients)
+  ::Ps::RegisterToCentral* _add = _internal_mutable_natsclients()->Add();
+  // @@protoc_insertion_point(field_add:Ps.CentralHeartBeat.natsclients)
   return _add;
 }
-inline const ::google::protobuf::RepeatedPtrField<::Pb::Central::RegisterToCentral>& CentralHeartBeat::natsclients() const
+inline const ::google::protobuf::RepeatedPtrField<::Ps::RegisterToCentral>& CentralHeartBeat::natsclients() const
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_list:Pb.Central.CentralHeartBeat.natsclients)
+  // @@protoc_insertion_point(field_list:Ps.CentralHeartBeat.natsclients)
   return _internal_natsclients();
 }
-inline const ::google::protobuf::RepeatedPtrField<::Pb::Central::RegisterToCentral>&
+inline const ::google::protobuf::RepeatedPtrField<::Ps::RegisterToCentral>&
 CentralHeartBeat::_internal_natsclients() const {
   PROTOBUF_TSAN_READ(&_impl_._tsan_detect_race);
   return _impl_.natsclients_;
 }
-inline ::google::protobuf::RepeatedPtrField<::Pb::Central::RegisterToCentral>*
+inline ::google::protobuf::RepeatedPtrField<::Ps::RegisterToCentral>*
 CentralHeartBeat::_internal_mutable_natsclients() {
   PROTOBUF_TSAN_READ(&_impl_._tsan_detect_race);
   return &_impl_.natsclients_;
@@ -597,15 +594,14 @@ CentralHeartBeat::_internal_mutable_natsclients() {
 #endif  // __GNUC__
 
 // @@protoc_insertion_point(namespace_scope)
-}  // namespace Central
-}  // namespace Pb
+}  // namespace Ps
 
 
 namespace google {
 namespace protobuf {
 
 template <>
-struct is_proto_enum<::Pb::Central::MsgID> : std::true_type {};
+struct is_proto_enum<::Ps::MsgID> : std::true_type {};
 
 }  // namespace protobuf
 }  // namespace google

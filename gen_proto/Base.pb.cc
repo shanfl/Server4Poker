@@ -18,8 +18,7 @@ PROTOBUF_PRAGMA_INIT_SEG
 namespace _pb = ::google::protobuf;
 namespace _pbi = ::google::protobuf::internal;
 namespace _fl = ::google::protobuf::internal::field_layout;
-namespace Pb {
-namespace Base {
+namespace Ps {
 
 inline constexpr Pong::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
@@ -81,10 +80,8 @@ struct HelloDefaultTypeInternal {
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 HelloDefaultTypeInternal _Hello_default_instance_;
-}  // namespace Base
-}  // namespace Pb
-namespace Pb {
-namespace Base {
+}  // namespace Ps
+namespace Ps {
 PROTOBUF_CONSTINIT const uint32_t MSG_ID_internal_data_[] = {
     262144u, 0u, };
 bool MSG_ID_IsValid(int value) {
@@ -147,7 +144,7 @@ class Hello::_Internal {
 Hello::Hello(::google::protobuf::Arena* arena)
     : ::google::protobuf::MessageLite(arena) {
   SharedCtor(arena);
-  // @@protoc_insertion_point(arena_constructor:Pb.Base.Hello)
+  // @@protoc_insertion_point(arena_constructor:Ps.Hello)
 }
 inline PROTOBUF_NDEBUG_INLINE Hello::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
@@ -166,7 +163,7 @@ Hello::Hello(
   new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
   _impl_.servertype_ = from._impl_.servertype_;
 
-  // @@protoc_insertion_point(copy_constructor:Pb.Base.Hello)
+  // @@protoc_insertion_point(copy_constructor:Ps.Hello)
 }
 inline PROTOBUF_NDEBUG_INLINE Hello::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
@@ -179,7 +176,7 @@ inline void Hello::SharedCtor(::_pb::Arena* arena) {
   _impl_.servertype_ = {};
 }
 Hello::~Hello() {
-  // @@protoc_insertion_point(destructor:Pb.Base.Hello)
+  // @@protoc_insertion_point(destructor:Ps.Hello)
   _internal_metadata_.Delete<std::string>();
   SharedDtor();
 }
@@ -193,7 +190,7 @@ const ::google::protobuf::MessageLite::ClassData*
 Hello::GetClassData() const {
   struct ClassData_ {
     ::google::protobuf::MessageLite::ClassData header;
-    char type_name[14];
+    char type_name[9];
   };
 
   PROTOBUF_CONSTINIT static const ClassData_ _data_ = {
@@ -202,13 +199,13 @@ Hello::GetClassData() const {
           PROTOBUF_FIELD_OFFSET(Hello, _impl_._cached_size_),
           true,
       },
-      "Pb.Base.Hello",
+      "Ps.Hello",
   };
 
   return &_data_.header;
 }
 PROTOBUF_NOINLINE void Hello::Clear() {
-// @@protoc_insertion_point(message_clear_start:Pb.Base.Hello)
+// @@protoc_insertion_point(message_clear_start:Ps.Hello)
   PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
@@ -227,7 +224,7 @@ const char* Hello::_InternalParse(
 
 
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<1, 2, 0, 26, 2> Hello::_table_ = {
+const ::_pbi::TcParseTable<1, 2, 0, 21, 2> Hello::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
@@ -241,7 +238,7 @@ const ::_pbi::TcParseTable<1, 2, 0, 26, 2> Hello::_table_ = {
     &_Hello_default_instance_._instance,
     ::_pbi::TcParser::GenericFallbackLite,  // fallback
     #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-    ::_pbi::TcParser::GetTable<::Pb::Base::Hello>(),  // to_prefetch
+    ::_pbi::TcParser::GetTable<::Ps::Hello>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     // string name = 2;
@@ -262,8 +259,8 @@ const ::_pbi::TcParseTable<1, 2, 0, 26, 2> Hello::_table_ = {
   }},
   // no aux_entries
   {{
-    "\15\0\4\0\0\0\0\0"
-    "Pb.Base.Hello"
+    "\10\0\4\0\0\0\0\0"
+    "Ps.Hello"
     "name"
   }},
 };
@@ -271,7 +268,7 @@ const ::_pbi::TcParseTable<1, 2, 0, 26, 2> Hello::_table_ = {
 ::uint8_t* Hello::_InternalSerialize(
     ::uint8_t* target,
     ::google::protobuf::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:Pb.Base.Hello)
+  // @@protoc_insertion_point(serialize_to_array_start:Ps.Hello)
   ::uint32_t cached_has_bits = 0;
   (void)cached_has_bits;
 
@@ -286,7 +283,7 @@ const ::_pbi::TcParseTable<1, 2, 0, 26, 2> Hello::_table_ = {
   if (!this->_internal_name().empty()) {
     const std::string& _s = this->_internal_name();
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-        _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "Pb.Base.Hello.name");
+        _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "Ps.Hello.name");
     target = stream->WriteStringMaybeAliased(2, _s, target);
   }
 
@@ -295,12 +292,12 @@ const ::_pbi::TcParseTable<1, 2, 0, 26, 2> Hello::_table_ = {
         _internal_metadata_.unknown_fields<std::string>(::google::protobuf::internal::GetEmptyString).data(),
         static_cast<int>(_internal_metadata_.unknown_fields<std::string>(::google::protobuf::internal::GetEmptyString).size()), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:Pb.Base.Hello)
+  // @@protoc_insertion_point(serialize_to_array_end:Ps.Hello)
   return target;
 }
 
 ::size_t Hello::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:Pb.Base.Hello)
+// @@protoc_insertion_point(message_byte_size_start:Ps.Hello)
   ::size_t total_size = 0;
 
   ::uint32_t cached_has_bits = 0;
@@ -334,7 +331,7 @@ void Hello::CheckTypeAndMergeFrom(
 
 void Hello::MergeFrom(const Hello& from) {
   Hello* const _this = this;
-  // @@protoc_insertion_point(class_specific_merge_from_start:Pb.Base.Hello)
+  // @@protoc_insertion_point(class_specific_merge_from_start:Ps.Hello)
   ABSL_DCHECK_NE(&from, _this);
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
@@ -349,7 +346,7 @@ void Hello::MergeFrom(const Hello& from) {
 }
 
 void Hello::CopyFrom(const Hello& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:Pb.Base.Hello)
+// @@protoc_insertion_point(class_specific_copy_from_start:Ps.Hello)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -377,7 +374,7 @@ class Ping::_Internal {
 Ping::Ping(::google::protobuf::Arena* arena)
     : ::google::protobuf::MessageLite(arena) {
   SharedCtor(arena);
-  // @@protoc_insertion_point(arena_constructor:Pb.Base.Ping)
+  // @@protoc_insertion_point(arena_constructor:Ps.Ping)
 }
 Ping::Ping(
     ::google::protobuf::Arena* arena, const Ping& from)
@@ -394,7 +391,7 @@ inline void Ping::SharedCtor(::_pb::Arena* arena) {
   _impl_.t1_ = {};
 }
 Ping::~Ping() {
-  // @@protoc_insertion_point(destructor:Pb.Base.Ping)
+  // @@protoc_insertion_point(destructor:Ps.Ping)
   _internal_metadata_.Delete<std::string>();
   SharedDtor();
 }
@@ -407,7 +404,7 @@ const ::google::protobuf::MessageLite::ClassData*
 Ping::GetClassData() const {
   struct ClassData_ {
     ::google::protobuf::MessageLite::ClassData header;
-    char type_name[13];
+    char type_name[8];
   };
 
   PROTOBUF_CONSTINIT static const ClassData_ _data_ = {
@@ -416,13 +413,13 @@ Ping::GetClassData() const {
           PROTOBUF_FIELD_OFFSET(Ping, _impl_._cached_size_),
           true,
       },
-      "Pb.Base.Ping",
+      "Ps.Ping",
   };
 
   return &_data_.header;
 }
 PROTOBUF_NOINLINE void Ping::Clear() {
-// @@protoc_insertion_point(message_clear_start:Pb.Base.Ping)
+// @@protoc_insertion_point(message_clear_start:Ps.Ping)
   PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
@@ -454,7 +451,7 @@ const ::_pbi::TcParseTable<0, 1, 0, 0, 2> Ping::_table_ = {
     &_Ping_default_instance_._instance,
     ::_pbi::TcParser::GenericFallbackLite,  // fallback
     #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-    ::_pbi::TcParser::GetTable<::Pb::Base::Ping>(),  // to_prefetch
+    ::_pbi::TcParser::GetTable<::Ps::Ping>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     // int64 t1 = 1;
@@ -475,7 +472,7 @@ const ::_pbi::TcParseTable<0, 1, 0, 0, 2> Ping::_table_ = {
 ::uint8_t* Ping::_InternalSerialize(
     ::uint8_t* target,
     ::google::protobuf::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:Pb.Base.Ping)
+  // @@protoc_insertion_point(serialize_to_array_start:Ps.Ping)
   ::uint32_t cached_has_bits = 0;
   (void)cached_has_bits;
 
@@ -491,12 +488,12 @@ const ::_pbi::TcParseTable<0, 1, 0, 0, 2> Ping::_table_ = {
         _internal_metadata_.unknown_fields<std::string>(::google::protobuf::internal::GetEmptyString).data(),
         static_cast<int>(_internal_metadata_.unknown_fields<std::string>(::google::protobuf::internal::GetEmptyString).size()), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:Pb.Base.Ping)
+  // @@protoc_insertion_point(serialize_to_array_end:Ps.Ping)
   return target;
 }
 
 ::size_t Ping::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:Pb.Base.Ping)
+// @@protoc_insertion_point(message_byte_size_start:Ps.Ping)
   ::size_t total_size = 0;
 
   ::uint32_t cached_has_bits = 0;
@@ -524,7 +521,7 @@ void Ping::CheckTypeAndMergeFrom(
 
 void Ping::MergeFrom(const Ping& from) {
   Ping* const _this = this;
-  // @@protoc_insertion_point(class_specific_merge_from_start:Pb.Base.Ping)
+  // @@protoc_insertion_point(class_specific_merge_from_start:Ps.Ping)
   ABSL_DCHECK_NE(&from, _this);
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
@@ -536,7 +533,7 @@ void Ping::MergeFrom(const Ping& from) {
 }
 
 void Ping::CopyFrom(const Ping& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:Pb.Base.Ping)
+// @@protoc_insertion_point(class_specific_copy_from_start:Ps.Ping)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -561,7 +558,7 @@ class Pong::_Internal {
 Pong::Pong(::google::protobuf::Arena* arena)
     : ::google::protobuf::MessageLite(arena) {
   SharedCtor(arena);
-  // @@protoc_insertion_point(arena_constructor:Pb.Base.Pong)
+  // @@protoc_insertion_point(arena_constructor:Ps.Pong)
 }
 Pong::Pong(
     ::google::protobuf::Arena* arena, const Pong& from)
@@ -583,7 +580,7 @@ inline void Pong::SharedCtor(::_pb::Arena* arena) {
                sizeof(Impl_::t2_));
 }
 Pong::~Pong() {
-  // @@protoc_insertion_point(destructor:Pb.Base.Pong)
+  // @@protoc_insertion_point(destructor:Ps.Pong)
   _internal_metadata_.Delete<std::string>();
   SharedDtor();
 }
@@ -596,7 +593,7 @@ const ::google::protobuf::MessageLite::ClassData*
 Pong::GetClassData() const {
   struct ClassData_ {
     ::google::protobuf::MessageLite::ClassData header;
-    char type_name[13];
+    char type_name[8];
   };
 
   PROTOBUF_CONSTINIT static const ClassData_ _data_ = {
@@ -605,13 +602,13 @@ Pong::GetClassData() const {
           PROTOBUF_FIELD_OFFSET(Pong, _impl_._cached_size_),
           true,
       },
-      "Pb.Base.Pong",
+      "Ps.Pong",
   };
 
   return &_data_.header;
 }
 PROTOBUF_NOINLINE void Pong::Clear() {
-// @@protoc_insertion_point(message_clear_start:Pb.Base.Pong)
+// @@protoc_insertion_point(message_clear_start:Ps.Pong)
   PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
@@ -645,7 +642,7 @@ const ::_pbi::TcParseTable<1, 2, 0, 0, 2> Pong::_table_ = {
     &_Pong_default_instance_._instance,
     ::_pbi::TcParser::GenericFallbackLite,  // fallback
     #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-    ::_pbi::TcParser::GetTable<::Pb::Base::Pong>(),  // to_prefetch
+    ::_pbi::TcParser::GetTable<::Ps::Pong>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     // int64 t2 = 2;
@@ -672,7 +669,7 @@ const ::_pbi::TcParseTable<1, 2, 0, 0, 2> Pong::_table_ = {
 ::uint8_t* Pong::_InternalSerialize(
     ::uint8_t* target,
     ::google::protobuf::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:Pb.Base.Pong)
+  // @@protoc_insertion_point(serialize_to_array_start:Ps.Pong)
   ::uint32_t cached_has_bits = 0;
   (void)cached_has_bits;
 
@@ -695,12 +692,12 @@ const ::_pbi::TcParseTable<1, 2, 0, 0, 2> Pong::_table_ = {
         _internal_metadata_.unknown_fields<std::string>(::google::protobuf::internal::GetEmptyString).data(),
         static_cast<int>(_internal_metadata_.unknown_fields<std::string>(::google::protobuf::internal::GetEmptyString).size()), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:Pb.Base.Pong)
+  // @@protoc_insertion_point(serialize_to_array_end:Ps.Pong)
   return target;
 }
 
 ::size_t Pong::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:Pb.Base.Pong)
+// @@protoc_insertion_point(message_byte_size_start:Ps.Pong)
   ::size_t total_size = 0;
 
   ::uint32_t cached_has_bits = 0;
@@ -734,7 +731,7 @@ void Pong::CheckTypeAndMergeFrom(
 
 void Pong::MergeFrom(const Pong& from) {
   Pong* const _this = this;
-  // @@protoc_insertion_point(class_specific_merge_from_start:Pb.Base.Pong)
+  // @@protoc_insertion_point(class_specific_merge_from_start:Ps.Pong)
   ABSL_DCHECK_NE(&from, _this);
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
@@ -749,7 +746,7 @@ void Pong::MergeFrom(const Pong& from) {
 }
 
 void Pong::CopyFrom(const Pong& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:Pb.Base.Pong)
+// @@protoc_insertion_point(class_specific_copy_from_start:Ps.Pong)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -771,8 +768,7 @@ void Pong::InternalSwap(Pong* PROTOBUF_RESTRICT other) {
 }
 
 // @@protoc_insertion_point(namespace_scope)
-}  // namespace Base
-}  // namespace Pb
+}  // namespace Ps
 namespace google {
 namespace protobuf {
 }  // namespace protobuf

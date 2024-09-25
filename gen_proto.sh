@@ -1,1 +1,1 @@
-./3rd/protobuf3/bin/protoc-26.0.0 --proto_path=./protos --cpp_out=gen_proto ./protos/Base.proto ./protos/Client.proto ./protos/Central.proto
+./3rd/protobuf3/linux/bin/protoc-26.0.0 --proto_path=./protos --cpp_out=gen_proto ./protos/Base.proto ./protos/Client.proto ./protos/Central.proto

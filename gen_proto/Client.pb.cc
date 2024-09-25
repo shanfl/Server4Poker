@@ -18,8 +18,7 @@ PROTOBUF_PRAGMA_INIT_SEG
 namespace _pb = ::google::protobuf;
 namespace _pbi = ::google::protobuf::internal;
 namespace _fl = ::google::protobuf::internal::field_layout;
-namespace Pb {
-namespace Client {
+namespace Ps {
 
 inline constexpr PlayerLoginRes::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
@@ -62,8 +61,8 @@ inline constexpr PlayerLoginReq::Impl_::Impl_(
         keys_enc_(
             &::google::protobuf::internal::fixed_address_empty_string,
             ::_pbi::ConstantInitialized()),
-        osplatform_{static_cast< ::Pb::Client::OS_PLATFORM >(0)},
-        las_{static_cast< ::Pb::Client::LoginAppSdk >(0)},
+        osplatform_{static_cast< ::Ps::OS_PLATFORM >(0)},
+        las_{static_cast< ::Ps::LoginAppSdk >(0)},
         id_{::int64_t{0}},
         _cached_size_{0} {}
 
@@ -80,10 +79,8 @@ struct PlayerLoginReqDefaultTypeInternal {
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PlayerLoginReqDefaultTypeInternal _PlayerLoginReq_default_instance_;
-}  // namespace Client
-}  // namespace Pb
-namespace Pb {
-namespace Client {
+}  // namespace Ps
+namespace Ps {
 PROTOBUF_CONSTINIT const uint32_t MsgId_internal_data_[] = {
     65536u, 131072u, 1001u, 1000u, };
 bool MsgId_IsValid(int value) {
@@ -252,7 +249,7 @@ class PlayerLoginReq::_Internal {
 PlayerLoginReq::PlayerLoginReq(::google::protobuf::Arena* arena)
     : ::google::protobuf::MessageLite(arena) {
   SharedCtor(arena);
-  // @@protoc_insertion_point(arena_constructor:Pb.Client.PlayerLoginReq)
+  // @@protoc_insertion_point(arena_constructor:Ps.PlayerLoginReq)
 }
 inline PROTOBUF_NDEBUG_INLINE PlayerLoginReq::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
@@ -280,7 +277,7 @@ PlayerLoginReq::PlayerLoginReq(
                offsetof(Impl_, osplatform_) +
                sizeof(Impl_::id_));
 
-  // @@protoc_insertion_point(copy_constructor:Pb.Client.PlayerLoginReq)
+  // @@protoc_insertion_point(copy_constructor:Ps.PlayerLoginReq)
 }
 inline PROTOBUF_NDEBUG_INLINE PlayerLoginReq::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
@@ -301,7 +298,7 @@ inline void PlayerLoginReq::SharedCtor(::_pb::Arena* arena) {
                sizeof(Impl_::id_));
 }
 PlayerLoginReq::~PlayerLoginReq() {
-  // @@protoc_insertion_point(destructor:Pb.Client.PlayerLoginReq)
+  // @@protoc_insertion_point(destructor:Ps.PlayerLoginReq)
   _internal_metadata_.Delete<std::string>();
   SharedDtor();
 }
@@ -318,7 +315,7 @@ const ::google::protobuf::MessageLite::ClassData*
 PlayerLoginReq::GetClassData() const {
   struct ClassData_ {
     ::google::protobuf::MessageLite::ClassData header;
-    char type_name[25];
+    char type_name[18];
   };
 
   PROTOBUF_CONSTINIT static const ClassData_ _data_ = {
@@ -327,13 +324,13 @@ PlayerLoginReq::GetClassData() const {
           PROTOBUF_FIELD_OFFSET(PlayerLoginReq, _impl_._cached_size_),
           true,
       },
-      "Pb.Client.PlayerLoginReq",
+      "Ps.PlayerLoginReq",
   };
 
   return &_data_.header;
 }
 PROTOBUF_NOINLINE void PlayerLoginReq::Clear() {
-// @@protoc_insertion_point(message_clear_start:Pb.Client.PlayerLoginReq)
+// @@protoc_insertion_point(message_clear_start:Ps.PlayerLoginReq)
   PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
@@ -357,7 +354,7 @@ const char* PlayerLoginReq::_InternalParse(
 
 
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<3, 7, 0, 57, 2> PlayerLoginReq::_table_ = {
+const ::_pbi::TcParseTable<3, 7, 0, 50, 2> PlayerLoginReq::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
@@ -371,14 +368,14 @@ const ::_pbi::TcParseTable<3, 7, 0, 57, 2> PlayerLoginReq::_table_ = {
     &_PlayerLoginReq_default_instance_._instance,
     ::_pbi::TcParser::GenericFallbackLite,  // fallback
     #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-    ::_pbi::TcParser::GetTable<::Pb::Client::PlayerLoginReq>(),  // to_prefetch
+    ::_pbi::TcParser::GetTable<::Ps::PlayerLoginReq>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     {::_pbi::TcParser::MiniParse, {}},
-    // .Pb.Client.OS_PLATFORM osplatform = 1;
+    // .Ps.OS_PLATFORM osplatform = 1;
     {::_pbi::TcParser::FastV32S1,
      {8, 63, 0, PROTOBUF_FIELD_OFFSET(PlayerLoginReq, _impl_.osplatform_)}},
-    // .Pb.Client.LoginAppSdk las = 2;
+    // .Ps.LoginAppSdk las = 2;
     {::_pbi::TcParser::FastV32S1,
      {16, 63, 0, PROTOBUF_FIELD_OFFSET(PlayerLoginReq, _impl_.las_)}},
     // int64 id = 3;
@@ -399,10 +396,10 @@ const ::_pbi::TcParseTable<3, 7, 0, 57, 2> PlayerLoginReq::_table_ = {
   }}, {{
     65535, 65535
   }}, {{
-    // .Pb.Client.OS_PLATFORM osplatform = 1;
+    // .Ps.OS_PLATFORM osplatform = 1;
     {PROTOBUF_FIELD_OFFSET(PlayerLoginReq, _impl_.osplatform_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kOpenEnum)},
-    // .Pb.Client.LoginAppSdk las = 2;
+    // .Ps.LoginAppSdk las = 2;
     {PROTOBUF_FIELD_OFFSET(PlayerLoginReq, _impl_.las_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kOpenEnum)},
     // int64 id = 3;
@@ -423,8 +420,8 @@ const ::_pbi::TcParseTable<3, 7, 0, 57, 2> PlayerLoginReq::_table_ = {
   }},
   // no aux_entries
   {{
-    "\30\0\0\0\4\4\10\10"
-    "Pb.Client.PlayerLoginReq"
+    "\21\0\0\0\4\4\10\10"
+    "Ps.PlayerLoginReq"
     "name"
     "pass"
     "app_spec"
@@ -435,18 +432,18 @@ const ::_pbi::TcParseTable<3, 7, 0, 57, 2> PlayerLoginReq::_table_ = {
 ::uint8_t* PlayerLoginReq::_InternalSerialize(
     ::uint8_t* target,
     ::google::protobuf::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:Pb.Client.PlayerLoginReq)
+  // @@protoc_insertion_point(serialize_to_array_start:Ps.PlayerLoginReq)
   ::uint32_t cached_has_bits = 0;
   (void)cached_has_bits;
 
-  // .Pb.Client.OS_PLATFORM osplatform = 1;
+  // .Ps.OS_PLATFORM osplatform = 1;
   if (this->_internal_osplatform() != 0) {
     target = stream->EnsureSpace(target);
     target = ::_pbi::WireFormatLite::WriteEnumToArray(
         1, this->_internal_osplatform(), target);
   }
 
-  // .Pb.Client.LoginAppSdk las = 2;
+  // .Ps.LoginAppSdk las = 2;
   if (this->_internal_las() != 0) {
     target = stream->EnsureSpace(target);
     target = ::_pbi::WireFormatLite::WriteEnumToArray(
@@ -464,7 +461,7 @@ const ::_pbi::TcParseTable<3, 7, 0, 57, 2> PlayerLoginReq::_table_ = {
   if (!this->_internal_name().empty()) {
     const std::string& _s = this->_internal_name();
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-        _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "Pb.Client.PlayerLoginReq.name");
+        _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "Ps.PlayerLoginReq.name");
     target = stream->WriteStringMaybeAliased(4, _s, target);
   }
 
@@ -472,7 +469,7 @@ const ::_pbi::TcParseTable<3, 7, 0, 57, 2> PlayerLoginReq::_table_ = {
   if (!this->_internal_pass().empty()) {
     const std::string& _s = this->_internal_pass();
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-        _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "Pb.Client.PlayerLoginReq.pass");
+        _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "Ps.PlayerLoginReq.pass");
     target = stream->WriteStringMaybeAliased(5, _s, target);
   }
 
@@ -480,7 +477,7 @@ const ::_pbi::TcParseTable<3, 7, 0, 57, 2> PlayerLoginReq::_table_ = {
   if (!this->_internal_app_spec().empty()) {
     const std::string& _s = this->_internal_app_spec();
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-        _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "Pb.Client.PlayerLoginReq.app_spec");
+        _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "Ps.PlayerLoginReq.app_spec");
     target = stream->WriteStringMaybeAliased(6, _s, target);
   }
 
@@ -488,7 +485,7 @@ const ::_pbi::TcParseTable<3, 7, 0, 57, 2> PlayerLoginReq::_table_ = {
   if (!this->_internal_keys_enc().empty()) {
     const std::string& _s = this->_internal_keys_enc();
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-        _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "Pb.Client.PlayerLoginReq.keys_enc");
+        _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "Ps.PlayerLoginReq.keys_enc");
     target = stream->WriteStringMaybeAliased(7, _s, target);
   }
 
@@ -497,12 +494,12 @@ const ::_pbi::TcParseTable<3, 7, 0, 57, 2> PlayerLoginReq::_table_ = {
         _internal_metadata_.unknown_fields<std::string>(::google::protobuf::internal::GetEmptyString).data(),
         static_cast<int>(_internal_metadata_.unknown_fields<std::string>(::google::protobuf::internal::GetEmptyString).size()), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:Pb.Client.PlayerLoginReq)
+  // @@protoc_insertion_point(serialize_to_array_end:Ps.PlayerLoginReq)
   return target;
 }
 
 ::size_t PlayerLoginReq::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:Pb.Client.PlayerLoginReq)
+// @@protoc_insertion_point(message_byte_size_start:Ps.PlayerLoginReq)
   ::size_t total_size = 0;
 
   ::uint32_t cached_has_bits = 0;
@@ -533,13 +530,13 @@ const ::_pbi::TcParseTable<3, 7, 0, 57, 2> PlayerLoginReq::_table_ = {
                                     this->_internal_keys_enc());
   }
 
-  // .Pb.Client.OS_PLATFORM osplatform = 1;
+  // .Ps.OS_PLATFORM osplatform = 1;
   if (this->_internal_osplatform() != 0) {
     total_size += 1 +
                   ::_pbi::WireFormatLite::EnumSize(this->_internal_osplatform());
   }
 
-  // .Pb.Client.LoginAppSdk las = 2;
+  // .Ps.LoginAppSdk las = 2;
   if (this->_internal_las() != 0) {
     total_size += 1 +
                   ::_pbi::WireFormatLite::EnumSize(this->_internal_las());
@@ -566,7 +563,7 @@ void PlayerLoginReq::CheckTypeAndMergeFrom(
 
 void PlayerLoginReq::MergeFrom(const PlayerLoginReq& from) {
   PlayerLoginReq* const _this = this;
-  // @@protoc_insertion_point(class_specific_merge_from_start:Pb.Client.PlayerLoginReq)
+  // @@protoc_insertion_point(class_specific_merge_from_start:Ps.PlayerLoginReq)
   ABSL_DCHECK_NE(&from, _this);
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
@@ -596,7 +593,7 @@ void PlayerLoginReq::MergeFrom(const PlayerLoginReq& from) {
 }
 
 void PlayerLoginReq::CopyFrom(const PlayerLoginReq& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:Pb.Client.PlayerLoginReq)
+// @@protoc_insertion_point(class_specific_copy_from_start:Ps.PlayerLoginReq)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -632,7 +629,7 @@ class PlayerLoginRes::_Internal {
 PlayerLoginRes::PlayerLoginRes(::google::protobuf::Arena* arena)
     : ::google::protobuf::MessageLite(arena) {
   SharedCtor(arena);
-  // @@protoc_insertion_point(arena_constructor:Pb.Client.PlayerLoginRes)
+  // @@protoc_insertion_point(arena_constructor:Ps.PlayerLoginRes)
 }
 inline PROTOBUF_NDEBUG_INLINE PlayerLoginRes::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
@@ -658,7 +655,7 @@ PlayerLoginRes::PlayerLoginRes(
                offsetof(Impl_, playerid_) +
                sizeof(Impl_::sex_));
 
-  // @@protoc_insertion_point(copy_constructor:Pb.Client.PlayerLoginRes)
+  // @@protoc_insertion_point(copy_constructor:Ps.PlayerLoginRes)
 }
 inline PROTOBUF_NDEBUG_INLINE PlayerLoginRes::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
@@ -677,7 +674,7 @@ inline void PlayerLoginRes::SharedCtor(::_pb::Arena* arena) {
                sizeof(Impl_::sex_));
 }
 PlayerLoginRes::~PlayerLoginRes() {
-  // @@protoc_insertion_point(destructor:Pb.Client.PlayerLoginRes)
+  // @@protoc_insertion_point(destructor:Ps.PlayerLoginRes)
   _internal_metadata_.Delete<std::string>();
   SharedDtor();
 }
@@ -692,7 +689,7 @@ const ::google::protobuf::MessageLite::ClassData*
 PlayerLoginRes::GetClassData() const {
   struct ClassData_ {
     ::google::protobuf::MessageLite::ClassData header;
-    char type_name[25];
+    char type_name[18];
   };
 
   PROTOBUF_CONSTINIT static const ClassData_ _data_ = {
@@ -701,13 +698,13 @@ PlayerLoginRes::GetClassData() const {
           PROTOBUF_FIELD_OFFSET(PlayerLoginRes, _impl_._cached_size_),
           true,
       },
-      "Pb.Client.PlayerLoginRes",
+      "Ps.PlayerLoginRes",
   };
 
   return &_data_.header;
 }
 PROTOBUF_NOINLINE void PlayerLoginRes::Clear() {
-// @@protoc_insertion_point(message_clear_start:Pb.Client.PlayerLoginRes)
+// @@protoc_insertion_point(message_clear_start:Ps.PlayerLoginRes)
   PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
@@ -729,7 +726,7 @@ const char* PlayerLoginRes::_InternalParse(
 
 
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<3, 5, 0, 40, 2> PlayerLoginRes::_table_ = {
+const ::_pbi::TcParseTable<3, 5, 0, 33, 2> PlayerLoginRes::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
@@ -743,7 +740,7 @@ const ::_pbi::TcParseTable<3, 5, 0, 40, 2> PlayerLoginRes::_table_ = {
     &_PlayerLoginRes_default_instance_._instance,
     ::_pbi::TcParser::GenericFallbackLite,  // fallback
     #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-    ::_pbi::TcParser::GetTable<::Pb::Client::PlayerLoginRes>(),  // to_prefetch
+    ::_pbi::TcParser::GetTable<::Ps::PlayerLoginRes>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     {::_pbi::TcParser::MiniParse, {}},
@@ -785,8 +782,8 @@ const ::_pbi::TcParseTable<3, 5, 0, 40, 2> PlayerLoginRes::_table_ = {
   }},
   // no aux_entries
   {{
-    "\30\0\3\0\4\0\0\0"
-    "Pb.Client.PlayerLoginRes"
+    "\21\0\3\0\4\0\0\0"
+    "Ps.PlayerLoginRes"
     "key"
     "name"
   }},
@@ -795,7 +792,7 @@ const ::_pbi::TcParseTable<3, 5, 0, 40, 2> PlayerLoginRes::_table_ = {
 ::uint8_t* PlayerLoginRes::_InternalSerialize(
     ::uint8_t* target,
     ::google::protobuf::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:Pb.Client.PlayerLoginRes)
+  // @@protoc_insertion_point(serialize_to_array_start:Ps.PlayerLoginRes)
   ::uint32_t cached_has_bits = 0;
   (void)cached_has_bits;
 
@@ -810,7 +807,7 @@ const ::_pbi::TcParseTable<3, 5, 0, 40, 2> PlayerLoginRes::_table_ = {
   if (!this->_internal_key().empty()) {
     const std::string& _s = this->_internal_key();
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-        _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "Pb.Client.PlayerLoginRes.key");
+        _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "Ps.PlayerLoginRes.key");
     target = stream->WriteStringMaybeAliased(2, _s, target);
   }
 
@@ -825,7 +822,7 @@ const ::_pbi::TcParseTable<3, 5, 0, 40, 2> PlayerLoginRes::_table_ = {
   if (!this->_internal_name().empty()) {
     const std::string& _s = this->_internal_name();
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-        _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "Pb.Client.PlayerLoginRes.name");
+        _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "Ps.PlayerLoginRes.name");
     target = stream->WriteStringMaybeAliased(4, _s, target);
   }
 
@@ -841,12 +838,12 @@ const ::_pbi::TcParseTable<3, 5, 0, 40, 2> PlayerLoginRes::_table_ = {
         _internal_metadata_.unknown_fields<std::string>(::google::protobuf::internal::GetEmptyString).data(),
         static_cast<int>(_internal_metadata_.unknown_fields<std::string>(::google::protobuf::internal::GetEmptyString).size()), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:Pb.Client.PlayerLoginRes)
+  // @@protoc_insertion_point(serialize_to_array_end:Ps.PlayerLoginRes)
   return target;
 }
 
 ::size_t PlayerLoginRes::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:Pb.Client.PlayerLoginRes)
+// @@protoc_insertion_point(message_byte_size_start:Ps.PlayerLoginRes)
   ::size_t total_size = 0;
 
   ::uint32_t cached_has_bits = 0;
@@ -898,7 +895,7 @@ void PlayerLoginRes::CheckTypeAndMergeFrom(
 
 void PlayerLoginRes::MergeFrom(const PlayerLoginRes& from) {
   PlayerLoginRes* const _this = this;
-  // @@protoc_insertion_point(class_specific_merge_from_start:Pb.Client.PlayerLoginRes)
+  // @@protoc_insertion_point(class_specific_merge_from_start:Ps.PlayerLoginRes)
   ABSL_DCHECK_NE(&from, _this);
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
@@ -922,7 +919,7 @@ void PlayerLoginRes::MergeFrom(const PlayerLoginRes& from) {
 }
 
 void PlayerLoginRes::CopyFrom(const PlayerLoginRes& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:Pb.Client.PlayerLoginRes)
+// @@protoc_insertion_point(class_specific_copy_from_start:Ps.PlayerLoginRes)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -948,8 +945,7 @@ void PlayerLoginRes::InternalSwap(PlayerLoginRes* PROTOBUF_RESTRICT other) {
 }
 
 // @@protoc_insertion_point(namespace_scope)
-}  // namespace Client
-}  // namespace Pb
+}  // namespace Ps
 namespace google {
 namespace protobuf {
 }  // namespace protobuf

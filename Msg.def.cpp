@@ -178,7 +178,8 @@ namespace Base {
 
 	bool Message::DecodeWS(std::string& data, WsMsgHeader& hdr, std::string& body)
 	{
-		std::shared_ptr<Ps::ProtoMsgWrapper> ptr = std::make_shared<Ps::ProtoMsgWrapper>(Ps::ProtoMsgWrapper::default_instance().New());
+        //std::shared_ptr<Ps::ProtoMsgWrapper> ptr = std::make_shared<Ps::ProtoMsgWrapper>(Ps::ProtoMsgWrapper::default_instance().New());
+        Ps::ProtoMsgWrapper*ptr= Ps::ProtoMsgWrapper::default_instance().New();
 		bool ret = ptr->ParsePartialFromString(data);
 		if (!ret) return ret;
 
@@ -188,6 +189,16 @@ namespace Base {
 		body = ptr->msg();
 		return ret;
 	}
+
+    std::string Message::EncodeWs(uint32_t msg_id,std::string str,std::string cookie )
+    {
+        Ps::ProtoMsgWrapper*ptr= Ps::ProtoMsgWrapper::default_instance().New();
+        ptr->set_id(msg_id);
+        ptr->set_cookie(cookie);
+        ptr->set_zipped(0);
+        ptr->set_msg(str);
+        return ptr->SerializeAsString();
+    }
 
 } // namespace Base
 

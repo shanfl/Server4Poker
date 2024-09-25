@@ -46,8 +46,7 @@ class AnyMetadata;
 struct TableStruct_Base_2eproto {
   static const ::uint32_t offsets[];
 };
-namespace Pb {
-namespace Base {
+namespace Ps {
 class Hello;
 struct HelloDefaultTypeInternal;
 extern HelloDefaultTypeInternal _Hello_default_instance_;
@@ -57,15 +56,13 @@ extern PingDefaultTypeInternal _Ping_default_instance_;
 class Pong;
 struct PongDefaultTypeInternal;
 extern PongDefaultTypeInternal _Pong_default_instance_;
-}  // namespace Base
-}  // namespace Pb
+}  // namespace Ps
 namespace google {
 namespace protobuf {
 }  // namespace protobuf
 }  // namespace google
 
-namespace Pb {
-namespace Base {
+namespace Ps {
 enum MSG_ID : int {
   ID_0 = 0,
   ID_HELLO = 1,
@@ -98,7 +95,7 @@ bool MSG_ID_Parse(absl::string_view name, MSG_ID* value);
 // -------------------------------------------------------------------
 
 class Pong final : public ::google::protobuf::MessageLite
-/* @@protoc_insertion_point(class_definition:Pb.Base.Pong) */ {
+/* @@protoc_insertion_point(class_definition:Ps.Pong) */ {
  public:
   inline Pong() : Pong(nullptr) {}
   ~Pong() override;
@@ -188,7 +185,7 @@ class Pong final : public ::google::protobuf::MessageLite
   void InternalSwap(Pong* other);
  private:
   friend class ::google::protobuf::internal::AnyMetadata;
-  static ::absl::string_view FullMessageName() { return "Pb.Base.Pong"; }
+  static ::absl::string_view FullMessageName() { return "Ps.Pong"; }
 
  protected:
   explicit Pong(::google::protobuf::Arena* arena);
@@ -228,7 +225,7 @@ class Pong final : public ::google::protobuf::MessageLite
   void _internal_set_t2(::int64_t value);
 
   public:
-  // @@protoc_insertion_point(class_scope:Pb.Base.Pong)
+  // @@protoc_insertion_point(class_scope:Ps.Pong)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
@@ -260,7 +257,7 @@ class Pong final : public ::google::protobuf::MessageLite
 // -------------------------------------------------------------------
 
 class Ping final : public ::google::protobuf::MessageLite
-/* @@protoc_insertion_point(class_definition:Pb.Base.Ping) */ {
+/* @@protoc_insertion_point(class_definition:Ps.Ping) */ {
  public:
   inline Ping() : Ping(nullptr) {}
   ~Ping() override;
@@ -350,7 +347,7 @@ class Ping final : public ::google::protobuf::MessageLite
   void InternalSwap(Ping* other);
  private:
   friend class ::google::protobuf::internal::AnyMetadata;
-  static ::absl::string_view FullMessageName() { return "Pb.Base.Ping"; }
+  static ::absl::string_view FullMessageName() { return "Ps.Ping"; }
 
  protected:
   explicit Ping(::google::protobuf::Arena* arena);
@@ -379,7 +376,7 @@ class Ping final : public ::google::protobuf::MessageLite
   void _internal_set_t1(::int64_t value);
 
   public:
-  // @@protoc_insertion_point(class_scope:Pb.Base.Ping)
+  // @@protoc_insertion_point(class_scope:Ps.Ping)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
@@ -410,7 +407,7 @@ class Ping final : public ::google::protobuf::MessageLite
 // -------------------------------------------------------------------
 
 class Hello final : public ::google::protobuf::MessageLite
-/* @@protoc_insertion_point(class_definition:Pb.Base.Hello) */ {
+/* @@protoc_insertion_point(class_definition:Ps.Hello) */ {
  public:
   inline Hello() : Hello(nullptr) {}
   ~Hello() override;
@@ -500,7 +497,7 @@ class Hello final : public ::google::protobuf::MessageLite
   void InternalSwap(Hello* other);
  private:
   friend class ::google::protobuf::internal::AnyMetadata;
-  static ::absl::string_view FullMessageName() { return "Pb.Base.Hello"; }
+  static ::absl::string_view FullMessageName() { return "Ps.Hello"; }
 
  protected:
   explicit Hello(::google::protobuf::Arena* arena);
@@ -546,13 +543,13 @@ class Hello final : public ::google::protobuf::MessageLite
   void _internal_set_servertype(::int32_t value);
 
   public:
-  // @@protoc_insertion_point(class_scope:Pb.Base.Hello)
+  // @@protoc_insertion_point(class_scope:Ps.Hello)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
       1, 2, 0,
-      26, 2>
+      21, 2>
       _table_;
   friend class ::google::protobuf::MessageLite;
   friend class ::google::protobuf::Arena;
@@ -598,12 +595,12 @@ inline void Hello::clear_servertype() {
   _impl_.servertype_ = 0;
 }
 inline ::int32_t Hello::servertype() const {
-  // @@protoc_insertion_point(field_get:Pb.Base.Hello.servertype)
+  // @@protoc_insertion_point(field_get:Ps.Hello.servertype)
   return _internal_servertype();
 }
 inline void Hello::set_servertype(::int32_t value) {
   _internal_set_servertype(value);
-  // @@protoc_insertion_point(field_set:Pb.Base.Hello.servertype)
+  // @@protoc_insertion_point(field_set:Ps.Hello.servertype)
 }
 inline ::int32_t Hello::_internal_servertype() const {
   PROTOBUF_TSAN_READ(&_impl_._tsan_detect_race);
@@ -621,7 +618,7 @@ inline void Hello::clear_name() {
 }
 inline const std::string& Hello::name() const
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:Pb.Base.Hello.name)
+  // @@protoc_insertion_point(field_get:Ps.Hello.name)
   return _internal_name();
 }
 template <typename Arg_, typename... Args_>
@@ -629,11 +626,11 @@ inline PROTOBUF_ALWAYS_INLINE void Hello::set_name(Arg_&& arg,
                                                      Args_... args) {
   PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   _impl_.name_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
-  // @@protoc_insertion_point(field_set:Pb.Base.Hello.name)
+  // @@protoc_insertion_point(field_set:Ps.Hello.name)
 }
 inline std::string* Hello::mutable_name() ABSL_ATTRIBUTE_LIFETIME_BOUND {
   std::string* _s = _internal_mutable_name();
-  // @@protoc_insertion_point(field_mutable:Pb.Base.Hello.name)
+  // @@protoc_insertion_point(field_mutable:Ps.Hello.name)
   return _s;
 }
 inline const std::string& Hello::_internal_name() const {
@@ -650,7 +647,7 @@ inline std::string* Hello::_internal_mutable_name() {
 }
 inline std::string* Hello::release_name() {
   PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
-  // @@protoc_insertion_point(field_release:Pb.Base.Hello.name)
+  // @@protoc_insertion_point(field_release:Ps.Hello.name)
   return _impl_.name_.Release();
 }
 inline void Hello::set_allocated_name(std::string* value) {
@@ -661,7 +658,7 @@ inline void Hello::set_allocated_name(std::string* value) {
           _impl_.name_.Set("", GetArena());
         }
   #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:Pb.Base.Hello.name)
+  // @@protoc_insertion_point(field_set_allocated:Ps.Hello.name)
 }
 
 // -------------------------------------------------------------------
@@ -674,12 +671,12 @@ inline void Ping::clear_t1() {
   _impl_.t1_ = ::int64_t{0};
 }
 inline ::int64_t Ping::t1() const {
-  // @@protoc_insertion_point(field_get:Pb.Base.Ping.t1)
+  // @@protoc_insertion_point(field_get:Ps.Ping.t1)
   return _internal_t1();
 }
 inline void Ping::set_t1(::int64_t value) {
   _internal_set_t1(value);
-  // @@protoc_insertion_point(field_set:Pb.Base.Ping.t1)
+  // @@protoc_insertion_point(field_set:Ps.Ping.t1)
 }
 inline ::int64_t Ping::_internal_t1() const {
   PROTOBUF_TSAN_READ(&_impl_._tsan_detect_race);
@@ -700,12 +697,12 @@ inline void Pong::clear_t1() {
   _impl_.t1_ = ::int64_t{0};
 }
 inline ::int64_t Pong::t1() const {
-  // @@protoc_insertion_point(field_get:Pb.Base.Pong.t1)
+  // @@protoc_insertion_point(field_get:Ps.Pong.t1)
   return _internal_t1();
 }
 inline void Pong::set_t1(::int64_t value) {
   _internal_set_t1(value);
-  // @@protoc_insertion_point(field_set:Pb.Base.Pong.t1)
+  // @@protoc_insertion_point(field_set:Ps.Pong.t1)
 }
 inline ::int64_t Pong::_internal_t1() const {
   PROTOBUF_TSAN_READ(&_impl_._tsan_detect_race);
@@ -722,12 +719,12 @@ inline void Pong::clear_t2() {
   _impl_.t2_ = ::int64_t{0};
 }
 inline ::int64_t Pong::t2() const {
-  // @@protoc_insertion_point(field_get:Pb.Base.Pong.t2)
+  // @@protoc_insertion_point(field_get:Ps.Pong.t2)
   return _internal_t2();
 }
 inline void Pong::set_t2(::int64_t value) {
   _internal_set_t2(value);
-  // @@protoc_insertion_point(field_set:Pb.Base.Pong.t2)
+  // @@protoc_insertion_point(field_set:Ps.Pong.t2)
 }
 inline ::int64_t Pong::_internal_t2() const {
   PROTOBUF_TSAN_READ(&_impl_._tsan_detect_race);
@@ -743,15 +740,14 @@ inline void Pong::_internal_set_t2(::int64_t value) {
 #endif  // __GNUC__
 
 // @@protoc_insertion_point(namespace_scope)
-}  // namespace Base
-}  // namespace Pb
+}  // namespace Ps
 
 
 namespace google {
 namespace protobuf {
 
 template <>
-struct is_proto_enum<::Pb::Base::MSG_ID> : std::true_type {};
+struct is_proto_enum<::Ps::MSG_ID> : std::true_type {};
 
 }  // namespace protobuf
 }  // namespace google

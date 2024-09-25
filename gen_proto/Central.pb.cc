@@ -18,8 +18,7 @@ PROTOBUF_PRAGMA_INIT_SEG
 namespace _pb = ::google::protobuf;
 namespace _pbi = ::google::protobuf::internal;
 namespace _fl = ::google::protobuf::internal::field_layout;
-namespace Pb {
-namespace Central {
+namespace Ps {
 
 inline constexpr RegisterToCentral::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
@@ -62,10 +61,8 @@ struct CentralHeartBeatDefaultTypeInternal {
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CentralHeartBeatDefaultTypeInternal _CentralHeartBeat_default_instance_;
-}  // namespace Central
-}  // namespace Pb
-namespace Pb {
-namespace Central {
+}  // namespace Ps
+namespace Ps {
 PROTOBUF_CONSTINIT const uint32_t MsgID_internal_data_[] = {
     65536u, 131072u, 3001u, 3000u, };
 bool MsgID_IsValid(int value) {
@@ -125,7 +122,7 @@ class RegisterToCentral::_Internal {
 RegisterToCentral::RegisterToCentral(::google::protobuf::Arena* arena)
     : ::google::protobuf::MessageLite(arena) {
   SharedCtor(arena);
-  // @@protoc_insertion_point(arena_constructor:Pb.Central.RegisterToCentral)
+  // @@protoc_insertion_point(arena_constructor:Ps.RegisterToCentral)
 }
 inline PROTOBUF_NDEBUG_INLINE RegisterToCentral::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
@@ -150,7 +147,7 @@ RegisterToCentral::RegisterToCentral(
                offsetof(Impl_, servertype_) +
                sizeof(Impl_::serverindex_));
 
-  // @@protoc_insertion_point(copy_constructor:Pb.Central.RegisterToCentral)
+  // @@protoc_insertion_point(copy_constructor:Ps.RegisterToCentral)
 }
 inline PROTOBUF_NDEBUG_INLINE RegisterToCentral::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
@@ -168,7 +165,7 @@ inline void RegisterToCentral::SharedCtor(::_pb::Arena* arena) {
                sizeof(Impl_::serverindex_));
 }
 RegisterToCentral::~RegisterToCentral() {
-  // @@protoc_insertion_point(destructor:Pb.Central.RegisterToCentral)
+  // @@protoc_insertion_point(destructor:Ps.RegisterToCentral)
   _internal_metadata_.Delete<std::string>();
   SharedDtor();
 }
@@ -182,7 +179,7 @@ const ::google::protobuf::MessageLite::ClassData*
 RegisterToCentral::GetClassData() const {
   struct ClassData_ {
     ::google::protobuf::MessageLite::ClassData header;
-    char type_name[29];
+    char type_name[21];
   };
 
   PROTOBUF_CONSTINIT static const ClassData_ _data_ = {
@@ -191,13 +188,13 @@ RegisterToCentral::GetClassData() const {
           PROTOBUF_FIELD_OFFSET(RegisterToCentral, _impl_._cached_size_),
           true,
       },
-      "Pb.Central.RegisterToCentral",
+      "Ps.RegisterToCentral",
   };
 
   return &_data_.header;
 }
 PROTOBUF_NOINLINE void RegisterToCentral::Clear() {
-// @@protoc_insertion_point(message_clear_start:Pb.Central.RegisterToCentral)
+// @@protoc_insertion_point(message_clear_start:Ps.RegisterToCentral)
   PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
@@ -218,7 +215,7 @@ const char* RegisterToCentral::_InternalParse(
 
 
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<2, 3, 0, 47, 2> RegisterToCentral::_table_ = {
+const ::_pbi::TcParseTable<2, 3, 0, 39, 2> RegisterToCentral::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
@@ -232,7 +229,7 @@ const ::_pbi::TcParseTable<2, 3, 0, 47, 2> RegisterToCentral::_table_ = {
     &_RegisterToCentral_default_instance_._instance,
     ::_pbi::TcParser::GenericFallbackLite,  // fallback
     #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-    ::_pbi::TcParser::GetTable<::Pb::Central::RegisterToCentral>(),  // to_prefetch
+    ::_pbi::TcParser::GetTable<::Ps::RegisterToCentral>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     {::_pbi::TcParser::MiniParse, {}},
@@ -260,8 +257,8 @@ const ::_pbi::TcParseTable<2, 3, 0, 47, 2> RegisterToCentral::_table_ = {
   }},
   // no aux_entries
   {{
-    "\34\12\0\0\0\0\0\0"
-    "Pb.Central.RegisterToCentral"
+    "\24\12\0\0\0\0\0\0"
+    "Ps.RegisterToCentral"
     "servername"
   }},
 };
@@ -269,7 +266,7 @@ const ::_pbi::TcParseTable<2, 3, 0, 47, 2> RegisterToCentral::_table_ = {
 ::uint8_t* RegisterToCentral::_InternalSerialize(
     ::uint8_t* target,
     ::google::protobuf::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:Pb.Central.RegisterToCentral)
+  // @@protoc_insertion_point(serialize_to_array_start:Ps.RegisterToCentral)
   ::uint32_t cached_has_bits = 0;
   (void)cached_has_bits;
 
@@ -277,7 +274,7 @@ const ::_pbi::TcParseTable<2, 3, 0, 47, 2> RegisterToCentral::_table_ = {
   if (!this->_internal_servername().empty()) {
     const std::string& _s = this->_internal_servername();
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-        _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "Pb.Central.RegisterToCentral.servername");
+        _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "Ps.RegisterToCentral.servername");
     target = stream->WriteStringMaybeAliased(1, _s, target);
   }
 
@@ -300,12 +297,12 @@ const ::_pbi::TcParseTable<2, 3, 0, 47, 2> RegisterToCentral::_table_ = {
         _internal_metadata_.unknown_fields<std::string>(::google::protobuf::internal::GetEmptyString).data(),
         static_cast<int>(_internal_metadata_.unknown_fields<std::string>(::google::protobuf::internal::GetEmptyString).size()), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:Pb.Central.RegisterToCentral)
+  // @@protoc_insertion_point(serialize_to_array_end:Ps.RegisterToCentral)
   return target;
 }
 
 ::size_t RegisterToCentral::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:Pb.Central.RegisterToCentral)
+// @@protoc_insertion_point(message_byte_size_start:Ps.RegisterToCentral)
   ::size_t total_size = 0;
 
   ::uint32_t cached_has_bits = 0;
@@ -345,7 +342,7 @@ void RegisterToCentral::CheckTypeAndMergeFrom(
 
 void RegisterToCentral::MergeFrom(const RegisterToCentral& from) {
   RegisterToCentral* const _this = this;
-  // @@protoc_insertion_point(class_specific_merge_from_start:Pb.Central.RegisterToCentral)
+  // @@protoc_insertion_point(class_specific_merge_from_start:Ps.RegisterToCentral)
   ABSL_DCHECK_NE(&from, _this);
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
@@ -363,7 +360,7 @@ void RegisterToCentral::MergeFrom(const RegisterToCentral& from) {
 }
 
 void RegisterToCentral::CopyFrom(const RegisterToCentral& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:Pb.Central.RegisterToCentral)
+// @@protoc_insertion_point(class_specific_copy_from_start:Ps.RegisterToCentral)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -396,7 +393,7 @@ class CentralHeartBeat::_Internal {
 CentralHeartBeat::CentralHeartBeat(::google::protobuf::Arena* arena)
     : ::google::protobuf::MessageLite(arena) {
   SharedCtor(arena);
-  // @@protoc_insertion_point(arena_constructor:Pb.Central.CentralHeartBeat)
+  // @@protoc_insertion_point(arena_constructor:Ps.CentralHeartBeat)
 }
 inline PROTOBUF_NDEBUG_INLINE CentralHeartBeat::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
@@ -414,7 +411,7 @@ CentralHeartBeat::CentralHeartBeat(
       from._internal_metadata_);
   new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
 
-  // @@protoc_insertion_point(copy_constructor:Pb.Central.CentralHeartBeat)
+  // @@protoc_insertion_point(copy_constructor:Ps.CentralHeartBeat)
 }
 inline PROTOBUF_NDEBUG_INLINE CentralHeartBeat::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
@@ -426,7 +423,7 @@ inline void CentralHeartBeat::SharedCtor(::_pb::Arena* arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
 }
 CentralHeartBeat::~CentralHeartBeat() {
-  // @@protoc_insertion_point(destructor:Pb.Central.CentralHeartBeat)
+  // @@protoc_insertion_point(destructor:Ps.CentralHeartBeat)
   _internal_metadata_.Delete<std::string>();
   SharedDtor();
 }
@@ -439,7 +436,7 @@ const ::google::protobuf::MessageLite::ClassData*
 CentralHeartBeat::GetClassData() const {
   struct ClassData_ {
     ::google::protobuf::MessageLite::ClassData header;
-    char type_name[28];
+    char type_name[20];
   };
 
   PROTOBUF_CONSTINIT static const ClassData_ _data_ = {
@@ -448,13 +445,13 @@ CentralHeartBeat::GetClassData() const {
           PROTOBUF_FIELD_OFFSET(CentralHeartBeat, _impl_._cached_size_),
           true,
       },
-      "Pb.Central.CentralHeartBeat",
+      "Ps.CentralHeartBeat",
   };
 
   return &_data_.header;
 }
 PROTOBUF_NOINLINE void CentralHeartBeat::Clear() {
-// @@protoc_insertion_point(message_clear_start:Pb.Central.CentralHeartBeat)
+// @@protoc_insertion_point(message_clear_start:Ps.CentralHeartBeat)
   PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
@@ -486,20 +483,20 @@ const ::_pbi::TcParseTable<0, 1, 1, 0, 2> CentralHeartBeat::_table_ = {
     &_CentralHeartBeat_default_instance_._instance,
     ::_pbi::TcParser::GenericFallbackLite,  // fallback
     #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-    ::_pbi::TcParser::GetTable<::Pb::Central::CentralHeartBeat>(),  // to_prefetch
+    ::_pbi::TcParser::GetTable<::Ps::CentralHeartBeat>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // repeated .Pb.Central.RegisterToCentral natsclients = 1;
+    // repeated .Ps.RegisterToCentral natsclients = 1;
     {::_pbi::TcParser::FastMtR1,
      {10, 63, 0, PROTOBUF_FIELD_OFFSET(CentralHeartBeat, _impl_.natsclients_)}},
   }}, {{
     65535, 65535
   }}, {{
-    // repeated .Pb.Central.RegisterToCentral natsclients = 1;
+    // repeated .Ps.RegisterToCentral natsclients = 1;
     {PROTOBUF_FIELD_OFFSET(CentralHeartBeat, _impl_.natsclients_), 0, 0,
     (0 | ::_fl::kFcRepeated | ::_fl::kMessage | ::_fl::kTvTable)},
   }}, {{
-    {::_pbi::TcParser::GetTable<::Pb::Central::RegisterToCentral>()},
+    {::_pbi::TcParser::GetTable<::Ps::RegisterToCentral>()},
   }}, {{
   }},
 };
@@ -507,11 +504,11 @@ const ::_pbi::TcParseTable<0, 1, 1, 0, 2> CentralHeartBeat::_table_ = {
 ::uint8_t* CentralHeartBeat::_InternalSerialize(
     ::uint8_t* target,
     ::google::protobuf::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:Pb.Central.CentralHeartBeat)
+  // @@protoc_insertion_point(serialize_to_array_start:Ps.CentralHeartBeat)
   ::uint32_t cached_has_bits = 0;
   (void)cached_has_bits;
 
-  // repeated .Pb.Central.RegisterToCentral natsclients = 1;
+  // repeated .Ps.RegisterToCentral natsclients = 1;
   for (unsigned i = 0, n = static_cast<unsigned>(
                            this->_internal_natsclients_size());
        i < n; i++) {
@@ -527,19 +524,19 @@ const ::_pbi::TcParseTable<0, 1, 1, 0, 2> CentralHeartBeat::_table_ = {
         _internal_metadata_.unknown_fields<std::string>(::google::protobuf::internal::GetEmptyString).data(),
         static_cast<int>(_internal_metadata_.unknown_fields<std::string>(::google::protobuf::internal::GetEmptyString).size()), target);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:Pb.Central.CentralHeartBeat)
+  // @@protoc_insertion_point(serialize_to_array_end:Ps.CentralHeartBeat)
   return target;
 }
 
 ::size_t CentralHeartBeat::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:Pb.Central.CentralHeartBeat)
+// @@protoc_insertion_point(message_byte_size_start:Ps.CentralHeartBeat)
   ::size_t total_size = 0;
 
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // repeated .Pb.Central.RegisterToCentral natsclients = 1;
+  // repeated .Ps.RegisterToCentral natsclients = 1;
   total_size += 1UL * this->_internal_natsclients_size();
   for (const auto& msg : this->_internal_natsclients()) {
     total_size += ::google::protobuf::internal::WireFormatLite::MessageSize(msg);
@@ -559,7 +556,7 @@ void CentralHeartBeat::CheckTypeAndMergeFrom(
 
 void CentralHeartBeat::MergeFrom(const CentralHeartBeat& from) {
   CentralHeartBeat* const _this = this;
-  // @@protoc_insertion_point(class_specific_merge_from_start:Pb.Central.CentralHeartBeat)
+  // @@protoc_insertion_point(class_specific_merge_from_start:Ps.CentralHeartBeat)
   ABSL_DCHECK_NE(&from, _this);
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
@@ -570,7 +567,7 @@ void CentralHeartBeat::MergeFrom(const CentralHeartBeat& from) {
 }
 
 void CentralHeartBeat::CopyFrom(const CentralHeartBeat& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:Pb.Central.CentralHeartBeat)
+// @@protoc_insertion_point(class_specific_copy_from_start:Ps.CentralHeartBeat)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -587,8 +584,7 @@ void CentralHeartBeat::InternalSwap(CentralHeartBeat* PROTOBUF_RESTRICT other) {
 }
 
 // @@protoc_insertion_point(namespace_scope)
-}  // namespace Central
-}  // namespace Pb
+}  // namespace Ps
 namespace google {
 namespace protobuf {
 }  // namespace protobuf
