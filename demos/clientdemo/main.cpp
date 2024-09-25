@@ -1,9 +1,18 @@
 #include "Session/Session.hpp"
 #include "uvw.hpp"
 #include <iostream>
-
-void login()
+#include "gen_proto/Client.pb.h"
+#include "Msg.def.h"
+void req_login()
 {
+    Ps::PlayerLoginReq req;
+    req.set_osplatform(Ps::OS_PLATFORM::OS_UNKNOWN);
+    req.set_las(Ps::LoginAppSdk::NAMEPASSWORD);
+    req.set_id(0);
+    req.set_name("guest001");
+    req.set_pass("pass001");
+    req.app_spec("");
+
 
 }
 
