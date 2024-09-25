@@ -2,6 +2,7 @@
 #include <string>
 #include "Msg.def.h"
 #include <google/protobuf/message_lite.h>
+#include "gen_proto/Core.pb.h"
 #include "miniz/miniz.h"
 #ifdef _WIN32
 #include <WinSock2.h>
@@ -154,25 +155,38 @@ namespace Base {
 	}
 
 	uint32_t Message::MsgId() {
-		return mHeader.msg_id;
+		return mWsHeader.id;
 	}
 
-    Message& Message::SetMsgId(uint32_t id)
-    {
-        mHeader.msg_id = id;
-        return *this;
-    }
+	Message& Message::SetMsgId(uint32_t id)
+	{
+		mWsHeader.id = id;
+		return *this;
+	}
 
-	Message& Message::SetNatsSubject(std::string &sub)
+	Message& Message::SetNatsSubject(std::string& sub)
 	{
 		this->mNatsSubject = sub;
 		return *this;
 	}
 
-	Message& Message::SetNatsReplyto(std::string &replyto)
+	Message& Message::SetNatsReplyto(std::string& replyto)
 	{
 		this->mNatsReplyto = replyto;
 		return *this;
+	}
+
+	bool Message::DecodeWS(std::string& data, WsMsgHeader& hdr, std::string& body)
+	{
+		std::shared_ptr<Ps::ProtoMsgWrapper> ptr = std::make_shared<Ps::ProtoMsgWrapper>(Ps::ProtoMsgWrapper::default_instance().New());
+		bool ret = ptr->ParsePartialFromString(data);
+		if (!ret) return ret;
+
+		hdr.id = ptr->id();
+		hdr.cookie = ptr->cookie();
+		hdr.zipped = ptr->zipped();
+		body = ptr->msg();
+		return ret;
 	}
 
 } // namespace Base

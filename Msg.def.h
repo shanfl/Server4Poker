@@ -40,6 +40,13 @@ namespace Base {
 		std::string cookie;
 	};
 
+	struct WsMsgHeader
+	{
+		int32_t id;
+		int32_t zipped;
+		std::string cookie;
+	};
+
 	class Message
 	{
 
@@ -57,21 +64,23 @@ namespace Base {
 
 		static std::string Encode(uint32_t msg_id, std::string str, std::string cookie = "");
 
+		static bool DecodeWS(std::string& data, WsMsgHeader& hdr, std::string& body);
+
 
 		bool parser(std::string& data);
 		//std::dynamic_pointer_cast
 		template<typename T>
-        std::shared_ptr<T> GetProtoMsg()
-        {
-            return std::dynamic_pointer_cast<T>(proto_msg);
-        }
+		std::shared_ptr<T> GetProtoMsg()
+		{
+			return std::dynamic_pointer_cast<T>(proto_msg);
+		}
 
 		Message& SetProtoPtr(std::shared_ptr<ProtoMsg> ptr);
 
 		uint32_t MsgId();
 		Message& SetMsgId(uint32_t id);
-		Message& SetNatsSubject(std::string &sub);
-		Message& SetNatsReplyto(std::string &replyto);
+		Message& SetNatsSubject(std::string& sub);
+		Message& SetNatsReplyto(std::string& replyto);
 		std::string Subject_Nats();
 		std::string Replyto_Nats();
 	protected:
@@ -82,5 +91,8 @@ namespace Base {
 	private:
 		std::string mNatsSubject;
 		std::string mNatsReplyto;
+
+	public:
+		WsMsgHeader mWsHeader;
 	};
 } // namespace Base

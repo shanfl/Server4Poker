@@ -7,7 +7,8 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
 ENDIF()
 
-
+#get_target_property(your_target_FILES your_target SOURCES)
+#source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${your_target_FILES })
 
 macro(source_group_by_dir source_files)
     if(MSVC)

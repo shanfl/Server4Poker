@@ -256,12 +256,12 @@ namespace Base {
 		std::clog << "======> listenat:" << ip << ":" << port << std::endl;
 
 		mTcpHander->on<uvw::listen_event>([this](const uvw::listen_event&, uvw::tcp_handle& srv) {
-            std::clog << "listen_event" << std::endl;
+			std::clog << "listen_event" << std::endl;
 			std::shared_ptr<uvw::tcp_handle> client = srv.parent().resource<uvw::tcp_handle>();
 
 			std::shared_ptr<uvw::Session> clientSession = srv.parent().resource<uvw::Session>(client);
 			clientSession->set_tcpmsg_spliter(Message::fast_split);
-            //client->no_delay(true);
+			//client->no_delay(true);
 			this->mSessionUndefined[clientSession->id()] = clientSession;
 
 			clientSession->on<uvw::on_msg_event>([clientSession, this](const uvw::on_msg_event& ev, const auto& hdl) {
@@ -270,7 +270,7 @@ namespace Base {
 			clientSession->on<uvw::on_close_event>([clientSession, this](const auto&, const auto&) {
 				this->on_session_close(clientSession);
 				});
-            srv.accept(*client);
+			srv.accept(*client);
 			clientSession->read();
 			});
 
@@ -304,7 +304,7 @@ namespace Base {
 	{
 		Message msg;
 		std::string body;
-		bool suc = Message::Decode(data, msg.mHeader, body);
+		bool suc = Message::DecodeWS(data, msg.mWsHeader, body);
 		if (!suc) {
 			std::clog << __FUNCTION__ << ",Message::Decode ERROR\n";
 			session->close();
@@ -487,8 +487,8 @@ namespace Base {
 		std::string str_enc = Message::Encode(id, str_msg);
 		std::string subject_wait_reply = client->request_reply(subject
 			, str_enc,
-            std::bind(&ServerBase::on_nats_reqest_reply, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5)
-                                                               , std::chrono::milliseconds { mstimout });
+			std::bind(&ServerBase::on_nats_reqest_reply, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5)
+			, std::chrono::milliseconds{ mstimout });
 
 		auto thd_id = std::this_thread::get_id();
 		std::tuple<NatsReqReplyCallBack, std::thread::id, std::chrono::steady_clock::time_point> tp{ cb,thd_id,std::chrono::steady_clock::now() };
@@ -565,33 +565,34 @@ namespace Base {
 		}
 	}
 
-    bool ServerBase::load_db(const toml::Value& root,std::string name)
-    {
-        using namespace DBPool;
+	bool ServerBase::load_db(const toml::Value& root, std::string name)
+	{
+		using namespace DBPool;
 
-        std::string ip = TomlHelper::TGet<std::string>(root,name,"ip");
-        int port = TomlHelper::TGet<int>(root,name,"port");
-        std::string user =  TomlHelper::TGet<std::string>(root,name,"user");
-        std::string passwd  =  TomlHelper::TGet<std::string>(root,name,"password");
-        std::string dbname = TomlHelper::TGet<std::string>(root,name,"dbname");
-        std::string charset = TomlHelper::TGet<std::string>(root,name,"charset");
+		std::string ip = TomlHelper::TGet<std::string>(root, name, "ip");
+		int port = TomlHelper::TGet<int>(root, name, "port");
+		std::string user = TomlHelper::TGet<std::string>(root, name, "user");
+		std::string passwd = TomlHelper::TGet<std::string>(root, name, "password");
+		std::string dbname = TomlHelper::TGet<std::string>(root, name, "dbname");
+		std::string charset = TomlHelper::TGet<std::string>(root, name, "charset");
 
-        int poolsize = TomlHelper::TGet<int>(root,name,"poolsize",this->mThreads.size());
+		int poolsize = TomlHelper::TGet<int>(root, name, "poolsize", this->mThreads.size());
 
-        auto pool = std::make_shared<MySqlConnectPool>();
-        for(int i = 0;i < poolsize;i++){
-            MysqlConnect*con = new MysqlConnect(ip, user, passwd, dbname, charset, port);
-            if(con->Connect()){
-                pool->put(con);
-            }else{
-                delete con;
-                return false;
-            }
-        }
+		auto pool = std::make_shared<MySqlConnectPool>();
+		for (int i = 0; i < poolsize; i++) {
+			MysqlConnect* con = new MysqlConnect(ip, user, passwd, dbname, charset, port);
+			if (con->Connect()) {
+				pool->put(con);
+			}
+			else {
+				delete con;
+				return false;
+			}
+		}
 
-        mDbPools[name] = pool;
-        return true;
-    }
+		mDbPools[name] = pool;
+		return true;
+	}
 
 } //namespace Base
 
