@@ -28,6 +28,14 @@ enum LoginAppSdk
     
 };
 
+
+
+enum LoginResCode
+{
+    RC_LOGIN_SYSERROR,
+    RC_LOGIN_WRONGPASS,
+}
+
 message PlayerLoginReq
 {
     OS_PLATFORM  osplatform     = 1;

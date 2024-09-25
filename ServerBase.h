@@ -95,7 +95,7 @@ using this_class = THIS_CLASS;  \
 	public:
 
 		BEGIN_MSG_MAP_ROOT(ServerBase)
-		BIND_SESSION_MSG(Pb::Base, ID_HELLO, Hello)
+        BIND_SESSION_MSG(Ps, ID_HELLO, Hello)
 		END_MSG_MAP_ROOT()
 
 		//

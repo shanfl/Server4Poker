@@ -50,7 +50,7 @@ public:
 class CentralServer :public Base::ServerBase
 {
 	BEGIN_MSG_MAP(CentralServer, Base::ServerBase)
-		BIND_NATS_MSG(Pb::Central, ID_RegisterToCentral, RegisterToCentral)
+        BIND_NATS_MSG(Ps, ID_RegisterToCentral, RegisterToCentral)
 	END_MSG_MAP()
 
 	virtual bool post_init(const toml::Value& root) override;

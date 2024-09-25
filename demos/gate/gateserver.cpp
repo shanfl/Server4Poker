@@ -9,3 +9,17 @@ int main(int argc,char*argv[])
 
     return 0;
 }
+
+
+void GateServer::on_msg_PlayerLoginReq(Base::SessionPtr session, Base::Message& msg)
+{
+    std::clog<< __FUNCTION__ << std::endl;
+
+    auto ptr = msg.GetProtoMsg<Ps::PlayerLoginReq>();
+    if(ptr->las() == Ps::LoginAppSdk::NAMEPASSWORD){
+        // 用户名密码
+    }
+
+    // 转发给loginserver
+    // nats_reqest_reply()
+}
