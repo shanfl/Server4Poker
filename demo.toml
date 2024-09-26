@@ -9,6 +9,10 @@ port=4567
 [thread]
 cnt = -1
 
+[nats-core]
+host="127.0.0.1"
+port=4222
+subs = ["all.all.id.*","gate.1.system.id.*"]
 
 
 [[nats]]

@@ -2,6 +2,11 @@
 #include "tinytoml/toml.h"
 namespace TomlHelper
 {
+    bool Has(const toml::Value&root,std::string name){
+        const toml::Value* table = root.find(name);
+        return table != nullptr;
+    }
+
 	template<class T>
     T TGet(const toml::Value& root, std::string tableName, std::string key, T v = T()) {
 		const toml::Value* table = root.find(tableName);
@@ -29,6 +34,18 @@ namespace TomlHelper
         const toml::Value* vtoml = arryValue.at(index).find(key);
         if(!vtoml) return v;
         return vtoml->as<T>();
+    }
+
+
+
+    template<typename T>
+    T SubKeyArrayGet(const toml::Value&root,std::string key,std::string subkey){
+        const toml::Value* table = root.find(key);
+        if (!table) return T();
+
+        const toml::Value*subkeyPtr = table->find(subkey);
+        if(!subkeyPtr) return T();
+        return subkeyPtr->as<T>();
     }
 
 #if 0

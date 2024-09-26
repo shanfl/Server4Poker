@@ -116,10 +116,14 @@ using this_class = THIS_CLASS;  \
 		int         mIndex = 0;
 
 	private:
-		std::map<std::string, std::shared_ptr<uvw::nats_client>> mNatsClients;
-        std::shared_mutex mMutexNatscs;
+        //std::map<std::string, std::shared_ptr<uvw::nats_client>> mNatsClients;
+        //std::shared_mutex mMutexNatscs;
+        //简单化，
+        std::shared_ptr<uvw::nats_client> mNatsClient;
 	private:
 		// session
+        // TODO:
+        // 改， 这里只有客户端的连接
 		std::unordered_map<int64_t, std::shared_ptr<uvw::Session>> mSessionUndefined;
 		std::unordered_map<int64_t, std::shared_ptr<uvw::Session>> mSessions[MAX_SERVE_TYPE_CNT];
 		std::mutex mSessionsMutex;
@@ -172,7 +176,7 @@ using this_class = THIS_CLASS;  \
 
         NatsClinetPtr get_natsc_byname(std::string name);
 
-		virtual void on_nats_pub(std::shared_ptr<uvw::nats_client> client,
+        virtual void on_nats_pub(std::shared_ptr<uvw::nats_client> client,
 			std::string subject,
 			int32_t id,
 			std::shared_ptr<ProtoMsg> msg,
