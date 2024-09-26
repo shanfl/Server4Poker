@@ -192,8 +192,9 @@ using this_class = THIS_CLASS;  \
             log(ll,os.str());
         }
 
-        void nats_pub(NatsClinetPtr client,std::string subject,int id,ProtoMsg &msg);
-        void nats_reqest_reply(NatsClinetPtr client,std::string subject,int id,ProtoMsg &msg,int mstimout,NatsReqReplyCallBack cb);
+		//TODO: 服务的注册与发现,pub_to_one / pub_to_all
+        void nats_pub(std::string subject,int id,ProtoMsg &msg);
+        void nats_reqest_reply(std::string subject,int id,ProtoMsg &msg,int mstimout,NatsReqReplyCallBack cb);
     protected:
         // ======================== timer ========================
         virtual void __on_timer(int id,int interval,int thdidx) override {};

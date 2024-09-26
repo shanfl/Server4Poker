@@ -358,7 +358,7 @@ namespace Base {
 		std::shared_ptr<ProtoMsg> ptr = std::shared_ptr<ProtoMsg>(mBindMsgs[msg.MsgId()].msg_default_instance->New());
 		msg.SetProtoPtr(ptr);
 
-		bool ret = msg.parser(data);
+        bool ret = msg.parser(body);
 		if (!ret) {
 			std::clog << __FUNCTION__ << ",Message.parser ERROR\n";
 			session->close();
@@ -512,18 +512,18 @@ namespace Base {
     //		return nullptr;
     //	}
 
-    void ServerBase::nats_pub(NatsClinetPtr client, std::string subject, int id, ProtoMsg& msg)
+    void ServerBase::nats_pub(std::string subject, int id, ProtoMsg& msg)
 	{
 		std::string str_msg = msg.SerializeAsString();
         std::string str_enc = Message::EncodeWs(id, str_msg);
-        client->pub(subject, str_enc);
+        mNatsClient->pub(subject, str_enc);
 	}
 
-    void ServerBase::nats_reqest_reply(NatsClinetPtr client, std::string subject, int id, ProtoMsg& msg, int mstimout, NatsReqReplyCallBack cb)
+    void ServerBase::nats_reqest_reply(std::string subject, int id, ProtoMsg& msg, int mstimout, NatsReqReplyCallBack cb)
 	{
 		std::string str_msg = msg.SerializeAsString();
         std::string str_enc = Message::EncodeWs(id, str_msg);
-        std::string subject_wait_reply = client->request_reply(subject
+        std::string subject_wait_reply = mNatsClient->request_reply(subject
 			, str_enc,
 			std::bind(&ServerBase::on_nats_reqest_reply, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5)
 			, std::chrono::milliseconds{ mstimout });
