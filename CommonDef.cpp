@@ -7,18 +7,27 @@ namespace Base
         switch (st)
         {
 
-        case ServerType::Server_Central:
+        case ServerType::Central:
             return "central";
-        case ServerType::Server_Gate:
+        case ServerType::Gate:
             return "gate";
-        case ServerType::Server_PlanServer:
+        case ServerType::PlanServer:
             return "plan";
-        case ServerType::Server_Ddz:
+        case ServerType::Ddz:
             return "ddz";
-        case ServerType::Server_UnKnown:   
+        case ServerType::UnKnown:
         default:
             return "unknown";
             break;
         }
+    }
+
+    int CommonDef::Name2ServerType(std::string name)
+    {
+        if(name == "central")       return (int)ServerType::Central;
+        else if(name == "gate")     return (int)ServerType::Gate;
+        else if(name == "login")    return (int)ServerType::Login;
+        else if(name == "user")     return (int)ServerType::User;
+        else                        return (int)ServerType::UnKnown;
     }
 }

@@ -111,6 +111,7 @@ using this_class = THIS_CLASS;  \
 		std::string mAppPath;
 		std::string mTomlCfg;
 		std::string mLogFile;
+        std::string mUniqueId;
 		std::string mName;
 		int         mType = 0;
 		int         mIndex = 0;
@@ -192,9 +193,20 @@ using this_class = THIS_CLASS;  \
             log(ll,os.str());
         }
 
+        // gate.1.id.10001          //   单发,但是指定一个确定的服务器
+        // gate.queue.id.1001       //   单发任意一个
+        // gate.-1.id.1001          //   群发
 		//TODO: 服务的注册与发现,pub_to_one / pub_to_all
         void nats_pub(std::string subject,int id,ProtoMsg &msg);
+        void nats_pub_to_anyone (ServerType st,             int id ,ProtoMsg&msg);
+        void nats_pub_to_one    (ServerType st,int index,   int id ,ProtoMsg&msg);
+        void nats_pub_to_all    (int id,ProtoMsg&msg);
+
+
+        void nats_reqest_one_reply(ServerType st,int index,int id,ProtoMsg&msg,int mstimout,NatsReqReplyCallBack cb);
         void nats_reqest_reply(std::string subject,int id,ProtoMsg &msg,int mstimout,NatsReqReplyCallBack cb);
+
+
     protected:
         // ======================== timer ========================
         virtual void __on_timer(int id,int interval,int thdidx) override {};

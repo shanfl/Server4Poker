@@ -13,6 +13,7 @@
 #include "spdlog/sinks/daily_file_sink.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
 
+using namespace nonstd::string_utils::detail;
 
 static std::shared_ptr<spdlog::logger> g_Logger;
 
@@ -155,10 +156,25 @@ namespace Base {
 			this->log(LogLevel::err, "parser toml:" + mTomlCfg + " failed, reason:" + pr.errorReason);
 			return false;
 		}
+        this->mUniqueId =TomlHelper::TGet<std::string>(pr.value, "", "unique_id", "");
+        if(this->mUniqueId.empty()){
+            this->log(LogLevel::err, "parser toml: failed, reason: unique_id is lost");
+            return false;
+        }
 
-		this->mName = TomlHelper::TGet<std::string>(pr.value, "", "name", "unknown");
-		this->mType = TomlHelper::TGet<int>(pr.value, "", "type", 0);
-		this->mIndex = TomlHelper::TGet<int>(pr.value, "", "index", 0);
+        std::vector<std::string> sp = nonstd::string_utils::split_copy(this->mUniqueId,".");
+        if(sp.size() != 2 ){
+            this->log(LogLevel::err, "parser toml: failed, reason: unique_id = " + this->mUniqueId);
+            return false;
+        }
+        this->mName = sp[0];
+        this->mIndex = std::atoi(sp[1].c_str());
+        this->mType = CommonDef::Name2ServerType(this->mName);
+        if(this->mType == (int)ServerType::UnKnown){
+            // error
+            std::clog << "================================ error ======================\n";
+            return false;
+        }
 
 		bool r1 = init_thd(pr.value);
 		bool r2 = init_db(pr.value);
@@ -250,7 +266,7 @@ namespace Base {
             std::clog << "  sub:" << it << std::endl;
         }
 
-
+        std::string queue_sub = TomlHelper::TGet<std::string>(root, "nats-core", "queue_sub", "");
         std::clog << " ========== nats-init-end ========== " << "\n";
 
         if(host.empty()) return false;
@@ -258,7 +274,7 @@ namespace Base {
         mNatsClient->connect(host, port, true);
         mNatsClient->set_pre_subs(subs);
 
-        mNatsClient->on<uvw::info_event_nats>([this, host, port, subs](auto& e, auto& h) {
+        mNatsClient->on<uvw::info_event_nats>([this, host, port, subs,queue_sub](auto& e, auto& h) {
             this->log(LogLevel::info, "connected:", host, ",port:", port);
             this->on_nats_info(mNatsClient, e.data);
             std::string str = "{\"verbose\":false,\"pedantic\":false,\"tls_required\":false,\"name\":\"\",\"lang\":\"go\",\"version\":\"1.2.2\",\"protocol\":1}";
@@ -266,6 +282,9 @@ namespace Base {
             for (auto& it : subs) {
                 mNatsClient->sub(it);
             }
+            //if(queue_sub.length()){
+            mNatsClient->sub_with_queuegruop(queue_sub,"queue");
+            //}
         });
         mNatsClient->set_sub_callback(std::bind(&ServerBase::on_nats_raw_sub, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, false));
 
@@ -512,12 +531,44 @@ namespace Base {
     //		return nullptr;
     //	}
 
+    void ServerBase::nats_pub_to_anyone (ServerType st,             int id ,ProtoMsg&msg)
+    {
+        std::string subject = CommonDef::ServerType2Name(st) + ".queue.id." + std::to_string(id);
+        nats_pub(subject,id,msg);
+    }
+
+    void ServerBase::nats_pub_to_one    (ServerType st,int index,   int id ,ProtoMsg&msg)
+    {
+        std::string subject = CommonDef::ServerType2Name(st) + "." + std::to_string(index)+ ".id." + std::to_string(id);
+        nats_pub(subject,id,msg);
+    }
+
+    void ServerBase::nats_pub_to_all    (int id,ProtoMsg&msg)
+    {
+        std::string subject = "all.all.id."+ std::to_string(id);
+        nats_pub(subject,id,msg);
+    }
+
     void ServerBase::nats_pub(std::string subject, int id, ProtoMsg& msg)
 	{
 		std::string str_msg = msg.SerializeAsString();
         std::string str_enc = Message::EncodeWs(id, str_msg);
         mNatsClient->pub(subject, str_enc);
 	}
+
+    void ServerBase::nats_reqest_one_reply(ServerType st,int index,int id,ProtoMsg&msg,int mstimout,NatsReqReplyCallBack cb)
+    {
+        std::string subject = "";
+        if(index < 0){
+            // 随意一个
+            subject = CommonDef::ServerType2Name(st) + "."  + "queue.id." + std::to_string(id);
+
+        }else{
+            subject = CommonDef::ServerType2Name(st) + "."  + std::to_string(index) + "id." + std::to_string(id);
+        }
+
+        nats_reqest_reply(subject,id,msg,mstimout,cb);
+    }
 
     void ServerBase::nats_reqest_reply(std::string subject, int id, ProtoMsg& msg, int mstimout, NatsReqReplyCallBack cb)
 	{

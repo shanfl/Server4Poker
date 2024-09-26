@@ -6,13 +6,13 @@ namespace Base
 {
 enum class ServerType : int16_t
 {
-    Server_UnKnown          = 0,         // 未知
-    Server_Central          = 1,         
-    Server_Gate             = 2,
-    Server_Login            = 3,
-    Server_User,
-    Server_PlanServer,
-    Server_Ddz,
+    UnKnown          = 0,         // 未知
+    Central          = 1,
+    Gate             = 2,
+    Login            = 3,
+    User,
+    PlanServer,
+    Ddz,
 };
 
 struct ServerId
@@ -38,6 +38,7 @@ class CommonDef
 {
 public:
     static std::string ServerType2Name(ServerType st);
+    static int Name2ServerType(std::string name);
 };
 }
 
