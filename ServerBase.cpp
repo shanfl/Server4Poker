@@ -156,25 +156,25 @@ namespace Base {
 			this->log(LogLevel::err, "parser toml:" + mTomlCfg + " failed, reason:" + pr.errorReason);
 			return false;
 		}
-        this->mUniqueId =TomlHelper::TGet<std::string>(pr.value, "", "unique_id", "");
-        if(this->mUniqueId.empty()){
-            this->log(LogLevel::err, "parser toml: failed, reason: unique_id is lost");
-            return false;
-        }
+		this->mUniqueId = TomlHelper::TGet<std::string>(pr.value, "", "unique_id", "");
+		if (this->mUniqueId.empty()) {
+			this->log(LogLevel::err, "parser toml: failed, reason: unique_id is lost");
+			return false;
+		}
 
-        std::vector<std::string> sp = nonstd::string_utils::split_copy(this->mUniqueId,".");
-        if(sp.size() != 2 ){
-            this->log(LogLevel::err, "parser toml: failed, reason: unique_id = " + this->mUniqueId);
-            return false;
-        }
-        this->mName = sp[0];
-        this->mIndex = std::atoi(sp[1].c_str());
-        this->mType = CommonDef::Name2ServerType(this->mName);
-        if(this->mType == (int)ServerType::UnKnown){
-            // error
-            std::clog << "================================ error ======================\n";
-            return false;
-        }
+		std::vector<std::string> sp = nonstd::string_utils::split_copy(this->mUniqueId, ".");
+		if (sp.size() != 2) {
+			this->log(LogLevel::err, "parser toml: failed, reason: unique_id = " + this->mUniqueId);
+			return false;
+		}
+		this->mName = sp[0];
+		this->mIndex = std::atoi(sp[1].c_str());
+		this->mType = CommonDef::Name2ServerType(this->mName);
+		if (this->mType == (int)ServerType::UnKnown) {
+			// error
+			std::clog << "================================ error ======================\n";
+			return false;
+		}
 
 		bool r1 = init_thd(pr.value);
 		bool r2 = init_db(pr.value);
@@ -251,44 +251,49 @@ namespace Base {
 	}
 #endif
 
-    bool ServerBase::init_nats(const toml::Value& root)
-    {
-        bool has = TomlHelper::Has(root,"nats-core");
-        if(!has)
-            return true;  //
-        std::string host = TomlHelper::TGet<std::string>(root, "nats-core", "host", "");
-        int port = TomlHelper::TGet<int>(root, "nats-core", "port", 4222);
-        std::vector<std::string> subs = TomlHelper::SubKeyArrayGet<std::vector<std::string>>(root,"nats-core","subs");
+	bool ServerBase::init_nats(const toml::Value& root)
+	{
+		bool has = TomlHelper::Has(root, "nats-core");
+		if (!has)
+			return true;  //
+		std::string host = TomlHelper::TGet<std::string>(root, "nats-core", "host", "");
+		int port = TomlHelper::TGet<int>(root, "nats-core", "port", 4222);
+		std::vector<std::string> subs = TomlHelper::SubKeyArrayGet<std::vector<std::string>>(root, "nats-core", "subs");
+		std::vector<std::string> queues = TomlHelper::SubKeyArrayGet<std::vector<std::string>>(root, "nats-core", "queues");
 
-        std::clog << " ========== nats-init ========== " << "\n";
-        std::clog << "host:" << host << " port:" << port << "\n";
-        for(auto&it:subs){
-            std::clog << "  sub:" << it << std::endl;
-        }
+		std::clog << " ========== nats-init ========== " << "\n";
+		std::clog << "host:" << host << " port:" << port << "\n";
+		for (auto& it : subs) {
+			std::clog << "  sub:" << it << std::endl;
+		}
 
-        std::string queue_sub = TomlHelper::TGet<std::string>(root, "nats-core", "queue_sub", "");
-        std::clog << " ========== nats-init-end ========== " << "\n";
+		for (auto& it : queues) {
+			std::clog << " queues:" << it << std::endl;
+		}
 
-        if(host.empty()) return false;
-        mNatsClient = mLoop->resource<uvw::nats_client>(this->app_type(), this->app_index());
-        mNatsClient->connect(host, port, true);
-        mNatsClient->set_pre_subs(subs);
+		std::string queue_sub = TomlHelper::TGet<std::string>(root, "nats-core", "queue_sub", "");
+		std::clog << " ========== nats-init-end ========== " << "\n";
 
-        mNatsClient->on<uvw::info_event_nats>([this, host, port, subs,queue_sub](auto& e, auto& h) {
-            this->log(LogLevel::info, "connected:", host, ",port:", port);
-            this->on_nats_info(mNatsClient, e.data);
-            std::string str = "{\"verbose\":false,\"pedantic\":false,\"tls_required\":false,\"name\":\"\",\"lang\":\"go\",\"version\":\"1.2.2\",\"protocol\":1}";
-            mNatsClient->send_connect_str(str);
-            for (auto& it : subs) {
-                mNatsClient->sub(it);
-            }
-            //if(queue_sub.length()){
-            mNatsClient->sub_with_queuegruop(queue_sub,"queue");
-            //}
-        });
-        mNatsClient->set_sub_callback(std::bind(&ServerBase::on_nats_raw_sub, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, false));
+		if (host.empty()) return false;
+		mNatsClient = mLoop->resource<uvw::nats_client>(this->app_type(), this->app_index());
+		mNatsClient->connect(host, port, true);
+		mNatsClient->set_pre_subs(subs);
 
-    }
+		mNatsClient->on<uvw::info_event_nats>([this, host, port, subs, queue_sub](auto& e, auto& h) {
+			this->log(LogLevel::info, "connected:", host, ",port:", port);
+			this->on_nats_info(mNatsClient, e.data);
+			std::string str = "{\"verbose\":false,\"pedantic\":false,\"tls_required\":false,\"name\":\"\",\"lang\":\"go\",\"version\":\"1.2.2\",\"protocol\":1}";
+			mNatsClient->send_connect_str(str);
+			for (auto& it : subs) {
+				mNatsClient->sub(it);
+			}
+			//if(queue_sub.length()){
+			mNatsClient->sub_with_queuegruop(queue_sub, "queue");
+			//}
+			});
+		mNatsClient->set_sub_callback(std::bind(&ServerBase::on_nats_raw_sub, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, false));
+
+	}
 
 
 	bool ServerBase::add_fs(std::string path)
@@ -377,7 +382,7 @@ namespace Base {
 		std::shared_ptr<ProtoMsg> ptr = std::shared_ptr<ProtoMsg>(mBindMsgs[msg.MsgId()].msg_default_instance->New());
 		msg.SetProtoPtr(ptr);
 
-        bool ret = msg.parser(body);
+		bool ret = msg.parser(body);
 		if (!ret) {
 			std::clog << __FUNCTION__ << ",Message.parser ERROR\n";
 			session->close();
@@ -434,9 +439,9 @@ namespace Base {
 
 		case WrappedMessage::WrappedMessageType::NATS_MSG:
 		{
-            this->on_nats_pub(msg.mNatsMsg->first,
+			this->on_nats_pub(msg.mNatsMsg->first,
 				msg.mNatsMsg->second.sub,
-                msg.mNatsMsg->second.id,
+				msg.mNatsMsg->second.id,
 				msg.mNatsMsg->second.msg,
 				msg.mNatsMsg->second.reply_to);
 		}
@@ -451,7 +456,7 @@ namespace Base {
 		}
 	}
 
-    void ServerBase::on_nats_raw_sub(std::shared_ptr<uvw::nats_client> client, std::string sub, std::string msg, std::string reply_to, bool timeout)
+	void ServerBase::on_nats_raw_sub(std::shared_ptr<uvw::nats_client> client, std::string sub, std::string msg, std::string reply_to, bool timeout)
 	{
 		std::vector<std::string> v = nonstd::string_utils::split_copy(sub, ".");
 		int sub_size = v.size();
@@ -471,15 +476,15 @@ namespace Base {
 			std::shared_ptr<ProtoMsg> protomsg = std::shared_ptr<ProtoMsg>(mBindMsgs[id].msg_default_instance->New());
 
 			bool suc = protomsg->ParseFromString(msg);
-            int index = calc_nats_thd_idx(client, id, protomsg);
+			int index = calc_nats_thd_idx(client, id, protomsg);
 
 			WrappedMessage wmsg;
-            wmsg.set(client, sub, reply_to, id, protomsg);
+			wmsg.set(client, sub, reply_to, id, protomsg);
 			this->dispatch_th_work(index, wmsg);
 		}
 	}
 
-    void ServerBase::on_nats_pub(std::shared_ptr<uvw::nats_client> client,
+	void ServerBase::on_nats_pub(std::shared_ptr<uvw::nats_client> client,
 		std::string subject,
 		int32_t id,
 		std::shared_ptr<ProtoMsg> msg,
@@ -491,7 +496,7 @@ namespace Base {
 		msgst.SetMsgId(id);
 
 		if (mBindMsgs.find(id) != mBindMsgs.end() && mBindMsgs[id].fn_nats != nullptr) {
-            mBindMsgs[id].fn_nats(client, msgst);
+			mBindMsgs[id].fn_nats(client, msgst);
 		}
 		else {
 			std::clog << "nat sub:" << subject << ",msgid:" << id << ", handler not found!\n";
@@ -522,65 +527,66 @@ namespace Base {
 		}
 	}
 
-    //	NatsClinetPtr ServerBase::get_natsc_byname(std::string name)
-    //	{
-    //		std::shared_lock lk(mMutexNatscs);
+	//	NatsClinetPtr ServerBase::get_natsc_byname(std::string name)
+	//	{
+	//		std::shared_lock lk(mMutexNatscs);
 
-    //		if (mNatsClients.find(name) != mNatsClients.end())
-    //			return mNatsClients[name];
-    //		return nullptr;
-    //	}
+	//		if (mNatsClients.find(name) != mNatsClients.end())
+	//			return mNatsClients[name];
+	//		return nullptr;
+	//	}
 
-    void ServerBase::nats_pub_to_anyone (ServerType st,             int id ,ProtoMsg&msg)
-    {
-        std::string subject = CommonDef::ServerType2Name(st) + ".queue.id." + std::to_string(id);
-        nats_pub(subject,id,msg);
-    }
-
-    void ServerBase::nats_pub_to_one    (ServerType st,int index,   int id ,ProtoMsg&msg)
-    {
-        std::string subject = CommonDef::ServerType2Name(st) + "." + std::to_string(index)+ ".id." + std::to_string(id);
-        nats_pub(subject,id,msg);
-    }
-
-    void ServerBase::nats_pub_to_all    (int id,ProtoMsg&msg)
-    {
-        std::string subject = "all.all.id."+ std::to_string(id);
-        nats_pub(subject,id,msg);
-    }
-
-    void ServerBase::nats_pub(std::string subject, int id, ProtoMsg& msg)
+	void ServerBase::nats_pub_to_anyone(ServerType st, int id, ProtoMsg& msg)
 	{
-		std::string str_msg = msg.SerializeAsString();
-        std::string str_enc = Message::EncodeWs(id, str_msg);
-        mNatsClient->pub(subject, str_enc);
+		std::string subject = CommonDef::ServerType2Name(st) + ".queue.id." + std::to_string(id);
+		nats_pub(subject, id, msg);
 	}
 
-    void ServerBase::nats_reqest_one_reply(ServerType st,int index,int id,ProtoMsg&msg,int mstimout,NatsReqReplyCallBack cb)
-    {
-        std::string subject = "";
-        if(index < 0){
-            // 随意一个
-            subject = CommonDef::ServerType2Name(st) + "."  + "queue.id." + std::to_string(id);
+	void ServerBase::nats_pub_to_one(ServerType st, int index, int id, ProtoMsg& msg)
+	{
+		std::string subject = CommonDef::ServerType2Name(st) + "." + std::to_string(index) + ".id." + std::to_string(id);
+		nats_pub(subject, id, msg);
+	}
 
-        }else{
-            subject = CommonDef::ServerType2Name(st) + "."  + std::to_string(index) + "id." + std::to_string(id);
-        }
+	void ServerBase::nats_pub_to_all(int id, ProtoMsg& msg)
+	{
+		std::string subject = "all.all.id." + std::to_string(id);
+		nats_pub(subject, id, msg);
+	}
 
-        nats_reqest_reply(subject,id,msg,mstimout,cb);
-    }
-
-    void ServerBase::nats_reqest_reply(std::string subject, int id, ProtoMsg& msg, int mstimout, NatsReqReplyCallBack cb)
+	void ServerBase::nats_pub(std::string subject, int id, ProtoMsg& msg)
 	{
 		std::string str_msg = msg.SerializeAsString();
-        std::string str_enc = Message::EncodeWs(id, str_msg);
-        std::string subject_wait_reply = mNatsClient->request_reply(subject
+		std::string str_enc = Message::EncodeWs(id, str_msg);
+		mNatsClient->pub(subject, str_enc);
+	}
+
+	void ServerBase::nats_reqest_one_reply(ServerType st, int index, int id, ProtoMsg& msg, int mstimout, NatsReqReplyCallBack cb)
+	{
+		std::string subject = "";
+		if (index < 0) {
+			// 随意一个
+			subject = CommonDef::ServerType2Name(st) + "." + "queue.id." + std::to_string(id);
+
+		}
+		else {
+			subject = CommonDef::ServerType2Name(st) + "." + std::to_string(index) + "id." + std::to_string(id);
+		}
+
+		nats_reqest_reply(subject, id, msg, mstimout, cb);
+	}
+
+	void ServerBase::nats_reqest_reply(std::string subject, int id, ProtoMsg& msg, int mstimout, NatsReqReplyCallBack cb)
+	{
+		std::string str_msg = msg.SerializeAsString();
+		std::string str_enc = Message::EncodeWs(id, str_msg);
+		std::string subject_wait_reply = mNatsClient->request_reply(subject
 			, str_enc,
 			std::bind(&ServerBase::on_nats_reqest_reply, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5)
 			, std::chrono::milliseconds{ mstimout });
 
 		auto thd_id = std::this_thread::get_id();
-        std::tuple<NatsReqReplyCallBack, std::thread::id, std::chrono::steady_clock::time_point> tp{ cb,thd_id,std::chrono::steady_clock::now() };
+		std::tuple<NatsReqReplyCallBack, std::thread::id, std::chrono::steady_clock::time_point> tp{ cb,thd_id,std::chrono::steady_clock::now() };
 		std::lock_guard lk(mMutexRequestReply);
 		mNats_Request_Reply[subject_wait_reply] = tp;
 	}

@@ -15,7 +15,7 @@ cnt = -1
 host="127.0.0.1"
 port=4222
 subs = ["all.all.id.*","gate.1.system.id.*"]
-queue_sub="gate.queue.id.*"
+queues=["gate.queue.id.*"]
 
 [[nats]]
 name="system"
