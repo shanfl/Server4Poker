@@ -1,6 +1,14 @@
 name="gate"
 type=2
 index=1
+unique_id = "gate.1"
+
+[nats-core]
+host="127.0.0.1"
+port=4222
+subs = ["all.all.id.*","gate.1.system.id.*"]
+queues=["gate.queue.id.*"]
+queue_group="gate"
 
 [thread]
 cnt = 1
