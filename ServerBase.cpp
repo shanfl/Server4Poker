@@ -267,6 +267,7 @@ namespace Base {
 			std::clog << "  sub:" << it << std::endl;
 		}
 
+		std::string queue_name = TomlHelper::TGet<std::string>(root, "nats-core", "queue_group", "");
 		for (auto& it : queues) {
 			std::clog << " queues:" << it << std::endl;
 		}
@@ -279,7 +280,7 @@ namespace Base {
 		mNatsClient->connect(host, port, true);
 		mNatsClient->set_pre_subs(subs);
 
-		mNatsClient->on<uvw::info_event_nats>([this, host, port, subs, queue_sub](auto& e, auto& h) {
+		mNatsClient->on<uvw::info_event_nats>([this, host, port, subs, queue_sub, queue_name](auto& e, auto& h) {
 			this->log(LogLevel::info, "connected:", host, ",port:", port);
 			this->on_nats_info(mNatsClient, e.data);
 			std::string str = "{\"verbose\":false,\"pedantic\":false,\"tls_required\":false,\"name\":\"\",\"lang\":\"go\",\"version\":\"1.2.2\",\"protocol\":1}";
@@ -288,7 +289,7 @@ namespace Base {
 				mNatsClient->sub(it);
 			}
 			//if(queue_sub.length()){
-			mNatsClient->sub_with_queuegruop(queue_sub, "queue");
+			mNatsClient->sub_with_queuegruop(queue_sub, queue_name);
 			//}
 			});
 		mNatsClient->set_sub_callback(std::bind(&ServerBase::on_nats_raw_sub, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, false));
