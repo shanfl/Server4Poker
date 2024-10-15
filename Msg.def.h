@@ -65,7 +65,9 @@ namespace Base {
 		static std::string Encode(uint32_t msg_id, std::string str, std::string cookie = "");
 
 		static bool DecodeWS(std::string& data, WsMsgHeader& hdr, std::string& body);
-        static std::string EncodeWs(uint32_t msg_id,std::string str,std::string cookie = "");
+		static std::string EncodeWs(uint32_t msg_id, std::string str, std::string cookie = "");
+
+		std::string BackToString();
 
 
 		bool parser(std::string& data);
