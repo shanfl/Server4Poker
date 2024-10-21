@@ -32,8 +32,8 @@ enum LoginAppSdk
 
 enum LoginResCode
 {
-    RC_LOGIN_SYSERROR,
-    RC_LOGIN_WRONGPASS,
+    RC_LOGIN_SYSERROR = 0;
+    RC_LOGIN_WRONGPASS = 1;
 }
 
 message PlayerLoginReq

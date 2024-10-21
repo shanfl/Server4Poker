@@ -240,6 +240,53 @@ bool LoginAppSdk_Parse(absl::string_view name, LoginAppSdk* value) {
   }
   return success;
 }
+PROTOBUF_CONSTINIT const uint32_t LoginResCode_internal_data_[] = {
+    131072u, 0u, };
+bool LoginResCode_IsValid(int value) {
+  return 0 <= value && value <= 1;
+}
+static ::google::protobuf::internal::ExplicitlyConstructed<std::string>
+    LoginResCode_strings[2] = {};
+
+static const char LoginResCode_names[] = {
+    "RC_LOGIN_SYSERROR"
+    "RC_LOGIN_WRONGPASS"
+};
+
+static const ::google::protobuf::internal::EnumEntry LoginResCode_entries[] =
+    {
+        {{&LoginResCode_names[0], 17}, 0},
+        {{&LoginResCode_names[17], 18}, 1},
+};
+
+static const int LoginResCode_entries_by_number[] = {
+    0,  // 0 -> RC_LOGIN_SYSERROR
+    1,  // 1 -> RC_LOGIN_WRONGPASS
+};
+
+const std::string& LoginResCode_Name(LoginResCode value) {
+  static const bool kDummy =
+      ::google::protobuf::internal::InitializeEnumStrings(
+          LoginResCode_entries, LoginResCode_entries_by_number,
+          2, LoginResCode_strings);
+  (void)kDummy;
+
+  int idx = ::google::protobuf::internal::LookUpEnumName(
+      LoginResCode_entries, LoginResCode_entries_by_number, 2,
+      value);
+  return idx == -1 ? ::google::protobuf::internal::GetEmptyString()
+                   : LoginResCode_strings[idx].get();
+}
+
+bool LoginResCode_Parse(absl::string_view name, LoginResCode* value) {
+  int int_value;
+  bool success = ::google::protobuf::internal::LookUpEnumValue(
+      LoginResCode_entries, 2, name, &int_value);
+  if (success) {
+    *value = static_cast<LoginResCode>(int_value);
+  }
+  return success;
+}
 // ===================================================================
 
 class PlayerLoginReq::_Internal {

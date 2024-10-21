@@ -4,8 +4,10 @@ package Ps;
 
 message ProtoMsgWrapper
 {
-   int32 	id   	= 1;
-   int32 	zipped  = 2;
-   string 	cookie 	= 3;
-   string  	msg	= 4;
+   string   appname     = 1;
+   int32    appindx     = 2;
+   int32 	id   	      = 3;
+   int32 	zipped      = 4;
+   string 	cookie 	   = 5;
+   string  	msg	      = 6;
 }

@@ -135,6 +135,29 @@ const std::string& LoginAppSdk_Name(T value) {
   return LoginAppSdk_Name(static_cast<LoginAppSdk>(value));
 }
 bool LoginAppSdk_Parse(absl::string_view name, LoginAppSdk* value);
+enum LoginResCode : int {
+  RC_LOGIN_SYSERROR = 0,
+  RC_LOGIN_WRONGPASS = 1,
+  LoginResCode_INT_MIN_SENTINEL_DO_NOT_USE_ =
+      std::numeric_limits<::int32_t>::min(),
+  LoginResCode_INT_MAX_SENTINEL_DO_NOT_USE_ =
+      std::numeric_limits<::int32_t>::max(),
+};
+
+bool LoginResCode_IsValid(int value);
+extern const uint32_t LoginResCode_internal_data_[];
+constexpr LoginResCode LoginResCode_MIN = static_cast<LoginResCode>(0);
+constexpr LoginResCode LoginResCode_MAX = static_cast<LoginResCode>(1);
+constexpr int LoginResCode_ARRAYSIZE = 1 + 1;
+const std::string& LoginResCode_Name(LoginResCode value);
+template <typename T>
+const std::string& LoginResCode_Name(T value) {
+  static_assert(std::is_same<T, LoginResCode>::value ||
+                    std::is_integral<T>::value,
+                "Incorrect type passed to LoginResCode_Name().");
+  return LoginResCode_Name(static_cast<LoginResCode>(value));
+}
+bool LoginResCode_Parse(absl::string_view name, LoginResCode* value);
 
 // ===================================================================
 
@@ -1065,6 +1088,8 @@ template <>
 struct is_proto_enum<::Ps::OS_PLATFORM> : std::true_type {};
 template <>
 struct is_proto_enum<::Ps::LoginAppSdk> : std::true_type {};
+template <>
+struct is_proto_enum<::Ps::LoginResCode> : std::true_type {};
 
 }  // namespace protobuf
 }  // namespace google

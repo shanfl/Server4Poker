@@ -143,7 +143,7 @@ using this_class = THIS_CLASS;  \
 		~ServerBase();
 	public:
 		std::string app_path() { return this->mAppPath; }
-		std::string app_name();
+        std::string app_name();
 		virtual int app_type();
 		int app_index();
 
@@ -210,6 +210,14 @@ using this_class = THIS_CLASS;  \
 		void nats_reqest_one_reply(ServerType st, int index, int id, ProtoMsg& msg, int mstimout, NatsReqReplyCallBack cb);
 		void nats_reqest_reply(std::string subject, int id, ProtoMsg& msg, int mstimout, NatsReqReplyCallBack cb);
 
+
+        void nats_pub(std::string subject,std::string msg_content);
+        void nats_pub_to_any(ServerType st, int id, std::string msg_content);
+        void nats_pub_to_one(ServerType st, int index, int id, std::string msg_content);
+        void nats_pub_to_all(ServerType st, int id, std::string msg_content);
+
+        void nats_reqest_reply(std::string subject, std::string msg_conent, int mstimout, NatsReqReplyCallBack cb);
+        void nats_reqest_one_reply(ServerType st,int index,int id, std::string msg_conent, int mstimout, NatsReqReplyCallBack cb);
 
 	protected:
 		// ======================== timer ========================

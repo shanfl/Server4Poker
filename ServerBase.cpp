@@ -31,10 +31,10 @@ namespace Base {
 	}
 
 
-	std::string ServerBase::app_name()
-	{
-		return mName;
-	}
+    std::string ServerBase::app_name()
+    {
+        return mName;
+    }
 
 	int ServerBase::app_type()
 	{
@@ -561,6 +561,47 @@ namespace Base {
 		std::string str_enc = Message::EncodeWs(id, str_msg);
 		mNatsClient->pub(subject, str_enc);
 	}
+
+    void ServerBase::nats_pub(std::string subject,std::string msg_content)
+    {
+        this->mNatsClient->pub(subject,msg_content);
+    }
+
+    void ServerBase::nats_pub_to_any(ServerType st, int id, std::string msg_content)
+    {
+        std::string subject = CommonDef::ServerType2Name(st) + ".queue.id." + std::to_string(id);
+        nats_pub(subject,msg_content);
+    }
+
+    void ServerBase::nats_pub_to_one(ServerType st, int index, int id, std::string msg_content)
+    {
+        std::string subject = CommonDef::ServerType2Name(st) + "." + std::to_string(index) + ".id." + std::to_string(id);
+        nats_pub(subject,msg_content);
+    }
+
+    void ServerBase::nats_pub_to_all(ServerType st, int id, std::string msg_content)
+    {
+        //std::string subject = "all.all.id." + std::to_string(id);
+        std::string subject = CommonDef::ServerType2Name(st) + ".all.id." + std::to_string(id);
+        nats_pub(subject,msg_content);
+    }
+
+    void ServerBase::nats_reqest_reply(std::string subject,std::string msg_conent, int mstimout, NatsReqReplyCallBack cb)
+    {
+        //std::string subject = CommonDef::ServerType2Name(st) + ".queue.id." + std::to_string(id);
+        std::string subject_wait_reply = mNatsClient->request_reply(subject
+                                                                    , msg_conent,
+                                                                    std::bind(&ServerBase::on_nats_reqest_reply, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5)
+                                                                    , std::chrono::milliseconds{ mstimout });
+
+        auto thd_id = std::this_thread::get_id();
+        std::tuple<NatsReqReplyCallBack, std::thread::id, std::chrono::steady_clock::time_point> tp{ cb,thd_id,std::chrono::steady_clock::now() };
+        std::lock_guard lk(mMutexRequestReply);
+        mNats_Request_Reply[subject_wait_reply] = tp;
+    }
+
+
+
 
 	void ServerBase::nats_reqest_one_reply(ServerType st, int index, int id, ProtoMsg& msg, int mstimout, NatsReqReplyCallBack cb)
 	{
