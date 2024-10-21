@@ -38,7 +38,8 @@ namespace Base {
 
 	int ServerBase::app_type()
 	{
-		return mType;
+        //return mType;
+        return 0;
 	}
 
 	int ServerBase::app_index()
@@ -155,26 +156,19 @@ namespace Base {
 		if (!pr.valid()) {
 			this->log(LogLevel::err, "parser toml:" + mTomlCfg + " failed, reason:" + pr.errorReason);
 			return false;
-		}
-		this->mUniqueId = TomlHelper::TGet<std::string>(pr.value, "", "unique_id", "");
-		if (this->mUniqueId.empty()) {
-			this->log(LogLevel::err, "parser toml: failed, reason: unique_id is lost");
-			return false;
-		}
+        }
 
-		std::vector<std::string> sp = nonstd::string_utils::split_copy(this->mUniqueId, ".");
-		if (sp.size() != 2) {
-			this->log(LogLevel::err, "parser toml: failed, reason: unique_id = " + this->mUniqueId);
-			return false;
-		}
-		this->mName = sp[0];
-		this->mIndex = std::atoi(sp[1].c_str());
-		this->mType = CommonDef::Name2ServerType(this->mName);
-		if (this->mType == (int)ServerType::UnKnown) {
-			// error
-			std::clog << "================================ error ======================\n";
-			return false;
-		}
+        this->mName = TomlHelper::TGet<std::string>(pr.value, "", "name", "");
+        this->mIndex = TomlHelper::TGet<int>(pr.value, "", "index", -1);
+        if(this->mIndex == -1){
+            this->log(LogLevel::err, "index should be > 0");
+            return false;
+        }
+
+        //
+        Message::local_appindex = this->mIndex;
+        Message::local_appname = this->mName;
+
 
 		bool r1 = init_thd(pr.value);
 		bool r2 = init_db(pr.value);

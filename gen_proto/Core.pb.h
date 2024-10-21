@@ -170,12 +170,30 @@ class ProtoMsgWrapper final : public ::google::protobuf::MessageLite
 
   // accessors -------------------------------------------------------
   enum : int {
-    kCookieFieldNumber = 3,
-    kMsgFieldNumber = 4,
-    kIdFieldNumber = 1,
-    kZippedFieldNumber = 2,
+    kAppnameFieldNumber = 1,
+    kCookieFieldNumber = 5,
+    kMsgFieldNumber = 6,
+    kAppindxFieldNumber = 2,
+    kIdFieldNumber = 3,
+    kZippedFieldNumber = 4,
   };
-  // string cookie = 3;
+  // string appname = 1;
+  void clear_appname() ;
+  const std::string& appname() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_appname(Arg_&& arg, Args_... args);
+  std::string* mutable_appname();
+  PROTOBUF_NODISCARD std::string* release_appname();
+  void set_allocated_appname(std::string* value);
+
+  private:
+  const std::string& _internal_appname() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_appname(
+      const std::string& value);
+  std::string* _internal_mutable_appname();
+
+  public:
+  // string cookie = 5;
   void clear_cookie() ;
   const std::string& cookie() const;
   template <typename Arg_ = const std::string&, typename... Args_>
@@ -191,7 +209,7 @@ class ProtoMsgWrapper final : public ::google::protobuf::MessageLite
   std::string* _internal_mutable_cookie();
 
   public:
-  // string msg = 4;
+  // string msg = 6;
   void clear_msg() ;
   const std::string& msg() const;
   template <typename Arg_ = const std::string&, typename... Args_>
@@ -207,7 +225,17 @@ class ProtoMsgWrapper final : public ::google::protobuf::MessageLite
   std::string* _internal_mutable_msg();
 
   public:
-  // int32 id = 1;
+  // int32 appindx = 2;
+  void clear_appindx() ;
+  ::int32_t appindx() const;
+  void set_appindx(::int32_t value);
+
+  private:
+  ::int32_t _internal_appindx() const;
+  void _internal_set_appindx(::int32_t value);
+
+  public:
+  // int32 id = 3;
   void clear_id() ;
   ::int32_t id() const;
   void set_id(::int32_t value);
@@ -217,7 +245,7 @@ class ProtoMsgWrapper final : public ::google::protobuf::MessageLite
   void _internal_set_id(::int32_t value);
 
   public:
-  // int32 zipped = 2;
+  // int32 zipped = 4;
   void clear_zipped() ;
   ::int32_t zipped() const;
   void set_zipped(::int32_t value);
@@ -232,8 +260,8 @@ class ProtoMsgWrapper final : public ::google::protobuf::MessageLite
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      2, 4, 0,
-      36, 2>
+      3, 6, 0,
+      43, 2>
       _table_;
   friend class ::google::protobuf::MessageLite;
   friend class ::google::protobuf::Arena;
@@ -248,8 +276,10 @@ class ProtoMsgWrapper final : public ::google::protobuf::MessageLite
                           ::google::protobuf::Arena* arena);
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from);
+    ::google::protobuf::internal::ArenaStringPtr appname_;
     ::google::protobuf::internal::ArenaStringPtr cookie_;
     ::google::protobuf::internal::ArenaStringPtr msg_;
+    ::int32_t appindx_;
     ::int32_t id_;
     ::int32_t zipped_;
     mutable ::google::protobuf::internal::CachedSize _cached_size_;
@@ -275,7 +305,79 @@ class ProtoMsgWrapper final : public ::google::protobuf::MessageLite
 
 // ProtoMsgWrapper
 
-// int32 id = 1;
+// string appname = 1;
+inline void ProtoMsgWrapper::clear_appname() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  _impl_.appname_.ClearToEmpty();
+}
+inline const std::string& ProtoMsgWrapper::appname() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:Ps.ProtoMsgWrapper.appname)
+  return _internal_appname();
+}
+template <typename Arg_, typename... Args_>
+inline PROTOBUF_ALWAYS_INLINE void ProtoMsgWrapper::set_appname(Arg_&& arg,
+                                                     Args_... args) {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  _impl_.appname_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:Ps.ProtoMsgWrapper.appname)
+}
+inline std::string* ProtoMsgWrapper::mutable_appname() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_appname();
+  // @@protoc_insertion_point(field_mutable:Ps.ProtoMsgWrapper.appname)
+  return _s;
+}
+inline const std::string& ProtoMsgWrapper::_internal_appname() const {
+  PROTOBUF_TSAN_READ(&_impl_._tsan_detect_race);
+  return _impl_.appname_.Get();
+}
+inline void ProtoMsgWrapper::_internal_set_appname(const std::string& value) {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  _impl_.appname_.Set(value, GetArena());
+}
+inline std::string* ProtoMsgWrapper::_internal_mutable_appname() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  return _impl_.appname_.Mutable( GetArena());
+}
+inline std::string* ProtoMsgWrapper::release_appname() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  // @@protoc_insertion_point(field_release:Ps.ProtoMsgWrapper.appname)
+  return _impl_.appname_.Release();
+}
+inline void ProtoMsgWrapper::set_allocated_appname(std::string* value) {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  _impl_.appname_.SetAllocated(value, GetArena());
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+        if (_impl_.appname_.IsDefault()) {
+          _impl_.appname_.Set("", GetArena());
+        }
+  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:Ps.ProtoMsgWrapper.appname)
+}
+
+// int32 appindx = 2;
+inline void ProtoMsgWrapper::clear_appindx() {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  _impl_.appindx_ = 0;
+}
+inline ::int32_t ProtoMsgWrapper::appindx() const {
+  // @@protoc_insertion_point(field_get:Ps.ProtoMsgWrapper.appindx)
+  return _internal_appindx();
+}
+inline void ProtoMsgWrapper::set_appindx(::int32_t value) {
+  _internal_set_appindx(value);
+  // @@protoc_insertion_point(field_set:Ps.ProtoMsgWrapper.appindx)
+}
+inline ::int32_t ProtoMsgWrapper::_internal_appindx() const {
+  PROTOBUF_TSAN_READ(&_impl_._tsan_detect_race);
+  return _impl_.appindx_;
+}
+inline void ProtoMsgWrapper::_internal_set_appindx(::int32_t value) {
+  PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
+  _impl_.appindx_ = value;
+}
+
+// int32 id = 3;
 inline void ProtoMsgWrapper::clear_id() {
   PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   _impl_.id_ = 0;
@@ -297,7 +399,7 @@ inline void ProtoMsgWrapper::_internal_set_id(::int32_t value) {
   _impl_.id_ = value;
 }
 
-// int32 zipped = 2;
+// int32 zipped = 4;
 inline void ProtoMsgWrapper::clear_zipped() {
   PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   _impl_.zipped_ = 0;
@@ -319,7 +421,7 @@ inline void ProtoMsgWrapper::_internal_set_zipped(::int32_t value) {
   _impl_.zipped_ = value;
 }
 
-// string cookie = 3;
+// string cookie = 5;
 inline void ProtoMsgWrapper::clear_cookie() {
   PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   _impl_.cookie_.ClearToEmpty();
@@ -369,7 +471,7 @@ inline void ProtoMsgWrapper::set_allocated_cookie(std::string* value) {
   // @@protoc_insertion_point(field_set_allocated:Ps.ProtoMsgWrapper.cookie)
 }
 
-// string msg = 4;
+// string msg = 6;
 inline void ProtoMsgWrapper::clear_msg() {
   PROTOBUF_TSAN_WRITE(&_impl_._tsan_detect_race);
   _impl_.msg_.ClearToEmpty();

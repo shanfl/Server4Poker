@@ -14,7 +14,13 @@
 
 namespace Base {
 
-	std::string Message::z_compress(std::string& str, bool& err)
+    //-----------------------------------------------------------
+    std::string Message::local_appname = "";
+    int Message::local_appindex= -1;
+    //-----------------------------------------------------------
+
+
+    std::string Message::z_compress(std::string& str, bool& err)
 	{
 		err = false;
 		mz_ulong sz_com = mz_compressBound(str.length());
@@ -180,12 +186,14 @@ namespace Base {
 	{
 		//std::shared_ptr<Ps::ProtoMsgWrapper> ptr = std::make_shared<Ps::ProtoMsgWrapper>(Ps::ProtoMsgWrapper::default_instance().New());
 		Ps::ProtoMsgWrapper* ptr = Ps::ProtoMsgWrapper::default_instance().New();
-		bool ret = ptr->ParsePartialFromString(data);
+        bool ret = ptr->ParseFromString(data);
 		if (!ret) return ret;
 
 		hdr.id = ptr->id();
 		hdr.cookie = ptr->cookie();
 		hdr.zipped = ptr->zipped();
+        hdr.appname = ptr->appname();
+        hdr.appindex = ptr->appindx();
 		body = ptr->msg();
 		return ret;
 	}
@@ -193,6 +201,9 @@ namespace Base {
 	std::string Message::EncodeWs(uint32_t msg_id, std::string str, std::string cookie)
 	{
 		Ps::ProtoMsgWrapper* ptr = Ps::ProtoMsgWrapper::default_instance().New();
+        //ptr->set_appindx()
+        ptr->set_appname(local_appname);
+        ptr->set_appindx(local_appindex);
 		ptr->set_id(msg_id);
 		ptr->set_cookie(cookie);
 		ptr->set_zipped(0);
@@ -202,8 +213,17 @@ namespace Base {
 
 	std::string Message::BackToString()
 	{
-		return Encode(mWsHeader.id, proto_msg->SerializeAsString(), mWsHeader.cookie);
+        return EncodeWs(mWsHeader.id, proto_msg->SerializeAsString(), mWsHeader.cookie);
 	}
+
+    std::string Message::appname(){
+        return this->mWsHeader.appname;
+    }
+
+    int Message::appindex(){
+        return this->mWsHeader.appindex;
+    }
+
 
 } // namespace Base
 

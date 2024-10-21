@@ -42,6 +42,8 @@ namespace Base {
 
 	struct WsMsgHeader
 	{
+        std::string appname;
+        int appindex;
 		int32_t id;
 		int32_t zipped;
 		std::string cookie;
@@ -49,9 +51,10 @@ namespace Base {
 
 	class Message
 	{
-
+    public:
+        static std::string local_appname;
+        static int local_appindex;
 	public:
-
 		static std::string z_compress(std::string& str, bool& err);
 		static std::string z_uncompress(std::string& str, size_t uncompress_len, bool& err);
 
@@ -86,6 +89,11 @@ namespace Base {
 		Message& SetNatsReplyto(std::string& replyto);
 		std::string Subject_Nats();
 		std::string Replyto_Nats();
+
+
+        std::string appname();
+        int appindex();
+
 	protected:
 		std::shared_ptr<ProtoMsg> proto_msg;
 	public:

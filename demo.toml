@@ -1,8 +1,5 @@
 name="gate"
 index=1
-unique_id = "gate.1"
-type=1
-
 
 [server]
 ip="0.0.0.0"
@@ -14,15 +11,15 @@ cnt = -1
 [nats-core]
 host="127.0.0.1"
 port=4222
-subs = ["all.all.id.*","gate.1.system.id.*"]
+subs = ["all.all.id.*","gate.1.id.*"]
 queues=["gate.queue.id.*"]
 queue_group="gate"
 
-[[nats]]
+[[nats--------------------------deleted]]
 name="system"
 host="127.0.0.1"
 port=4222
-subs = ["all.all.id.*","gate.1.system.id.*"]
+subs = ["all.all.id.*","gate.1.id.*"]
 
 
 [[dbs]]

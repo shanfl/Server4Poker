@@ -22,12 +22,16 @@ namespace Ps {
 
 inline constexpr ProtoMsgWrapper::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
-      : cookie_(
+      : appname_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        cookie_(
             &::google::protobuf::internal::fixed_address_empty_string,
             ::_pbi::ConstantInitialized()),
         msg_(
             &::google::protobuf::internal::fixed_address_empty_string,
             ::_pbi::ConstantInitialized()),
+        appindx_{0},
         id_{0},
         zipped_{0},
         _cached_size_{0} {}
@@ -61,7 +65,8 @@ ProtoMsgWrapper::ProtoMsgWrapper(::google::protobuf::Arena* arena)
 inline PROTOBUF_NDEBUG_INLINE ProtoMsgWrapper::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
     const Impl_& from)
-      : cookie_(arena, from.cookie_),
+      : appname_(arena, from.appname_),
+        cookie_(arena, from.cookie_),
         msg_(arena, from.msg_),
         _cached_size_{0} {}
 
@@ -75,11 +80,11 @@ ProtoMsgWrapper::ProtoMsgWrapper(
       from._internal_metadata_);
   new (&_impl_) Impl_(internal_visibility(), arena, from._impl_);
   ::memcpy(reinterpret_cast<char *>(&_impl_) +
-               offsetof(Impl_, id_),
+               offsetof(Impl_, appindx_),
            reinterpret_cast<const char *>(&from._impl_) +
-               offsetof(Impl_, id_),
+               offsetof(Impl_, appindx_),
            offsetof(Impl_, zipped_) -
-               offsetof(Impl_, id_) +
+               offsetof(Impl_, appindx_) +
                sizeof(Impl_::zipped_));
 
   // @@protoc_insertion_point(copy_constructor:Ps.ProtoMsgWrapper)
@@ -87,17 +92,18 @@ ProtoMsgWrapper::ProtoMsgWrapper(
 inline PROTOBUF_NDEBUG_INLINE ProtoMsgWrapper::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
     ::google::protobuf::Arena* arena)
-      : cookie_(arena),
+      : appname_(arena),
+        cookie_(arena),
         msg_(arena),
         _cached_size_{0} {}
 
 inline void ProtoMsgWrapper::SharedCtor(::_pb::Arena* arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
   ::memset(reinterpret_cast<char *>(&_impl_) +
-               offsetof(Impl_, id_),
+               offsetof(Impl_, appindx_),
            0,
            offsetof(Impl_, zipped_) -
-               offsetof(Impl_, id_) +
+               offsetof(Impl_, appindx_) +
                sizeof(Impl_::zipped_));
 }
 ProtoMsgWrapper::~ProtoMsgWrapper() {
@@ -107,6 +113,7 @@ ProtoMsgWrapper::~ProtoMsgWrapper() {
 }
 inline void ProtoMsgWrapper::SharedDtor() {
   ABSL_DCHECK(GetArena() == nullptr);
+  _impl_.appname_.Destroy();
   _impl_.cookie_.Destroy();
   _impl_.msg_.Destroy();
   _impl_.~Impl_();
@@ -137,11 +144,12 @@ PROTOBUF_NOINLINE void ProtoMsgWrapper::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  _impl_.appname_.ClearToEmpty();
   _impl_.cookie_.ClearToEmpty();
   _impl_.msg_.ClearToEmpty();
-  ::memset(&_impl_.id_, 0, static_cast<::size_t>(
+  ::memset(&_impl_.appindx_, 0, static_cast<::size_t>(
       reinterpret_cast<char*>(&_impl_.zipped_) -
-      reinterpret_cast<char*>(&_impl_.id_)) + sizeof(_impl_.zipped_));
+      reinterpret_cast<char*>(&_impl_.appindx_)) + sizeof(_impl_.zipped_));
   _internal_metadata_.Clear<std::string>();
 }
 
@@ -153,15 +161,15 @@ const char* ProtoMsgWrapper::_InternalParse(
 
 
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<2, 4, 0, 36, 2> ProtoMsgWrapper::_table_ = {
+const ::_pbi::TcParseTable<3, 6, 0, 43, 2> ProtoMsgWrapper::_table_ = {
   {
     0,  // no _has_bits_
     0, // no _extensions_
-    4, 24,  // max_field_number, fast_idx_mask
+    6, 56,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
-    4294967280,  // skipmap
+    4294967232,  // skipmap
     offsetof(decltype(_table_), field_entries),
-    4,  // num_field_entries
+    6,  // num_field_entries
     0,  // num_aux_entries
     offsetof(decltype(_table_), field_names),  // no aux_entries
     &_ProtoMsgWrapper_default_instance_._instance,
@@ -170,38 +178,53 @@ const ::_pbi::TcParseTable<2, 4, 0, 36, 2> ProtoMsgWrapper::_table_ = {
     ::_pbi::TcParser::GetTable<::Ps::ProtoMsgWrapper>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
-    // string msg = 4;
+    {::_pbi::TcParser::MiniParse, {}},
+    // string appname = 1;
     {::_pbi::TcParser::FastUS1,
-     {34, 63, 0, PROTOBUF_FIELD_OFFSET(ProtoMsgWrapper, _impl_.msg_)}},
-    // int32 id = 1;
+     {10, 63, 0, PROTOBUF_FIELD_OFFSET(ProtoMsgWrapper, _impl_.appname_)}},
+    // int32 appindx = 2;
     {::_pbi::TcParser::FastV32S1,
-     {8, 63, 0, PROTOBUF_FIELD_OFFSET(ProtoMsgWrapper, _impl_.id_)}},
-    // int32 zipped = 2;
+     {16, 63, 0, PROTOBUF_FIELD_OFFSET(ProtoMsgWrapper, _impl_.appindx_)}},
+    // int32 id = 3;
     {::_pbi::TcParser::FastV32S1,
-     {16, 63, 0, PROTOBUF_FIELD_OFFSET(ProtoMsgWrapper, _impl_.zipped_)}},
-    // string cookie = 3;
+     {24, 63, 0, PROTOBUF_FIELD_OFFSET(ProtoMsgWrapper, _impl_.id_)}},
+    // int32 zipped = 4;
+    {::_pbi::TcParser::FastV32S1,
+     {32, 63, 0, PROTOBUF_FIELD_OFFSET(ProtoMsgWrapper, _impl_.zipped_)}},
+    // string cookie = 5;
     {::_pbi::TcParser::FastUS1,
-     {26, 63, 0, PROTOBUF_FIELD_OFFSET(ProtoMsgWrapper, _impl_.cookie_)}},
+     {42, 63, 0, PROTOBUF_FIELD_OFFSET(ProtoMsgWrapper, _impl_.cookie_)}},
+    // string msg = 6;
+    {::_pbi::TcParser::FastUS1,
+     {50, 63, 0, PROTOBUF_FIELD_OFFSET(ProtoMsgWrapper, _impl_.msg_)}},
+    {::_pbi::TcParser::MiniParse, {}},
   }}, {{
     65535, 65535
   }}, {{
-    // int32 id = 1;
+    // string appname = 1;
+    {PROTOBUF_FIELD_OFFSET(ProtoMsgWrapper, _impl_.appname_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kUtf8String | ::_fl::kRepAString)},
+    // int32 appindx = 2;
+    {PROTOBUF_FIELD_OFFSET(ProtoMsgWrapper, _impl_.appindx_), 0, 0,
+    (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
+    // int32 id = 3;
     {PROTOBUF_FIELD_OFFSET(ProtoMsgWrapper, _impl_.id_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
-    // int32 zipped = 2;
+    // int32 zipped = 4;
     {PROTOBUF_FIELD_OFFSET(ProtoMsgWrapper, _impl_.zipped_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kInt32)},
-    // string cookie = 3;
+    // string cookie = 5;
     {PROTOBUF_FIELD_OFFSET(ProtoMsgWrapper, _impl_.cookie_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kUtf8String | ::_fl::kRepAString)},
-    // string msg = 4;
+    // string msg = 6;
     {PROTOBUF_FIELD_OFFSET(ProtoMsgWrapper, _impl_.msg_), 0, 0,
     (0 | ::_fl::kFcSingular | ::_fl::kUtf8String | ::_fl::kRepAString)},
   }},
   // no aux_entries
   {{
-    "\22\0\0\6\3\0\0\0"
+    "\22\7\0\0\0\6\3\0"
     "Ps.ProtoMsgWrapper"
+    "appname"
     "cookie"
     "msg"
   }},
@@ -214,34 +237,49 @@ const ::_pbi::TcParseTable<2, 4, 0, 36, 2> ProtoMsgWrapper::_table_ = {
   ::uint32_t cached_has_bits = 0;
   (void)cached_has_bits;
 
-  // int32 id = 1;
+  // string appname = 1;
+  if (!this->_internal_appname().empty()) {
+    const std::string& _s = this->_internal_appname();
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+        _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "Ps.ProtoMsgWrapper.appname");
+    target = stream->WriteStringMaybeAliased(1, _s, target);
+  }
+
+  // int32 appindx = 2;
+  if (this->_internal_appindx() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::
+        WriteInt32ToArrayWithField<2>(
+            stream, this->_internal_appindx(), target);
+  }
+
+  // int32 id = 3;
   if (this->_internal_id() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::
-        WriteInt32ToArrayWithField<1>(
+        WriteInt32ToArrayWithField<3>(
             stream, this->_internal_id(), target);
   }
 
-  // int32 zipped = 2;
+  // int32 zipped = 4;
   if (this->_internal_zipped() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::
-        WriteInt32ToArrayWithField<2>(
+        WriteInt32ToArrayWithField<4>(
             stream, this->_internal_zipped(), target);
   }
 
-  // string cookie = 3;
+  // string cookie = 5;
   if (!this->_internal_cookie().empty()) {
     const std::string& _s = this->_internal_cookie();
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
         _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "Ps.ProtoMsgWrapper.cookie");
-    target = stream->WriteStringMaybeAliased(3, _s, target);
+    target = stream->WriteStringMaybeAliased(5, _s, target);
   }
 
-  // string msg = 4;
+  // string msg = 6;
   if (!this->_internal_msg().empty()) {
     const std::string& _s = this->_internal_msg();
     ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
         _s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormatLite::SERIALIZE, "Ps.ProtoMsgWrapper.msg");
-    target = stream->WriteStringMaybeAliased(4, _s, target);
+    target = stream->WriteStringMaybeAliased(6, _s, target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -261,25 +299,37 @@ const ::_pbi::TcParseTable<2, 4, 0, 36, 2> ProtoMsgWrapper::_table_ = {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // string cookie = 3;
+  // string appname = 1;
+  if (!this->_internal_appname().empty()) {
+    total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                    this->_internal_appname());
+  }
+
+  // string cookie = 5;
   if (!this->_internal_cookie().empty()) {
     total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
                                     this->_internal_cookie());
   }
 
-  // string msg = 4;
+  // string msg = 6;
   if (!this->_internal_msg().empty()) {
     total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
                                     this->_internal_msg());
   }
 
-  // int32 id = 1;
+  // int32 appindx = 2;
+  if (this->_internal_appindx() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
+        this->_internal_appindx());
+  }
+
+  // int32 id = 3;
   if (this->_internal_id() != 0) {
     total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
         this->_internal_id());
   }
 
-  // int32 zipped = 2;
+  // int32 zipped = 4;
   if (this->_internal_zipped() != 0) {
     total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(
         this->_internal_zipped());
@@ -305,11 +355,17 @@ void ProtoMsgWrapper::MergeFrom(const ProtoMsgWrapper& from) {
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
+  if (!from._internal_appname().empty()) {
+    _this->_internal_set_appname(from._internal_appname());
+  }
   if (!from._internal_cookie().empty()) {
     _this->_internal_set_cookie(from._internal_cookie());
   }
   if (!from._internal_msg().empty()) {
     _this->_internal_set_msg(from._internal_msg());
+  }
+  if (from._internal_appindx() != 0) {
+    _this->_impl_.appindx_ = from._impl_.appindx_;
   }
   if (from._internal_id() != 0) {
     _this->_impl_.id_ = from._impl_.id_;
@@ -336,14 +392,15 @@ void ProtoMsgWrapper::InternalSwap(ProtoMsgWrapper* PROTOBUF_RESTRICT other) {
   auto* arena = GetArena();
   ABSL_DCHECK_EQ(arena, other->GetArena());
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.appname_, &other->_impl_.appname_, arena);
   ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.cookie_, &other->_impl_.cookie_, arena);
   ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.msg_, &other->_impl_.msg_, arena);
   ::google::protobuf::internal::memswap<
       PROTOBUF_FIELD_OFFSET(ProtoMsgWrapper, _impl_.zipped_)
       + sizeof(ProtoMsgWrapper::_impl_.zipped_)
-      - PROTOBUF_FIELD_OFFSET(ProtoMsgWrapper, _impl_.id_)>(
-          reinterpret_cast<char*>(&_impl_.id_),
-          reinterpret_cast<char*>(&other->_impl_.id_));
+      - PROTOBUF_FIELD_OFFSET(ProtoMsgWrapper, _impl_.appindx_)>(
+          reinterpret_cast<char*>(&_impl_.appindx_),
+          reinterpret_cast<char*>(&other->_impl_.appindx_));
 }
 
 // @@protoc_insertion_point(namespace_scope)

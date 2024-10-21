@@ -111,9 +111,7 @@ using this_class = THIS_CLASS;  \
 		std::string mAppPath;
 		std::string mTomlCfg;
 		std::string mLogFile;
-		std::string mUniqueId;
 		std::string mName;
-		int         mType = 0;
 		int         mIndex = 0;
 
 	private:
